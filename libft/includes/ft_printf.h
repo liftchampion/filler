@@ -17,7 +17,7 @@
 # include "libft.h"
 
 # define CLR_CNTRL '{'
-# define CLR 0
+# define CLR 1
 
 int				ft_printf(const char *frmt, ...);
 int				ft_sprintf(char **buf, const char *frmt, ...);
