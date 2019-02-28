@@ -2,7 +2,9 @@ cmake-build-debug
 *.o
 *.a
 *.d
+*.dSYM
+resources
 .idea
-filler
+*.filler
 dpds
 objs

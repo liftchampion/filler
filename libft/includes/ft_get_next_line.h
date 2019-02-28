@@ -33,4 +33,12 @@ typedef enum {
 	ENDL_NOT_FOUND = 2,
 }	t_result;
 
+t_result		ft_get_line_from_buffer(t_buf *buf, t_string **str, int fd,
+					int buff_size);
+t_result		ft_append_line(t_buf *buf, int fd, t_string *str,
+					int buff_size);
+void			ft_free_buf(void *buf);
+t_result		ft_gnl_init_works(int fd, t_map **fd_bf, t_buf ***curr_buf,
+					int buff_size);
+
 #endif

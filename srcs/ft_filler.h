@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_filler.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 00:19:56 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/02/28 20:13:16 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "libft.h"
-#include "ft_filler.h"
+#ifndef FT_FILLER_H
+# define FT_FILLER_H
 
-int main()
+# include "libft.h"
+
+typedef struct	s_point
 {
-	t_fig *f;
+	int x;
+	int y;
+}				t_point;
 
-	f = ft_parse_fig();
-	ft_print_fig(f);
-	ft_free_fig(&f, 0);
-	return 0;
-}
+typedef struct	s_fig
+{
+	int h;
+	int	w;
+	t_vector *points;
+}				t_fig;
+
+void		ft_print_fig(t_fig *f);
+size_t		ft_free_fig(t_fig **f, size_t ret);
+t_fig		*ft_parse_fig(void);
+
+#endif

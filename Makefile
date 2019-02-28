@@ -10,7 +10,7 @@
 ##                                                                             #
 ##**************************************************************************** #
 
-NAME = filler
+NAME = ggerardy.filler
 HEADERS_DIR = srcs
 SRCDIR = srcs
 INCS = ./libft/includes
@@ -140,7 +140,7 @@ sanitize_leak: print_sanitize_leak re_this
 
 #--tool=massif
 valgrind: print_valgrind debug
-	 @~/.brew/bin/valgrind --leak-check=full --show-leak-kinds=definite \
+	 @~/.brew/bin/valgrind --leak-check=full --show-leak-kinds=all \
 	 --dsymutil=yes --track-origins=yes ./$(NAME) $(VALGRIND_ARGS)
 
 norm: print_norm
