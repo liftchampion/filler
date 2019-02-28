@@ -1,0 +1,8 @@
+cmake-build-debug
+*.o
+*.a
+*.d
+.idea
+filler
+dpds
+objs
