@@ -6,14 +6,12 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/02/28 22:02:10 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/01 07:40:20 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
-
-#define POINT(f, n) (*(t_point*)&((f)->points->data)[(n)])
 
 void		ft_print_fig(t_fig *f)
 {
@@ -78,15 +76,19 @@ int			ft_proceede_fig_line(char *line, t_fig *f)
 	return (1);
 }
 
-t_fig		*ft_parse_fig(void)
+t_fig		*ft_parse_fig(const char *str)
 {
 	t_fig	*f;
 	char	*line;
+	int		i;
 
 	if (!(f = ft_memalloc(sizeof(t_fig))) ||
 		!(f->points = ft_make_vector(32)))
 		return (0);
-	while ((line = (char*)1lu) && ft_get_next_line(0, &line, 256))
+	str += 5;
+	i = ft_atoi_m(&str) + 1;
+	f->w = ft_atoi_m(&str);
+	while (--i && (line = (char*)1lu) && ft_get_next_line(0, &line, 256))
 	{
 		if (!line)
 			return ((t_fig*)ft_free_fig(&f, 0));

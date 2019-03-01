@@ -3,6 +3,8 @@ cmake-build-debug
 *.a
 *.d
 *.dSYM
+log
+*.trace
 resources
 .idea
 *.filler
