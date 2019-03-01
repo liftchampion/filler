@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 23:55:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 00:05:01 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/01 06:19:36 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,20 @@ void			ft_free_buf(void *buf)
 	free(buf);
 }
 
+void			ft_gnl_check_stdin(t_result *res, t_buf *buf, const int fd)
+{
+	ssize_t read_res;
+
+	read_res = read(fd, buf->buffer + buf->len,
+			(size_t)(buf->capac - buf->len));
+	if (read_res == -1)
+	{
+		*res = ERROR;
+		return ;
+	}
+	buf->len += read_res;
+}
+
 t_result		ft_gnl_init_works(int fd, t_map **fd_bf, t_buf ***curr_buf,
 		int buff_size)
 {
@@ -91,5 +105,7 @@ t_result		ft_gnl_init_works(int fd, t_map **fd_bf, t_buf ***curr_buf,
 				(**curr_buf)->buffer, buff_size)) == -1)
 			return (ERROR);
 	}
+	else if ((**curr_buf)->len < (**curr_buf)->capac)
+		ft_gnl_check_stdin(&res, **curr_buf, fd);
 	return (res);
 }

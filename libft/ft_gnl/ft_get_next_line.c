@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 17:25:22 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 00:18:03 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/01 06:19:36 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,8 @@
 
 int				ft_gnl_free_ret(t_string *str, int ret)
 {
-	free (str);
+	free(str);
 	return (ret);
-}
-
-void ft_gnl_check_stdin(t_result res, t_buf *buf, const int fd)
-{
-	if (fd >= 0 && fd <= 2 && res == ENDL_GOT)
-	{
-		buf->len = buf->capac;
-		buf->pos = buf->len;
-	}
 }
 
 int				ft_get_next_line(const int fd, char **line, int buff_size)
@@ -55,6 +46,5 @@ int				ft_get_next_line(const int fd, char **line, int buff_size)
 		if (fd_bf && fd_bf->size == 0)
 			ft_free_map(&fd_bf);
 	}
-	ft_gnl_check_stdin(res, res != ERROR ? *curr_buf : 0, fd);
 	return (ft_gnl_free_ret(str, res));
 }

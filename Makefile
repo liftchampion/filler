@@ -48,7 +48,7 @@ WAS_PRINTED_CMP := 0
 
 #################################--BUILD--######################################
 
-all: $(NAME)
+all: make_lib $(NAME)
 
 ################################--LINKING--#####################################
 
@@ -94,6 +94,9 @@ $(OBJS_DIR)/%.o: $(SRCDIR)/%.c
 $(LIBFT):
 	@make -C libft/ all
 
+make_lib:
+	@make -C libft/ all
+
 #################################--CLEAN/RE--###################################
 
 clean_this:
@@ -130,13 +133,13 @@ ifeq (valgrind,$(firstword $(MAKECMDGOALS)))
 endif
 
 debug: WFLAGS = $(DFLAGS)
-debug: print_debug re_this
+debug: print_debug make_lib re_this
 
 sanitize_address: WFLAGS = $(SANITIZE_ADDRESS_FLAGS)
-sanitize_address: print_sanitize_address re_this
+sanitize_address: print_sanitize_address make_lib re_this
 
 sanitize_leak: WFLAGS = $(SANITIZE_LEAK_FLAGS)
-sanitize_leak: print_sanitize_leak re_this
+sanitize_leak: print_sanitize_leak make_lib re_this
 
 #--tool=massif
 valgrind: print_valgrind debug
