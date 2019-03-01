@@ -53,7 +53,7 @@ all: make_lib $(NAME)
 ################################--LINKING--#####################################
 
 $(NAME): $(OBJS_DIR) $(OBJS_SUBDIRS) $(DPDS_SUBDIRS) $(DPDS_DIR) $(OBJS) $(HEADERS) $(LIBFT)
-	@printf "\e[?25h\033[50D\033[K\e[?25h\x1B[38;5;30mLinking $(NAME)...\x1B[0m\n"
+	@printf "\e[?25h\033[A\033[K\e[?25h\x1B[38;5;30mLinking   $(NAME)...\x1B[0m\n"
 # Set flags
 	$(eval FLAGS := $(WFLAGS))
 	$(eval FLAGS += $(ADD_FLAGS))
@@ -64,7 +64,7 @@ ifeq ($(IS_LIB),a)
 else
 		@$(CC) $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
 endif
-	@echo "\x1B[38;5;29mDone $(NAME)!\x1B[0m"
+	@echo "\x1B[38;5;29mDone      $(NAME)!\x1B[0m"
 
 -include $(DPDS)
 
@@ -74,6 +74,7 @@ $(OBJS_DIR)/%.o: $(SRCDIR)/%.c
 	@if [ '$(WAS_PRINTED_CMP)' == '0' ]; then \
 		printf "\e[?25l\x1B[38;5;31mCompiling $(NAME)...\nCompiling \x1B[0m" \
 		$(eval WAS_PRINTED_CMP := 1); \
+	else printf "\033[A\033[10C\033[K"; \
 	fi
 	@echo "\x1B[38;5;105m$(notdir $*.c)\x1B[0m"
 # Set flags
@@ -91,7 +92,6 @@ $(OBJS_DIR)/%.o: $(SRCDIR)/%.c
 	@echo '$(OBJS_DIR)' | sed 's/$$/\//g' | tr -d '\n' > $(DPDS_DIR)/$*.d
 	@cat $(DPDS_DIR)/$*.d.tmp >> $(DPDS_DIR)/$*.d
 	@rm -f $(DPDS_DIR)/$*.d.tmp
-	@printf "\033[A\033[10C\033[K"
 
 $(LIBFT):
 	@make -C libft/ all
@@ -102,12 +102,12 @@ make_lib:
 #################################--CLEAN/RE--###################################
 
 clean_this:
-	@echo "\x1B[38;5;8mDeleting $(NAME) objects...\x1B[0m"
+	@echo "\x1B[38;5;8mDeleting  $(NAME) objects...\x1B[0m"
 	@rm -rf $(DPDS_DIR)
 	@rm -rf $(OBJS_DIR)
 
 fclean_this: clean_this
-	@echo "\x1B[38;5;24mDeleting $(NAME)...\x1B[0m"
+	@echo "\x1B[38;5;24mDeleting  $(NAME)...\x1B[0m"
 	@rm -f $(NAME)
 
 re_this: fclean_this all
