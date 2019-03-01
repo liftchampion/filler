@@ -15,14 +15,13 @@
 #include "libft.h"
 #include "ft_get_next_line.h"
 
-t_result		ft_get_line_from_buffer(t_buf *buf, t_string **str, int fd,
-		int buff_size)
+t_result		ft_get_line_from_buffer(t_buf *buf, t_string **str, int fd)
 {
 	int was_endl;
 
 	if (buf->pos >= buf->len && buf->len == buf->capac)
 	{
-		buf->len = read(fd, buf->buffer, buff_size);
+		buf->len = read(fd, buf->buffer, (size_t)buf->capac);
 		buf->pos = 0;
 		if (buf->len <= 0)
 			return (buf->len == 0 ? NO_LINE : ERROR);
@@ -45,16 +44,16 @@ t_result		ft_get_line_from_buffer(t_buf *buf, t_string **str, int fd,
 	return (ENDL_NOT_FOUND);
 }
 
-t_result		ft_append_line(t_buf *buf, int fd, t_string *str, int buff_size)
+t_result		ft_append_line(t_buf *buf, int fd, t_string *str)
 {
 	t_result res;
 
 	res = ENDL_NOT_FOUND;
 	while (res == ENDL_NOT_FOUND)
 	{
-		buf->len = read(fd, buf->buffer, buff_size);
+		buf->len = read(fd, buf->buffer, (size_t)buf->capac);
 		buf->pos = 0;
-		res = ft_get_line_from_buffer(buf, &str, fd, buff_size);
+		res = ft_get_line_from_buffer(buf, &str, fd);
 		if (res == ERROR || res == NO_LINE)
 			return (res);
 	}
@@ -82,7 +81,7 @@ void			ft_gnl_check_stdin(t_result *res, t_buf *buf, const int fd)
 }
 
 t_result		ft_gnl_init_works(int fd, t_map **fd_bf, t_buf ***curr_buf,
-		int buff_size)
+		int buf_size)
 {
 	t_result res;
 
@@ -100,9 +99,9 @@ t_result		ft_gnl_init_works(int fd, t_map **fd_bf, t_buf ***curr_buf,
 	{
 		if (!(**curr_buf = (t_buf*)malloc(sizeof(t_buf))))
 			return (ERROR);
-		***curr_buf = (t_buf){(char*)malloc(buff_size), 0, 0, buff_size};
+		***curr_buf = (t_buf){(char*)malloc((size_t)buf_size), 0, 0, buf_size};
 		if (!(**curr_buf)->buffer || ((**curr_buf)->len = read(fd,
-				(**curr_buf)->buffer, buff_size)) == -1)
+				(**curr_buf)->buffer, (size_t)(**curr_buf)->capac)) == -1)
 			return (ERROR);
 	}
 	else if ((**curr_buf)->len < (**curr_buf)->capac)

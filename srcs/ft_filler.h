@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 07:42:45 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/01 09:43:36 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,19 @@ typedef struct	s_fig
 typedef struct	s_filler
 {
 	char	player;
-	int		map_h;
-	int 	map_w;
+	int		h;
+	int 	w;
 	t_fig	*curr_fig;
 	char 	**map;
 }				t_filler;
 
 void		ft_print_fig(t_fig *f);
+void		ft_print_map(t_filler *fl);
+
+int			ft_free_ret(void *ptr, int ret);
 size_t		ft_free_fig(t_fig **f, size_t ret);
-t_fig		*ft_parse_fig(const char *str);
+
+int			ft_figure_parser(const char *str, t_filler *fl);
+int			ft_map_parser(t_filler *fl);
 
 #endif

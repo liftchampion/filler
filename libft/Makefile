@@ -50,7 +50,7 @@ all: $(NAME)
 ################################--LINKING--#####################################
 
 $(NAME): $(OBJS_DIR) $(OBJS_SUBDIRS) $(DPDS_SUBDIRS) $(DPDS_DIR) $(OBJS) $(HEADERS)
-	@echo "\x1B[38;5;30mLinking $(NAME)...\x1B[0m"
+	@printf "\e[?25h\033[50D\033[K\e[?25h\x1B[38;5;30mLinking $(NAME)...\x1B[0m\n"
 # Set flags
 	$(eval FLAGS := $(ADD_FLAGS))
 	$(eval FLAGS += $(WFLAGS))
@@ -69,9 +69,10 @@ endif
 
 $(OBJS_DIR)/%.o: $(SRCDIR)/%.c
 	@if [ '$(WAS_PRINTED_CMP)' == '0' ]; then \
-		echo "\x1B[38;5;31mCompiling $(NAME)...\x1B[0m" \
+		printf "\e[?25l\x1B[38;5;31mCompiling $(NAME)...\nCompiling \x1B[0m" \
 		$(eval WAS_PRINTED_CMP := 1); \
 	fi
+	@echo "\x1B[38;5;105m$(notdir $*.c)\x1B[0m"
 # Set flags
 	@$(eval FLAGS := $(ADD_FLAGS))
 	@$(eval FLAGS += $(WFLAGS))
@@ -88,6 +89,7 @@ $(OBJS_DIR)/%.o: $(SRCDIR)/%.c
 	@echo '$(OBJS_DIR)' | sed 's/$$/\//g' | tr -d '\n' > $(DPDS_DIR)/$*.d
 	@cat $(DPDS_DIR)/$*.d.tmp >> $(DPDS_DIR)/$*.d
 	@rm -f $(DPDS_DIR)/$*.d.tmp
+	@printf "\033[A\033[10C\033[K"
 
 #################################--CLEAN/RE--###################################
 
@@ -154,6 +156,9 @@ define make-dpd-repo
 endef
 
 ###################################--PRINTS--###################################
+
+cursor:
+	@printf "\e[?25h"
 
 print_compilation:
 	@echo "\x1B[38;5;31mCompiling $(NAME)...\x1B[0m"

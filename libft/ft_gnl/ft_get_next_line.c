@@ -31,9 +31,9 @@ int				ft_get_next_line(const int fd, char **line, int buff_size)
 	str = 0;
 	res = !line ? ERROR : ft_gnl_init_works(fd, &fd_bf, &curr_buf, buff_size);
 	if (res != ERROR)
-		res = ft_get_line_from_buffer(*curr_buf, &str, fd, buff_size);
+		res = ft_get_line_from_buffer(*curr_buf, &str, fd);
 	if (res == ENDL_NOT_FOUND)
-		res = ft_append_line(*curr_buf, fd, str, buff_size);
+		res = ft_append_line(*curr_buf, fd, str);
 	if (res == ERROR || !ft_string_fit(&str))
 		res = ERROR;
 	if (res != ERROR && line)
