@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 18:13:32 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 19:08:14 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ int main()
 		ft_filler_free(fl); // todo use filler-free
 		return (0);
 	}
-	/*ft_send_ray(fl, (t_point){14, 12}, (t_point){14, -1});
+	//ft_print_map(fl);
+	/*ft_send_ray(fl, (t_point){8, 7}, (t_point){8, -1});
 	ft_print_map(fl);
-	ft_send_ray(fl, (t_point){14, 12}, (t_point){1, -1});
+	ft_send_ray(fl, (t_point){8, 7}, (t_point){-1, 7});
+	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){8, 7}, (t_point){0, 0});
+	ft_print_map(fl);*/
+	/*ft_send_ray(fl, (t_point){14, 12}, (t_point){1, -1});
 	ft_print_map(fl);
 	ft_send_ray(fl, (t_point){14, 12}, (t_point){-1, -1});
 	ft_print_map(fl);

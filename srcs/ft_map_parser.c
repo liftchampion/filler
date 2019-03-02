@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 08:39:41 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 19:07:15 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void ft_print_map(t_filler *fl)
 		mtr[POINT(fl->points[1], i).y][POINT(fl->points[1], i).x] = 'O';
 	}
 	char **tmp = fl->map;
-	///fl->map = mtr;
+	fl->map = mtr;
 
 	j = -1;
 	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d{eof}\n   ", fl->w, fl->h);
@@ -88,7 +88,7 @@ void ft_print_map(t_filler *fl)
 		ft_fdprintf(2, "\n");
 	}
 	fl->map = tmp;
-		//ft_fdprintf(2, "{Magenta}%s{eof}\n", fl->map[i]);
+	//ft_fdprintf(2, "{Magenta}%s{eof}\n", fl->map[i]);
 }
 
 int		ft_map_parser(t_filler *fl)

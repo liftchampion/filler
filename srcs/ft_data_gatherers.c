@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 18:02:58 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 18:54:56 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@
 
 int			ft_check_point(t_point p1, t_point c, t_filler *fl, int inv) // todo inline ?
 {
-	if (!inv)
+	if (!inv && fl->offset)
 	{
 		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.x) >= fl->w || CRD(c.y) >= fl->h ||
-			(CRD(c.x) != p1.x && CRD(c.y) != p1.y && !ft_strchr(".*", fl->map[CRD(c.y)][CRD(c.x)]))) // todo . only
+			(!ft_strchr(".*", fl->map[CRD(c.y)][CRD(c.x)]))) // todo . only
 			return (0);
 	}
-	else
+	else if (fl->offset)
 	{
 		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.y) >= fl->w || CRD(c.x) >= fl->h ||
-			(CRD(c.x) != p1.y && CRD(c.y) != p1.x && !ft_strchr(".*", fl->map[CRD(c.x)][CRD(c.y)])))   // todo . only
+				(!ft_strchr(".*", fl->map[CRD(c.x)][CRD(c.y)])))  // todo . only
 			return (0);
 	}
 	return (1);
@@ -51,6 +51,7 @@ int 		ft_send_ray(t_filler *fl, t_point p1, t_point p2)
 
 	x = UPD_VAL(p1.x);
 	y = UPD_VAL(p1.y);
+	//ft_fdprintf(2, "{Red}%d %d{eof}\n", p2.x, p2.y);
 	//ft_fdprintf(2, "ray start (%f %f) to (%f %f)\n", x, y, UPD_VAL(p2.x), UPD_VAL(p2.y));
 	/*d = FT_ABS((((UPD_VAL(p2.y) -
 			UPD_VAL(p1.y))) / (UPD_VAL(p2.x) - UPD_VAL(p1.x)))) *
@@ -63,35 +64,39 @@ int 		ft_send_ray(t_filler *fl, t_point p1, t_point p2)
 	//printf("<%f>[%d][%f]\n", d, SCALE * (1 - 2 * (d < 0)), SCALE * d);
 	to_go = invert ? UPD_VAL(p2.y) : UPD_VAL(p2.x);
 	//ft_fdprintf(2, "d = %f inv=%d to_go=%f\n", d, invert, to_go);
+	fl->offset = 0;
 	while (FT_ABS(x - to_go) >= DBL_EPS)
 	{
 		if (!ft_check_point(p1, (t_point){(int)x, (int)y}, fl, invert))
 			return (0);
-		fl->map[CRD(invert ? x : y)][CRD(invert ? y : x)] = '*'; // todo ruins map
+		//fl->map[CRD(invert ? x : y)][CRD(invert ? y : x)] = '*'; // todo ruins map
 		x += SCALE * (1 - 2 * (d < 0 || d == -0.));
 		y += SCALE * (1 - 2 * ((invert ? p2.x - p1.x : p2.y - p1.y) < 0)) * FT_ABS(d);
+		fl->offset = 1;
 		//ft_fdprintf(2, "%f %f\n", invert ? y : x, invert ? x : y);
 		//ft_fdprintf(2, "{Red}%d %d{eof}\n", CRD(invert ? y : x), CRD(invert ? x : y));
 	}
-	ft_fdprintf(2, "{\\200}DONE!\n");
+	//ft_fdprintf(2, "{Blue}%d %d{eof}\n", p2.x, p2.y);
 	return (1);
 }
 
-int			ft_get_surround_factor(t_filler *fl, int player, t_point pos)
+int			ft_get_surround_factor(t_filler *fl, int player)
 {
 	int i;
 	int j;
 	int res;
 
-	i = fl->h;
 	res = 0;
-	while (--i >= 0)
-	{
-		j = -1;
+	i = fl->h + 1;
+	while (--i >= -1 && (j = -1))
 		while (++j < (int)fl->points[player]->len)
-			res += ft_send_ray(fl,
-					*((t_point*)fl->points[player]->data[j]), (t_point){0, i});
-	}
+			res += ft_send_ray(fl, POINT(fl->points[player],j), (t_point){-1, i}) +
+					ft_send_ray(fl, POINT(fl->points[player],j), (t_point){fl->w, i});
+	i = fl->w + 1;
+	while (--i >= -1 && (j = -1))
+		while (++j < (int)fl->points[player]->len)
+			res += ft_send_ray(fl, POINT(fl->points[player],j), (t_point){i, -1}) +
+					ft_send_ray(fl, POINT(fl->points[player],j), (t_point){i, fl->h});
 	return (res);
 }
 
