@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 11:13:08 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 18:13:32 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 int main()
 {
+
+	char *line;
+
 	t_filler *fl;
 
 	ft_fdprintf(2, "{Red}#######{eof}\n");
@@ -34,10 +37,22 @@ int main()
 		ft_filler_free(fl); // todo use filler-free
 		return (0);
 	}
-	ft_send_ray(fl, (t_point){14, 12}, (t_point){13, 0});
+	/*ft_send_ray(fl, (t_point){14, 12}, (t_point){14, -1});
 	ft_print_map(fl);
-	ft_send_ray(fl, (t_point){14, 12}, (t_point){0, 11});
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){1, -1});
 	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){-1, -1});
+	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){12, -1});
+	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){-1, 12});
+	ft_print_map(fl);*/
+	/*ft_send_ray(fl, (t_point){14, 12}, (t_point){-1, 16});
+	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){16, -1});
+	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){17, 20});
+	ft_print_map(fl);*/
 
 
 	ft_filler_free(fl);
