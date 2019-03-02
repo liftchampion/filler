@@ -36,6 +36,8 @@ int main()
 	}
 	ft_send_ray(fl, (t_point){14, 12}, (t_point){13, 0});
 	ft_print_map(fl);
+	ft_send_ray(fl, (t_point){14, 12}, (t_point){0, 11});
+	ft_print_map(fl);
 
 
 	ft_filler_free(fl);

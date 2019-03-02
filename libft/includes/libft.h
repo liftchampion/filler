@@ -21,6 +21,8 @@
 
 # define FT_ABS(x) (((x) >= 0) ? (x) : -(x))
 
+void				ft_swap(void *a, void *b, size_t s);
+
 int					ft_word_count(const char *str);
 
 int					ft_get_next_line(int fd, char **line, int buff_size);
