@@ -40,7 +40,8 @@ int				ft_get_next_line(const int fd, char **line, int buff_size)
 		*line = (str == 0) ? *line : str->data;
 	else if (line)
 		*line = 0;
-	if (res == NO_LINE || res == ERROR)
+	if (res == NO_LINE || res == ERROR ||
+		(fd >= 0 && fd <= 2 && (*curr_buf)->pos == (*curr_buf)->len))
 	{
 		ft_map_del(fd_bf, (void*)(size_t)fd);
 		if (fd_bf && fd_bf->size == 0)

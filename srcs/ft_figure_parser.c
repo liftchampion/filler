@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 10:13:48 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 02:54:02 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		ft_print_fig(t_fig *f)
 	char **mtr;
 	int i;
 
-	ft_fdprintf(3, "w=%d  h=%d\n", f->w, f->h, (i = -1));
+	ft_fdprintf(2, "w=%d  h=%d\n", f->w, f->h, (i = -1));
 	if (!(mtr = (char**)ft_memalloc(sizeof(char*) * f->h)))
 		return;
 	while (++i < f->h)
@@ -36,7 +36,7 @@ void		ft_print_fig(t_fig *f)
 		mtr[POINT(f, i).y][POINT(f, i).x] = '*';
 	i = -1;
 	while (++i < f->h)
-		ft_fdprintf(3, "%s\n", mtr[i]);
+		ft_fdprintf(2, "%s\n", mtr[i]);
 	while (f->h > 0)
 		free(mtr[f->h-- - 1]);
 	free(mtr);
@@ -44,6 +44,8 @@ void		ft_print_fig(t_fig *f)
 
 size_t		ft_free_fig(t_fig **f, size_t ret)
 {
+	if (!f || !*f)
+		return (ret);
 	ft_free_vector(&((*f)->points));
 	ft_memdel((void**)f);
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 11:05:32 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 03:33:27 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void ft_print_map(t_filler *fl)
 	int i;
 
 	i = -1;
+	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d{eof}\n", fl->w, fl->h);
 	while (++i < fl->h)
-		ft_fdprintf(3, "%s\n", fl->map[i]);
+		ft_fdprintf(2, "%s\n", fl->map[i]);
 }
 
 int ft_make_map(t_filler *fl)
@@ -49,26 +50,24 @@ int		ft_map_parser(t_filler *fl)
 	int		i;
 	int		j;
 	char	*line;
+	int 	was_begin;
 
 	if (!fl->map && !ft_make_map(fl))
 		return (0);
-	i = 0;
-	while (++i <= fl->h + 1 && (line = (char*)1lu) && ft_get_next_line(0, &line, 1024))
+	i = -1;
+	was_begin = 0;
+	while (++i < fl->h && (line = (char*)1lu) && ft_get_next_line(0, &line, 1))
 	{
-		ft_fdprintf(3, "{Red}%s{eof}\n", line);
-		if (i == 1)
-		{
-			free(line);
-			continue;
-		}
 		if (!line)
 			return (0);
-		j = 3;
+		was_begin = (ft_strstr(line, "000") && !was_begin) ? 1 : was_begin;
+		if ((j = 3) && !was_begin && ft_free_ret(line, 1) && (--i || 1))
+			continue;
 		while (line[++j])
 			if (ft_strchr("oOxX", line[j]))
-				fl->map[i - 2][j - 4] = line[j];
+				fl->map[i][j - 4] = line[j];
+		ft_fdprintf(2, "{Blue}%s{eof}\n", line);
 		free(line);
-		ft_fdprintf(3, "{Green}%s{eof}\n", fl->map[i - 2]);
 	}
 	return (1);
 }
