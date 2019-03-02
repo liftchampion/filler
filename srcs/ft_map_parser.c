@@ -67,7 +67,7 @@ void ft_print_map(t_filler *fl)
 		mtr[POINT(fl->points[1], i).y][POINT(fl->points[1], i).x] = 'O';
 	}
 	char **tmp = fl->map;
-	fl->map = mtr;
+	///fl->map = mtr;
 
 	j = -1;
 	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d{eof}\n   ", fl->w, fl->h);

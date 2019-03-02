@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 08:24:50 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 10:45:18 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
 
 int				ft_set_fig(t_filler *fl);
+
+int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2);
 
 void			ft_print_fig(t_fig *f);
 void			ft_print_map(t_filler *fl);
