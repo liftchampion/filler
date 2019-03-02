@@ -23,5 +23,6 @@ int				ft_printf(const char *frmt, ...);
 int				ft_sprintf(char **buf, const char *frmt, ...);
 t_string		*ft_vprintf(const char *frmt, va_list vl);
 int				ft_fdprintf(int fd, const char *frmt, ...);
+void			ft_fdprintf_shut(int fd);
 
 #endif

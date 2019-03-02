@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 17:25:22 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/01/27 04:24:31 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/03/02 19:58:20 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include "ft_printf_utils.h"
 
 #include <stdlib.h>
+
+void			ft_fdprintf_shut(int fd)
+{
+	ft_fdprintf(0, (char*)(size_t)fd);
+}
 
 t_arg_data		*ft_printf_parser_flags_proceeder(const char **frmt,
 		t_string **args, int lengths[4])

@@ -6,12 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 19:11:43 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 21:01:55 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
+
+#define INIT_BEST_SCORE -2000000000
 
 int 		ft_check_fig(t_filler *fl, t_point pos)
 {
@@ -62,8 +64,13 @@ int 		ft_set_fig(t_filler *fl)
 	t_point best_pos;
 	int score;
 
+	t_weights w;
+	ft_bzero(&w, sizeof(w));
+	w.my_rays_b = ft_get_surround_factor(fl, 0);
+	w.opp_rays_b = ft_get_surround_factor(fl, 1);
+
 	i = -1;
-	best_score = -100;
+	best_score = INIT_BEST_SCORE;
 	while (++i < fl->h)
 	{
 		j = -1;
@@ -73,8 +80,12 @@ int 		ft_set_fig(t_filler *fl)
 			{
 				if (!ft_put_fig_tmp(fl, (t_point){i, j}))
 					return (0);
-				///ft_print_map(fl);
-				score = ft_get_surround_factor(fl, 0);
+				//ft_print_map(fl);
+				score = 1  * (ft_get_surround_factor(fl, 0) - w.my_rays_b) +
+						1  * (w.opp_rays_b - ft_get_surround_factor(fl, 1)) +
+						1  * ft_get_primary_perimiter(fl) +
+						1  * ft_get_secondary_perimiter(fl) +
+						-1 * ft_get_dictance_to_wall(fl);
 				fl->points[0]->len -= fl->curr_fig->points->len;
 				if (score > best_score)
 				{
@@ -82,9 +93,24 @@ int 		ft_set_fig(t_filler *fl)
 					best_pos = (t_point){i, j};
 				}
 				fl->last_pos = (t_point){i, j};
-				///ft_printf("{\\200}%d\n", best_score);
+				//ft_fdprintf(2, "{\\200}%d\n", best_score);
 			}
 		}
 	}
-	return (best_score >= 0 ? 1 : 0);
+	return (best_score != INIT_BEST_SCORE ? 1 : 0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
