@@ -6,13 +6,13 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 05:19:22 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 08:24:50 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_FILLER_H
 # define FT_FILLER_H
-# define POINT(f, n) (*(t_point*)&((f)->points->data)[(n)])
+# define POINT(v, n) (*(t_point*)&((v)->data)[(n)])
 # define PLAYERS "ox"
 
 # include "libft.h"
@@ -37,7 +37,7 @@ typedef struct	s_filler
 	int 		w;
 	t_fig		*curr_fig;
 	char 		**map;
-	t_vector	*my_points;
+	t_vector	*points[2];
 	char 		not_first;
 	t_point		last_pos;
 }				t_filler;

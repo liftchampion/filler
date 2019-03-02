@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 03:59:08 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 09:31:48 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main()
 
 	ft_fdprintf(2, "{Red}#######{eof}\n");
 
-	if (!(fl = ft_start_gama()))
+	/*if (!(fl = ft_start_gama()))
 		return (0);
 
 	ft_fdprintf(2, "{Red}filler=%p\n", fl);
@@ -36,6 +36,6 @@ int main()
 	}
 
 
-	ft_filler_free(fl);
+	ft_filler_free(fl);*/
 	return 0;
 }

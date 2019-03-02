@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 06:17:54 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 06:22:45 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int 		ft_check_fig(t_filler *fl, t_point pos)
 		return (0);
 	while (++i < to_go)
 	{
-		val = fl->map[POINT(fig, i).y + pos.y][POINT(fig, i).x + pos.x];
+		val = fl->map[POINT(fig->points, i).y +pos.y]
+				[POINT(fig->points, i).x + pos.x];
 		if ((overlaps += ft_tolower(val) == PLAYERS[(int)fl->player]) > 1)
 			return (0);
 		if (ft_tolower(val) == PLAYERS[!fl->player])

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 06:26:19 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 08:24:50 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ t_filler *ft_start_gama(void)
 
 	line = (char*)1lu;
 	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1024) || !line ||
-			!(fl = (t_filler*)ft_memalloc(sizeof(t_filler))))
+			!(fl = (t_filler*)ft_memalloc(sizeof(t_filler))) ||
+			!(fl->points[0] = ft_make_vector(64)) ||
+			!(fl->points[1] = ft_make_vector(64)))
 		return (0);
 	ft_fdprintf(2, "{Red}Line got <%s>{eof}\n", line);
 	if (ft_strstr(line, "$$$ exec p") != line)
@@ -33,7 +35,7 @@ t_filler *ft_start_gama(void)
 	}
 	fl->player = ft_atoi(line + 10);
 	if ((fl->player != 1 && fl->player != 2) ||
-			!ft_strstr(line + 11, "/ggerardy.filler]") || (--fl->player && 0))
+			!ft_strstr(line + 11, "ggerardy.filler]") || (--fl->player && 0))
 	{
 		free(line);
 		free(fl);

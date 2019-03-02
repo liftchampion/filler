@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 04:04:11 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/02 06:02:40 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		ft_print_fig(t_fig *f)
 	}
 	i = -1;
 	while (++i < (int)f->points->len)
-		mtr[POINT(f, i).y][POINT(f, i).x] = '*';
+		mtr[POINT(f->points, i).y][POINT(f->points, i).x] = '*';
 	i = -1;
 	while (++i < f->h)
 		ft_fdprintf(2, "{Blue}%s{eof}\n", mtr[i]);
