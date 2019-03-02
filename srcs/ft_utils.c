@@ -1,41 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
+/*   Created: 2019/03/02 03:59:08 by ggerardy          #+#    #+#             */
 /*   Updated: 2019/03/02 03:59:08 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> // todo delete it
 #include "libft.h"
 #include "ft_filler.h"
 
-#include <unistd.h>
-#include <fcntl.h>
-
-int main()
+int 	ft_free_ret(void *ptr, int ret)
 {
-	t_filler *fl;
+	free(ptr);
+	return (ret);
+}
 
-	ft_fdprintf(2, "{Red}#######{eof}\n");
+void ft_filler_free(t_filler *fl)
+{
+	int i;
 
-	if (!(fl = ft_start_gama()))
-		return (0);
-
-	ft_fdprintf(2, "{Red}filler=%p\n", fl);
-	ft_fdprintf(2, "player=%d{eof}\n", fl->player);
-
-	if (!ft_game_master(fl))
-	{
-		ft_filler_free(fl); // todo use filler-free
-		return (0);
-	}
-
-
-	ft_filler_free(fl);
-	return 0;
+	i = 0;
+	if (!fl)
+		return ;
+	ft_free_fig(&fl->curr_fig, 0);
+	if (fl->map)
+		while (fl->h > 0)
+			free(fl->map[--fl->h]);
+	free(fl->map);
+	free(fl);
 }

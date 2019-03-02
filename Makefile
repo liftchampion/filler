@@ -11,6 +11,8 @@
 ##**************************************************************************** #
 
 NAME = ggerardy.filler
+AUTHOR = ggerardy
+
 HEADERS_DIR = srcs
 SRCDIR = srcs
 INCS = ./libft/includes
@@ -24,6 +26,10 @@ WFLAGS = -Wall -Wextra -Werror
 DFLAGS = -g
 SANITIZE_ADDRESS_FLAGS = -fsanitize=address -g
 SANITIZE_LEAK_FLAGS = -g -fno-sanitize=all
+
+GITIGNORE_DATA = author\n$(NAME)\n*.o\n*.d\nobjs\ndpds\n.idea\n*.dSYM\n*.test\
+				\ncmake-build-debug\n*.a\n.DS_Store
+GITIGNORE = .gitignore
 
 #################################--UTILS--######################################
 
@@ -50,9 +56,9 @@ WAS_PRINTED_CMP := 0
 
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler \
-			-p2 ../ggerardy.filler 1> /dev/null; cd ..;
+			-p2 ../ggerardy.filler 5> /dev/null; cd ..;
 
-all: make_lib $(NAME)
+all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 
 ################################--LINKING--#####################################
 
@@ -85,7 +91,7 @@ $(OBJS_DIR)/%.o: $(SRCDIR)/%.c
 	@$(eval FLAGS := $(WFLAGS))
 # Compile
 	@$(CC) -c $(SRCDIR)/$*.c -I $(INCS) $(FLAGS) -o $(OBJS_DIR)/$*.o
-#Make dependency
+# Make dependency
 	@$(CC) -MM $(FLAGS) -I $(INCS) $(SRCDIR)/$*.c > $(DPDS_DIR)/$*.d
 	@mv -f $(DPDS_DIR)/$*.d $(DPDS_DIR)/$*.d.tmp
 	@sed -e 's|.*:|$*.o:|' < $(DPDS_DIR)/$*.d.tmp > $(DPDS_DIR)/$*.d
@@ -154,6 +160,14 @@ valgrind: print_valgrind debug
 
 norm: print_norm
 	@norminette $(SRCS) $(HEADERS)
+
+##################################--MK_FILES--##################################
+
+$(GITIGNORE):
+	@echo "$(GITIGNORE_DATA)" > $(GITIGNORE)
+
+$(AUTHOR):
+	@echo "$(AUTHOR)" > author
 
 ###################################--MK_DIRS--##################################
 
