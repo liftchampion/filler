@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 20:50:16 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 01:41:35 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_fig
 
 typedef struct	s_filler
 {
-	char		player;
+	int			player;
 	int			h;
 	int 		w;
 	t_fig		*curr_fig;
@@ -44,8 +44,13 @@ typedef struct	s_filler
 
 typedef struct	s_weights
 {
-	int 		my_rays_b;
-	int 		opp_rays_b;
+	int 		my_rays;
+	int 		opp_rays;
+	int 		my_p_pr;
+	int 		opp_p_pr;
+	int 		my_s_pr;
+	int 		opp_s_pr;
+	int 		my_dst_to_wall;
 }				t_weights;
 
 t_filler		*ft_start_gama(void);

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 21:02:36 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 01:51:49 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,16 @@ int 		ft_get_secondary_perimiter(t_filler *fl)
 	return (res);
 }
 
+int 		ft_filler_min(int a, int b, int c, int d)
+{
+	int min1;
+	int min2;
+
+	min1 = (a <= b) ? a : b;
+	min2 = (c <= d) ? c : d;
+	return ((min1 <= min2) ? min1 : min2);
+}
+
 int 		ft_get_dictance_to_wall(t_filler *fl) // todo use distance to opposite of enemy wall
 {
 	int res;
@@ -168,9 +178,10 @@ int 		ft_get_dictance_to_wall(t_filler *fl) // todo use distance to opposite of 
 	res = 0;
 	while (++i < (int)fl->points[0]->len)
 	{
-		res += fl->w - 1 - POINT(fl->points[0], i).x;
-		if (fl->points[0]->len <= 50)
-			res += fl->h - 1 - POINT(fl->points[0], i).y;
+		res += ft_filler_min(POINT(fl->points[0], i).x,
+				POINT(fl->points[0], i).y,
+				fl->w - POINT(fl->points[0], i).x,
+				fl->h - POINT(fl->points[0], i).y);
 	}
 	return (res);
 }

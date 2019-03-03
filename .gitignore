@@ -1,5 +1,6 @@
 author
 test
+*test
 cmake-build-debug
 *.o
 *.a

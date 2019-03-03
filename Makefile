@@ -54,11 +54,11 @@ WAS_PRINTED_CMP := 0
 
 #################################--BUILD--######################################
 
+all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
+
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler \
-			-p2 ../ggerardy.filler 2> /dev/null | ./filler_viz; ./cd ..;
-
-all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
+			-p2 ../ggerardy.filler 2> /dev/null | ./filler_viz; cd ..;
 
 ################################--LINKING--#####################################
 
