@@ -59,6 +59,9 @@ all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 gen:
 	clang++ killer_generator.cpp -o generator
 
+bm:
+	clang++ battle_master.cpp -o bm
+
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/carli.filler \
 			-p2 ../ggerardy.filler; cd ..;

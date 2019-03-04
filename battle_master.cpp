@@ -67,25 +67,34 @@ int main(void)
 				{
 					char fl[200];
 					bzero(fl, 200);
-					strlcat(fl, ft_itoa(i));
-					strlcat(fl, ".");
-					strlcat(fl, ft_itoa(j));
-					strlcat(fl, ft_itoa(k));
+					strlcat(fl, ft_itoa(i), 200);
+					strlcat(fl, ".", 200);
+					strlcat(fl, ft_itoa(j), 200);
+					strlcat(fl, ".", 200);
+					strlcat(fl, ft_itoa(k), 200);
 
 					char cmd[300];
-					bzero(cmd, 300);
-					system("")
+					bzero(cmd, 300); //"1 -p2 ../battleground/ggerardy.filler.500"
+					strlcat(cmd, "cd resources; ./filler_vm -f maps/map00 -p1 ../battleground/ggerardy.filler.", 300);
+					strlcat(cmd, ft_itoa(i), 300);
+					strlcat(cmd, " -p2 ../battleground/ggerardy.filler.", 300);
+					strlcat(cmd, ft_itoa(j), 300);
+					strlcat(cmd, " | grep 'fin'", 300);
 
-					/*
-					 * cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler \
-			-p2 ../ggerardy.filler; cd ..
-					 */
+					strlcat(cmd, " > logs/", 300);
+					strlcat(cmd, fl, 300);
 
+					cout << cmd << endl;
+
+					system(cmd);
 
 					++k;
 				}
 			}
+			if (j == 256)
+				cout << i << "played half matches" << endl;
 			++j;
 		}
+		cout << i << "played all matches" << endl;
 	}
 }
