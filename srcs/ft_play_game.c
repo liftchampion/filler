@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 09:25:37 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 09:58:33 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ t_filler *ft_start_gama(void)
 
 
 
-	for (int e = 0; e < 9; e++)
+	/*for (int e = 0; e < 9; e++)
 	{
 		ft_fdprintf(2, "{\\200}koeff[%d]=%f{eof} ", e, kfc[e]);
 	}
-	ft_fdprintf(2, "\n");
+	ft_fdprintf(2, "\n");*/
 
 	return (fl);
 }

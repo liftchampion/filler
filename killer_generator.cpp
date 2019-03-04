@@ -125,8 +125,8 @@ int main(void)
 		strlcat(str, ft_itoa(i), 100);
 
 		system("rm -f objs/koeffs.o");
-		system("gcc -c srcs/koeffs.c -o objs/koeffs.o");
-		system("gcc -I libft/includes objs/*.o libft/libft.a -o ggerardy.filler");
+		system("gcc -Ofast -c srcs/koeffs.c -o objs/koeffs.o");
+		system("gcc -Ofast -I libft/includes objs/*.o libft/libft.a -o ggerardy.filler");
 		system(str);
 		++i;
 	}

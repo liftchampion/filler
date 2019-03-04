@@ -22,7 +22,7 @@ OBJS_DIR = objs
 DPDS_DIR = dpds
 
 CC = clang
-WFLAGS = -Wall -Wextra -Werror
+WFLAGS = -Wall -Wextra -Werror -Ofast
 DFLAGS = -g
 SANITIZE_ADDRESS_FLAGS = -fsanitize=address -g
 SANITIZE_LEAK_FLAGS = -g -fno-sanitize=all
@@ -57,10 +57,13 @@ WAS_PRINTED_CMP := 0
 all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 
 gen:
-	clang++ killer_generator.cpp -o generator
+	clang++ -Ofast killer_generator.cpp -o generator
 
 bm:
-	clang++ battle_master.cpp -o bm
+	clang++ -Ofast battle_master.cpp -o bm
+
+prc:
+	clang++ -Ofast results_proceeder.cpp -o prcd
 
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/carli.filler \
