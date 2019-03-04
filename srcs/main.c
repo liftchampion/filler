@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 20:22:02 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 04:03:57 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int main()
 
 	t_filler *fl;
 
-	ft_fdprintf(2, "{Red}#######{eof}\n");
+	///ft_fdprintf(2, "{Red}#######{eof}\n");
+
 
 	if (!(fl = ft_start_gama()))
 		return (0);
 
-	ft_fdprintf(2, "{Red}filler=%p\n", fl);
-	ft_fdprintf(2, "player=%d{eof}\n", fl->player);
+	///ft_fdprintf(2, "{Red}filler=%p\n", fl);
+	///ft_fdprintf(2, "player=%d{eof}\n", fl->player);
 
 	if (!ft_game_master(fl))
 	{

@@ -13,3 +13,6 @@ resources
 *.filler
 dpds
 objs
+battleground
+generator
+koeffs*

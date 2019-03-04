@@ -6,19 +6,21 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 08:24:50 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 06:50:59 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
 
+#include "koeffs.h"
+
 t_filler *ft_start_gama(void)
 {
 	t_filler	*fl;
 	char		*line;
 
-	ft_fdprintf(2, "{Red}Game started{eof}\n");
+	///ft_fdprintf(2, "{Red}Game started{eof}\n");
 
 	line = (char*)1lu;
 	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1024) || !line ||
@@ -26,7 +28,7 @@ t_filler *ft_start_gama(void)
 			!(fl->points[0] = ft_make_vector(64)) ||
 			!(fl->points[1] = ft_make_vector(64)))
 		return (0);
-	ft_fdprintf(2, "{Red}Line got <%s>{eof}\n", line);
+	///ft_fdprintf(2, "{Red}Line got <%s>{eof}\n", line);
 	if (ft_strstr(line, "$$$ exec p") != line)
 	{
 		free(line);
@@ -41,8 +43,17 @@ t_filler *ft_start_gama(void)
 		free(fl);
 		return (0);
 	}
-	ft_fdprintf(2, "{Red}Player is <%d>{eof}\n", fl->player);
+	///ft_fdprintf(2, "{Red}Player is <%d>{eof}\n", fl->player);
 	free(line);
+
+
+
+	for (int e = 0; e < 9; e++)
+	{
+		ft_fdprintf(2, "{\\200}koeff[%d]=%f{eof} ", e, kfc[e]);
+	}
+	ft_fdprintf(2, "\n");
+
 	return (fl);
 }
 
@@ -52,7 +63,7 @@ int 	ft_gamer(t_filler *fl)
 		return (0);
 	if (ft_set_fig(fl))
 	{
-		ft_fdprintf(2, "{\\200}%d %d{eof}\n", fl->last_pos.y, fl->last_pos.x);
+		///ft_fdprintf(2, "{\\200}%d %d{eof}\n", fl->last_pos.y, fl->last_pos.x);
 		ft_printf("%d %d\n", fl->last_pos.y, fl->last_pos.x);
 		return (1);
 	}

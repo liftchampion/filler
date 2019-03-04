@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 01:51:49 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 01:54:20 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,60 +100,60 @@ int			ft_get_surround_factor(t_filler *fl, int player)
 	return (res);
 }
 
-int 		ft_get_primary_perimiter(t_filler *fl)
+int 		ft_get_primary_perimiter(t_filler *fl, int pl)
 {
 	int i;
 	int res;
 
 	i = -1;
 	res = 0;
-	while (++i < (int)fl->points[0]->len)
+	while (++i < (int)fl->points[pl]->len)
 	{
-		if (POINT(fl->points[0], i).x > 0)
+		if (POINT(fl->points[pl], i).x > 0)
 		{
-			res += fl->map[POINT(fl->points[0], i).y][POINT(fl->points[0], i).x - 1] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y][POINT(fl->points[pl], i).x - 1] == '.';
 		}
-		if (POINT(fl->points[0], i).x < fl->w - 1)
+		if (POINT(fl->points[pl], i).x < fl->w - 1)
 		{
-			res += fl->map[POINT(fl->points[0], i).y][POINT(fl->points[0], i).x + 1] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y][POINT(fl->points[pl], i).x + 1] == '.';
 		}
-		if (POINT(fl->points[0], i).y > 0)
+		if (POINT(fl->points[pl], i).y > 0)
 		{
-			res += fl->map[POINT(fl->points[0], i).y - 1][POINT(fl->points[0], i).x] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x] == '.';
 		}
 		if (POINT(fl->points[0], i).y < fl->h - 1)
 		{
-			res += fl->map[POINT(fl->points[0], i).y + 1][POINT(fl->points[0], i).x] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x] == '.';
 		}
 	}
 	return (res);
 }
 
 
-int 		ft_get_secondary_perimiter(t_filler *fl)
+int 		ft_get_secondary_perimiter(t_filler *fl, int pl)
 {
 	int i;
 	int res;
 
 	i = -1;
 	res = 0;
-	while (++i < (int)fl->points[0]->len)
+	while (++i < (int)fl->points[pl]->len)
 	{
-		if (POINT(fl->points[0], i).x > 0 && POINT(fl->points[0], i).y > 0)
+		if (POINT(fl->points[pl], i).x > 0 && POINT(fl->points[pl], i).y > 0)
 		{
-			res += fl->map[POINT(fl->points[0], i).y - 1][POINT(fl->points[0], i).x - 1] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x - 1] == '.';
 		}
-		if (POINT(fl->points[0], i).x < fl->w - 1 && POINT(fl->points[0], i).y > 0)
+		if (POINT(fl->points[pl], i).x < fl->w - 1 && POINT(fl->points[pl], i).y > 0)
 		{
-			res += fl->map[POINT(fl->points[0], i).y - 1][POINT(fl->points[0], i).x + 1] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x + 1] == '.';
 		}
-		if (POINT(fl->points[0], i).y < fl->h - 1 && POINT(fl->points[0], i).x < fl->w - 1)
+		if (POINT(fl->points[pl], i).y < fl->h - 1 && POINT(fl->points[pl], i).x < fl->w - 1)
 		{
-			res += fl->map[POINT(fl->points[0], i).y + 1][POINT(fl->points[0], i).x + 1] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x + 1] == '.';
 		}
-		if (POINT(fl->points[0], i).y < fl->h - 1 && POINT(fl->points[0], i).x > 0)
+		if (POINT(fl->points[pl], i).y < fl->h - 1 && POINT(fl->points[pl], i).x > 0)
 		{
-			res += fl->map[POINT(fl->points[0], i).y + 1][POINT(fl->points[0], i).x - 1] == '.';
+			res += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x - 1] == '.';
 		}
 	}
 	return (res);

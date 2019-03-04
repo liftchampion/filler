@@ -131,12 +131,12 @@ int		ft_game_parser(t_filler *fl)
 			|| (fl->w = ft_atoi(line + 8 + ft_intlen(fl->h))) <= 0 ||
 			!ft_map_parser(fl) || ft_free_ret(line, 0))
 		return (ft_free_ret(line, 0));
-	ft_print_map(fl); // todo print
+	///ft_print_map(fl); // todo print
 	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1024) || !line)
 		return (0);
 	if (ft_strstr(line, "Piece ") != line || !ft_figure_parser(line, fl) ||
 			ft_free_ret(line, 0))
 		return (ft_free_ret(line, 0));
-	ft_print_fig(fl->curr_fig); // todo print
+	///ft_print_fig(fl->curr_fig); // todo print
 	return (1);
 }
