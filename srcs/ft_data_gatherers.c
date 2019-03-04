@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 01:54:20 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 08:04:56 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int 		ft_get_primary_perimiter(t_filler *fl, int pl)
 		{
 			res += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x] == '.';
 		}
-		if (POINT(fl->points[0], i).y < fl->h - 1)
+		if (POINT(fl->points[pl], i).y < fl->h - 1)
 		{
 			res += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x] == '.';
 		}

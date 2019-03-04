@@ -60,8 +60,8 @@ gen:
 	clang++ killer_generator.cpp -o generator
 
 test: all
-	@cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler \
-			-p2 ../ggerardy.filler | ./filler_viz; cd ..;
+	@cd resources; ./filler_vm -f maps/map00 -p1 players/carli.filler \
+			-p2 ../ggerardy.filler; cd ..;
 
 ################################--LINKING--#####################################
 

@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 22:40:21 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/01/27 04:20:43 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/03/04 07:55:15 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int			ft_prcd_non_prntbl_str(const char *str, int prec, t_string **res,
 	char	use_len;
 
 	p = 0;
-	use_len = (prec == DEFAULT_STRING_PRECISION) ? (char)0 : (char)1;
-	while ((buf[0] = '\\') && (*str++ || use_len) && prec-- > 0)
+	use_len = (prec == DEFAULT_STRING_PRECISION) ? (char)1 : (char)0;
+	while ((buf[0] = '\\') && (*str++ || !use_len) && prec-- > 0)
 		if (ft_isprint(*(str - 1)) && (p += 1))
 		{
 			PUSH_S(res, psh == 2 ? "\e[39m" : 0);

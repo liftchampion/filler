@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 20:19:56 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 09:58:33 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int		ft_game_parser(t_filler *fl)
 {
 	char *line;
 
-	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1024) || !line)
+	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line)
 		return (0);
 	fl->points[0]->len = 0;
 	fl->points[1]->len = 0;
@@ -132,7 +132,7 @@ int		ft_game_parser(t_filler *fl)
 			!ft_map_parser(fl) || ft_free_ret(line, 0))
 		return (ft_free_ret(line, 0));
 	///ft_print_map(fl); // todo print
-	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1024) || !line)
+	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line)
 		return (0);
 	if (ft_strstr(line, "Piece ") != line || !ft_figure_parser(line, fl) ||
 			ft_free_ret(line, 0))

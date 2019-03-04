@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 05:16:54 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/04 09:47:10 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,32 @@ int 		ft_check_fig(t_filler *fl, t_point pos)
 	t_fig	*fig;
 	char 	val;
 
+	//ft_fdprintf(2, "{Blue}To %d %d\n{eof}", pos.x, pos.y);
 	i = -1;
 	fig = fl->curr_fig;
 	to_go = (int)fig->points->len;
 	overlaps = 0;
-	if (pos.x + fig->w >= fl->w || pos.y + fig->h >= fl->h)
+	if (pos.x + fig->w - 1 >= fl->w || pos.y + fig->h - 1 >= fl->h)
+	{
+		//ft_fdprintf(2, "{Red}Early return %d  %d\n{eof}", pos.x + fig->w, pos.y + fig->h);
 		return (0);
+	}
 	while (++i < to_go)
 	{
 		val = fl->map[POINT(fig->points, i).y + pos.y]
 				[POINT(fig->points, i).x + pos.x];
-		if ((overlaps += ft_tolower(val) == PLAYERS[(int)fl->player]) > 1)
+		if ((overlaps += ft_tolower(val) == PLAYERS[fl->player]) > 1)
+		{
+			//ft_fdprintf(2, "{Red}Two overlaps\n{eof}");
 			return (0);
+		}
 		if (ft_tolower(val) == PLAYERS[!fl->player])
+		{
+			//ft_fdprintf(2, "{Red}Other player\n{eof}");
 			return (0);
+		}
 	}
+	//ft_fdprintf(2, "{Green}%d\n{eof}", overlaps);
 	return (overlaps);
 }
 
@@ -99,18 +110,18 @@ int 		ft_set_fig(t_filler *fl)
 	i = -1;
 	best_score = -1. / 0.;
 	best_pos = (t_point){666, 666};
-	///ft_fdprintf(2, "{\\200}best:%f{eof}\n", best_score);
+	///ft_fdprintf(2, "{\\200}best:%f##############################################{eof}\n", best_score);
 	///ft_fdprintf(2, "{Green}opp_rays:%d{eof}\n", w.opp_rays);
 	while (++i < fl->h)
 	{
 		j = -1;
 		while (++j < fl->w)
 		{
-			if (ft_check_fig(fl, (t_point){i, j}))
+			if (ft_check_fig(fl, (t_point){j, i}))
 			{
-				if (!ft_put_fig_tmp(fl, (t_point){i, j}))
+				if (!ft_put_fig_tmp(fl, (t_point){j, i}))
 					return (0);
-				//ft_print_map(fl);
+				///ft_print_map(fl);
 				score = kfc[0] * DELTA(ft_get_surround_factor(fl, 0), w.my_rays) -
 						kfc[1] * DELTA(ft_get_surround_factor(fl, 1), w.opp_rays) +
 						kfc[2] * DELTA(ft_get_primary_perimiter(fl, 0), w.my_p_pr) +
@@ -120,7 +131,7 @@ int 		ft_set_fig(t_filler *fl)
 						kfc[6] * DELTA(ft_get_dictance_to_wall(fl), w.my_dst_to_wall) +
 						kfc[7] * (fl->player == 0) +
 						kfc[8] * (fl->player == 1);
-				ft_unput_fig_tmp(fl, (t_point){i, j});
+				ft_unput_fig_tmp(fl, (t_point){j, i});
 				if (score > best_score)
 				{
 					best_score = score;
