@@ -65,6 +65,12 @@ bm:
 prc:
 	clang++ -Ofast results_proceeder.cpp -o prcd
 
+master: clean_master
+	clang++ -std=c++1z -Ofast master.cpp -o master
+
+clean_master:
+	rm -f master
+
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/carli.filler \
 			-p2 ../ggerardy.filler > log; mv log ..; cd ..; cat log | grep 'fin'
