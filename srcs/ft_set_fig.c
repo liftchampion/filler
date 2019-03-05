@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 09:47:10 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/05 21:20:26 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,9 @@ int 		ft_set_fig(t_filler *fl)
 
 	t_weights w;
 	ft_bzero(&w, sizeof(w));
-	w.my_rays = ft_get_surround_factor(fl, 0);
-	w.opp_rays = ft_get_surround_factor(fl, 1);
-	w.my_p_pr = ft_get_primary_perimiter(fl, 0);
-	w.my_s_pr = ft_get_secondary_perimiter(fl, 0);
-	w.opp_p_pr = ft_get_primary_perimiter(fl, 0);
-	w.opp_s_pr = ft_get_secondary_perimiter(fl, 0);
+	ft_get_surround_factor(fl, &w.my_rays_pr, &w.opp_rays_pr);
+	ft_get_perimiter(fl, 0, &w.my_p_pr, &w.my_s_pr);
+	ft_get_perimiter(fl, 1, &w.opp_p_pr, &w.opp_s_pr);
 	w.my_dst_to_wall = ft_get_dictance_to_wall(fl);
 
 	i = -1;
@@ -122,13 +119,16 @@ int 		ft_set_fig(t_filler *fl)
 				if (!ft_put_fig_tmp(fl, (t_point){j, i}))
 					return (0);
 				///ft_print_map(fl);
-				score = kfc[0] * DELTA(ft_get_surround_factor(fl, 0), w.my_rays) -
-						kfc[1] * DELTA(ft_get_surround_factor(fl, 1), w.opp_rays) +
-						kfc[2] * DELTA(ft_get_primary_perimiter(fl, 0), w.my_p_pr) +
-						kfc[3] * DELTA(ft_get_secondary_perimiter(fl, 0), w.my_s_pr) -
-						kfc[4] * DELTA(ft_get_primary_perimiter(fl, 1), w.opp_p_pr) -
-						kfc[5] * DELTA(ft_get_secondary_perimiter(fl, 1), w.opp_s_pr) +
-						kfc[6] * DELTA(ft_get_dictance_to_wall(fl), w.my_dst_to_wall) +
+				ft_get_surround_factor(fl, &w.my_rays_new, &w.opp_rays_new);
+				ft_get_perimiter(fl, 0, &w.my_p_new, &w.my_s_new);
+				ft_get_perimiter(fl, 1, &w.opp_p_new, &w.opp_s_new);
+				score = kfc[0] * DELTA(w.my_rays_new, w.my_rays_pr) -
+						kfc[1] * DELTA(w.opp_rays_new, w.opp_rays_pr) +
+						kfc[2] * DELTA(w.my_p_new, w.my_p_pr) +
+						kfc[3] * DELTA(w.my_s_new, w.my_s_pr) -
+						kfc[4] * DELTA(w.opp_p_new, w.opp_p_pr) -
+						kfc[5] * DELTA(w.opp_s_new, w.opp_s_pr) +
+						kfc[6] * ((double)ft_get_fig_dictance_to_wall(fl, (t_point){j, i}) / w.my_dst_to_wall) +
 						kfc[7] * (fl->player == 0) +
 						kfc[8] * (fl->player == 1);
 				ft_unput_fig_tmp(fl, (t_point){j, i});

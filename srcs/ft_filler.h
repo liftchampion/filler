@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 03:53:57 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/05 21:22:58 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,20 @@ typedef struct	s_filler
 
 typedef struct	s_weights
 {
-	int 		my_rays;
-	int 		opp_rays;
+	int 		my_rays_pr;
+	int 		opp_rays_pr;
+	int 		my_rays_new;
+	int 		opp_rays_new;
 	int 		my_p_pr;
 	int 		opp_p_pr;
 	int 		my_s_pr;
 	int 		opp_s_pr;
+	int 		my_p_new;
+	int 		opp_p_new;
+	int 		my_s_new;
+	int 		opp_s_new;
 	int 		my_dst_to_wall;
+	int 		rays_to_enemy;
 }				t_weights;
 
 t_filler		*ft_start_gama(void);
@@ -65,11 +72,14 @@ int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
 
 int				ft_set_fig(t_filler *fl);
-int				ft_get_surround_factor(t_filler *fl, int player);
-int				ft_get_primary_perimiter(t_filler *fl, int pl);
-int				ft_get_secondary_perimiter(t_filler *fl, int pl);
+void			ft_get_surround_factor(t_filler *fl, int *me, int *opp);
+//int			ft_get_surround_factor(t_filler *fl, int player);
+void 			ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec);
+//int				ft_get_primary_perimiter(t_filler *fl, int pl);
+//int				ft_get_secondary_perimiter(t_filler *fl, int pl);
 int 			ft_get_dictance_to_wall(t_filler *fl);
-int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2);
+int 			ft_get_fig_dictance_to_wall(t_filler *fl, t_point pos);
+int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner);
 
 void			ft_print_fig(t_fig *f);
 void			ft_print_map(t_filler *fl);

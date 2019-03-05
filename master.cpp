@@ -24,8 +24,13 @@
 
 using namespace std;
 
-//vector<string> opponents = {"abanlin", "carli", "champely", "hcao", "grati", "superjeannot"};
-vector<string> opponents = {"carli"};
+#define MATCHES_COUNT 3
+
+int n_matches;
+
+vector<string> opponents = {"mwunsch", "jcorwin"};
+//vector<string> opponents = {"superjeannot", "carli", "mwunsch", "hcao", "grati", "jcorwin"};
+//vector<string> opponents = {"carli"};
 
 char	*ft_itoa(int n)
 {
@@ -96,8 +101,8 @@ ostream& operator << (ostream& os, const vector<double>& v)
 ostream& operator << (ostream& os, const t_player_data& w)
 {
 	os << "Warrior: " << w.coeffs << " score is " << w.total_score << " win_rate(round) is ";
-	os << ((double)w.wins_count / (opponents.size() * 10)) * 100 << "%" << " win_rate(game) is ";
-	os << ((double)w.game_wins / (opponents.size() * 2)) * 100 << endl;
+	os << ((double)w.wins_count / (opponents.size() * 10 * n_matches)) * 100 << "%" << " win_rate(game) is ";
+	os << ((double)w.game_wins / (opponents.size() * 2 * n_matches)) * 100 << endl;
 	os << w.results << endl;
 
 	return (os);
@@ -175,33 +180,39 @@ t_player_data ft_check_warrior(const vector<double>& coefficients)
 	t_match_result res;
 	t_player_data warrior;
 	warrior.coeffs = coefficients;
-	for (auto opp : opponents)
+	n_matches = 1;
+	for (int k = 0; k < MATCHES_COUNT; ++k)
 	{
-		opp = "players/" + opp + ".filler";
-		int c = 0;
-		for (int i = 0; i < 5; ++i)
+		for (auto opp : opponents)
 		{
-			system(ft_make_command(opp, me, 0));
-			res = ft_get_match_result();
-			warrior.total_score += res.X_sc;
-			warrior.wins_count += res.X_sc > res.O_sc;
-			warrior.results[opp] += res.X_sc > res.O_sc;
-			c += res.X_sc > res.O_sc;
+			cout << "playing with " << opp << endl;
+			opp = "players/" + opp + ".filler";
+			int c = 0;
+			for (int i = 0; i < 5; ++i)
+			{
+				system(ft_make_command(opp, me, 1));
+				res = ft_get_match_result();
+				warrior.total_score += res.X_sc;
+				warrior.wins_count += res.X_sc > res.O_sc;
+				warrior.results[opp] += res.X_sc > res.O_sc;
+				c += res.X_sc > res.O_sc;
+			}
+			warrior.game_wins += c >= 3;
+			c = 0;
+			for (int i = 0; i < 5; ++i)
+			{
+				system(ft_make_command(me, opp, 1));
+				res = ft_get_match_result();
+				warrior.total_score += res.O_sc;
+				warrior.wins_count += res.O_sc > res.X_sc;
+				warrior.results[opp] += res.O_sc > res.X_sc;
+				c += res.O_sc > res.X_sc;
+			}
+			warrior.game_wins += c >= 3;
 		}
-		warrior.game_wins += c >= 3;
-		c = 0;
-		for (int i = 0; i < 5; ++i)
-		{
-			system(ft_make_command(me, opp, 0));
-			res = ft_get_match_result();
-			warrior.total_score += res.O_sc;
-			warrior.wins_count += res.O_sc > res.X_sc;
-			warrior.results[opp] += res.O_sc > res.X_sc;
-			c += res.O_sc > res.X_sc;
-		}
-		warrior.game_wins += c >= 3;
+		cout << warrior;
+		n_matches++;
 	}
-	cout << warrior;
 	return (warrior);
 }
 
@@ -210,25 +221,38 @@ t_player_data ft_check_warrior(const vector<double>& coefficients)
 void ft_gradient_decrease()
 {
 	vector<double> coefficients(9);
+	coefficients = {1, 2.5, 0, 1, 1, 1, 0.5, 0, 0};
 
 	fstream fs;
 	fs.open("ML_LOG", fstream::out);
 
-	double step = 1;
-	int i = 0;
+	double step = 0.5;
+	int i = 2;
 	while (i < 10)
 	{
+		if (i == 5)
+		{
+			step /= 2;
+		}
+		t_player_data init = ft_check_warrior(coefficients);
 		vector<t_player_data> ws(9);
 		int j = 0;
 		while (j < 9)
 		{
-			coefficients[j]++;
+			coefficients[j] += step * (1 - 2 * (j == 8));
 			ws[j] = ft_check_warrior(coefficients);
 			ws[j].num = j;
-			coefficients[j]--;
+			coefficients[j] -= step * (1 - 2 * (j == 8));
 			++j;
 		}
 		sort(ws.begin(), ws.end());
+		if (!(ws[0] < init))
+		{
+			cout << "**********************************************" << endl;
+			cout << "               !INIT IS BETTER!               " << endl;
+			fs   << "               !INIT IS BETTER!               " << endl;
+			cout << "**********************************************" << endl;
+		}
 		cout << "######################## BEST ####################" << endl;
 		cout << ws[0];
 		fs << ws[0];
