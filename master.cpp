@@ -19,10 +19,13 @@
 #include <cstdlib>
 #include <map>
 #include <sstream>
+#include <tuple>
+
 
 using namespace std;
 
-vector<string> opponents = {"abanlin", "carli", "champely", "hcao", "grati", "superjeannot"};
+//vector<string> opponents = {"abanlin", "carli", "champely", "hcao", "grati", "superjeannot"};
+vector<string> opponents = {"carli"};
 
 char	*ft_itoa(int n)
 {
@@ -98,6 +101,13 @@ ostream& operator << (ostream& os, const t_player_data& w)
 	os << w.results << endl;
 
 	return (os);
+}
+
+bool operator < (const t_player_data& l, const t_player_data& r)
+{
+	auto lt = tie(l.game_wins, l.wins_count, l.total_score);
+	auto rt = tie(r.game_wins, r.wins_count, r.total_score);
+	return (lt > rt);
 }
 
 void ft_build_warrior(const vector<double>& coefficients)
@@ -196,6 +206,40 @@ t_player_data ft_check_warrior(const vector<double>& coefficients)
 }
 
 
+
+void ft_gradient_decrease()
+{
+	vector<double> coefficients(9);
+
+	fstream fs;
+	fs.open("ML_LOG", fstream::out);
+
+	double step = 1;
+	int i = 0;
+	while (i < 10)
+	{
+		vector<t_player_data> ws(9);
+		int j = 0;
+		while (j < 9)
+		{
+			coefficients[j]++;
+			ws[j] = ft_check_warrior(coefficients);
+			ws[j].num = j;
+			coefficients[j]--;
+			++j;
+		}
+		sort(ws.begin(), ws.end());
+		cout << "######################## BEST ####################" << endl;
+		cout << ws[0];
+		fs << ws[0];
+		cout << "##################################################" << endl;
+		coefficients = ws[0].coeffs;
+		++i;
+	}
+	fs.close();
+}
+
+
 int main(void)
 {
 	vector<double> c(9);
@@ -204,7 +248,8 @@ int main(void)
 	c[2] = 1;
 	c[3] = 1;
 
-	ft_check_warrior(c);
+	//ft_check_warrior(c);
+	ft_gradient_decrease();
 
 	return (0);
 }

@@ -22,6 +22,7 @@ OBJS_DIR = objs
 DPDS_DIR = dpds
 
 CC = clang
+# todo delete -Ofast
 WFLAGS = -Wall -Wextra -Werror -Ofast
 DFLAGS = -g
 SANITIZE_ADDRESS_FLAGS = -fsanitize=address -g
