@@ -67,7 +67,7 @@ prc:
 
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/carli.filler \
-			-p2 ../ggerardy.filler; cd ..;
+			-p2 ../ggerardy.filler > log; mv log ..; cd ..; cat log | grep 'fin'
 
 ################################--LINKING--#####################################
 
