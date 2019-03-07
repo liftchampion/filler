@@ -22,6 +22,8 @@
 
 #define CRD(c) ((int)((c) / SCALE))
 
+#define SQ(a) ((a) * (a))
+
 #define CHECK_FIRST(v) (CRD(v) != p1.v)
 
 #include <stdio.h> // todo delete it
@@ -83,6 +85,25 @@ int 		ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner)
 t_point			ft_sum_points(t_point p1, t_point p2)
 {
 	return ((t_point){p1.x + p2.x, p1.y + p2.y});
+}
+
+double			ft_get_dictance_to_opp(t_filler *fl, t_point pos)
+{
+	double res;
+	int i;
+	int j;
+
+	res = 0;
+	i = -1;
+	while (++i < (int)fl->points[1]->len)
+	{
+		j = -1;
+		while (++j < (int)fl->curr_fig->points->len)
+		{
+			res += SQ(ft_sum_points(pos, POINT(fl->curr_fig->points, j)).x -
+					POINT(fl->points[1], i))
+		}
+	}
 }
 
 int			ft_is_inner_figure(t_filler *fl, t_point pos)

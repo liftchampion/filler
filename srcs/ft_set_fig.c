@@ -19,6 +19,8 @@
 
 #define THREAD_COUNT 8
 
+
+
 #define INIT_BEST_SCORE -2000000000
 
 #define DELTA(a, b) ((double)((a) - (b)) / ((b) ? (b) : 1.))
@@ -112,7 +114,7 @@ void		*ft_set_fig_mt(void *tdt)
 				if (ft_is_inner_figure(thd->fl, (t_point){j, i}))
 				{
 					///ft_fdprintf(2, "{\\200}INNER_FIG\n{eof}");
-					score = -1000000;
+					score = -100000000 + ft_get_dictance_to_opp(thd->fl, (t_point){j, i});
 				}
 				else
 				{
