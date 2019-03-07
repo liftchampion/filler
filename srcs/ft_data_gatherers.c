@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 09:20:48 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/07 11:17:10 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,12 @@ double			ft_get_dictance_to_opp(t_filler *fl, t_point pos)
 		while (++j < (int)fl->curr_fig->points->len)
 		{
 			res += SQ(ft_sum_points(pos, POINT(fl->curr_fig->points, j)).x -
-					POINT(fl->points[1], i))
+					POINT(fl->points[1], i).x) +
+					SQ(ft_sum_points(pos, POINT(fl->curr_fig->points, j)).y -
+							POINT(fl->points[1], i).y);
 		}
 	}
+	return (res);
 }
 
 int			ft_is_inner_figure(t_filler *fl, t_point pos)

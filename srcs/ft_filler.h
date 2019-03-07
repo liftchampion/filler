@@ -89,6 +89,7 @@ int				ft_is_inner_figure(t_filler *fl, t_point pos);
 void 			ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec);
 int 			ft_get_dictance_to_wall(t_filler *fl);
 int 			ft_get_fig_dictance_to_wall(t_filler *fl, t_point pos);
+double			ft_get_dictance_to_opp(t_filler *fl, t_point pos);
 int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner);
 void			*ft_send_rays_thread(void *vars);
 

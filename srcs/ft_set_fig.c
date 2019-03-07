@@ -114,7 +114,7 @@ void		*ft_set_fig_mt(void *tdt)
 				if (ft_is_inner_figure(thd->fl, (t_point){j, i}))
 				{
 					///ft_fdprintf(2, "{\\200}INNER_FIG\n{eof}");
-					score = -100000000 + ft_get_dictance_to_opp(thd->fl, (t_point){j, i});
+					score = -1000000 - ft_get_dictance_to_opp(thd->fl, (t_point){j, i});
 				}
 				else
 				{
