@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*   ft_vector_cpy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/02 03:59:08 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 03:59:08 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/03/07 05:33:12 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/03/07 05:34:42 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "ft_filler.h"
 
-int 	ft_free_ret(void *ptr, int ret)
+t_vector		*ft_vector_cpy(const t_vector *src)
 {
-	free(ptr);
-	return (ret);
-}
+	t_vector *v;
 
-void ft_filler_free(t_filler *fl)
-{
-	if (!fl)
-		return ;
-	ft_free_fig(&fl->curr_fig, 0);
-	if (fl->map)
-		while (fl->h > 0)
-			free(fl->map[--fl->h]);
-	free(fl->map);
-	free(fl);
+	if (!src)
+		return (0);
+	if (!(v = ft_make_vector(src->capacity)) || !ft_memcpy(v->data, src->data,
+			sizeof(void*) * src->capacity))
+		return (0);
+	v->capacity = src->capacity;
+	v->len = src->len;
+	v->offset = src->offset;
+	return (v);
 }

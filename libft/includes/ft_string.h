@@ -33,6 +33,7 @@ typedef struct	s_vector
 }				t_vector;
 
 t_vector		*ft_make_vector(size_t init_size);
+t_vector		*ft_vector_cpy(const t_vector *src);
 void			ft_free_vector(t_vector **v);
 t_int8			ft_vector_push_back(t_vector **v_ptr, void *c);
 t_int8			ft_vector_fit(t_vector **v_ptr);

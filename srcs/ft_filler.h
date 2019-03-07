@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/05 21:22:58 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/07 07:45:50 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct	s_filler
 	t_fig		*curr_fig;
 	char 		**map;
 	t_vector	*points[2];
+	int 		prev_opp_size;
 	char 		offset;
 	t_point		last_pos;
-	double		kfc[9];
 }				t_filler;
 
 typedef struct	s_weights
@@ -63,6 +63,15 @@ typedef struct	s_weights
 	int 		rays_to_enemy;
 }				t_weights;
 
+typedef struct	s_thr_rays_data
+{
+	t_filler *fl;
+	t_point best_pos;
+	double best_score;
+	int start;
+	int end;
+}				t_thr_rays_data;
+
 t_filler		*ft_start_gama(void);
 int 			ft_game_master(t_filler *filler);
 int 			ft_gamer(t_filler *fl);
@@ -70,8 +79,10 @@ int 			ft_gamer(t_filler *fl);
 int				ft_game_parser(t_filler *fl);
 int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
+int				ft_make_map(t_filler *fl);
 
 int				ft_set_fig(t_filler *fl);
+int 			ft_set_fig_dummy(t_filler *fl);
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp);
 //int			ft_get_surround_factor(t_filler *fl, int player);
 void 			ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec);
@@ -80,6 +91,7 @@ void 			ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec);
 int 			ft_get_dictance_to_wall(t_filler *fl);
 int 			ft_get_fig_dictance_to_wall(t_filler *fl, t_point pos);
 int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner);
+void			*ft_send_rays_thread(void *vars);
 
 void			ft_print_fig(t_fig *f);
 void			ft_print_map(t_filler *fl);

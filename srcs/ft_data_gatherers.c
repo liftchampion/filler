@@ -6,13 +6,15 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/06 00:09:40 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/07 06:23:35 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
 #include <float.h>
+
+#include <pthread.h>
 
 #define SCALE 10000
 #define DBL_EPS (DBL_EPSILON * SCALE)
@@ -26,6 +28,7 @@
 
 int			ft_check_point(t_point c, t_filler *fl, int inv, int check_inner) // todo inline ?
 {
+	check_inner++; // todo tmp1
 	if (!inv && fl->offset)
 	{
 		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.x) >= fl->w || CRD(c.y) >= fl->h ||
@@ -74,26 +77,6 @@ int 		ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner)
 	return (1);
 }
 
-/*int			ft_get_surround_factor(t_filler *fl, int player)
-{
-	int i;
-	int j;
-	int res;
-
-	res = 0;
-	i = fl->h + 1;
-	while (--i >= -1 && (j = -1))
-		while (++j < (int)fl->points[player]->len)
-			res += ft_send_ray(fl, POINT(fl->points[player],j), (t_point){-1, i}) +
-					ft_send_ray(fl, POINT(fl->points[player],j), (t_point){fl->w, i});
-	i = fl->w + 1;
-	while (--i >= -1 && (j = -1))
-		while (++j < (int)fl->points[player]->len)
-			res += ft_send_ray(fl, POINT(fl->points[player],j), (t_point){i, -1}) +
-					ft_send_ray(fl, POINT(fl->points[player],j), (t_point){i, fl->h});
-	return (res);
-}*/
-
 t_point			ft_sum_points(t_point p1, t_point p2)
 {
 	return ((t_point){p1.x + p2.x, p1.y + p2.y});
@@ -110,7 +93,7 @@ void			ft_get_figure_inner_factor(t_filler *fl, t_point pos)
 		while (++j < (int)fl->curr_fig->points->len)
 		{
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
-				(t_point){-1, i}, 1) +
+				(t_point){-1, i}, 1);
 				ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 				(t_point){fl->w, i}, 1);
 		}
@@ -121,7 +104,7 @@ void			ft_get_figure_inner_factor(t_filler *fl, t_point pos)
 		while (++j < (int)fl->curr_fig->points->len)
 		{
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
-				(t_point){-1, i}, 1) +
+				(t_point){-1, i}, 1);
 				ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 					(t_point){i, fl->h}, 1);
 		}
@@ -140,13 +123,11 @@ void			ft_get_surround_factor(t_filler *fl, int *me, int *opp)
 	while (--i >= -1 && (j = -1) && (k = -1))
 	{
 		while (++j < (int)fl->points[0]->len)
-			*me += ft_send_ray(fl, POINT(fl->points[0], j),(t_point){-1, i}, 0) +
-					ft_send_ray(fl, POINT(fl->points[0], j),
-							(t_point){fl->w, i}, 0);
+			*me += ft_send_ray(fl, POINT(fl->points[0], j), (t_point){-1, i}, 0) +
+							ft_send_ray(fl, POINT(fl->points[0], j), (t_point){fl->w, i}, 0);
 		while (++k < (int)fl->points[1]->len)
 			*opp += ft_send_ray(fl, POINT(fl->points[1], k),(t_point){-1, i}, 0) +
-					ft_send_ray(fl, POINT(fl->points[1], k),
-							(t_point){fl->w, i}, 0);
+					ft_send_ray(fl, POINT(fl->points[1], k), (t_point){fl->w, i}, 0);
 	}
 	i = fl->w + 1;
 	while (--i >= -1 && (j = -1) && (k = -1))

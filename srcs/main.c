@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/04 08:38:44 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/07 08:15:37 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+//#include <sanitizer/asan_interface.h>
+
 int main()
 {
 	//ft_fdprintf_shut(2);
+
+	//__sanitizer_set_report_path("/Users/ggerardy/CLION/filler/asan_logs");
 
 	t_filler *fl;
 

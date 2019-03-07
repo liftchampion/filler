@@ -17,7 +17,7 @@ HEADERS_DIR = srcs
 SRCDIR = srcs
 INCS = ./libft/includes
 LIBFT = ./libft
-ADD_FLAGS = -lmlx -framework OpenGl -framework AppKit
+ADD_FLAGS =
 OBJS_DIR = objs
 DPDS_DIR = dpds
 
@@ -74,7 +74,7 @@ clean_master:
 
 test: all
 	@cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler \
-			-p2 ../ggerardy.filler | grep 'fin'; cd ..
+			-p2 ../ggerardy.filler; cd ..
 
 ################################--LINKING--#####################################
 
@@ -88,7 +88,7 @@ ifeq ($(IS_LIB),a)
 		@ar rcs $(NAME) $(OBJS) $(LIBFT)/libft.a;
 		@ranlib $(NAME);
 else
-		@$(CC) $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
+		@$(CC) -lpthread $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
 endif
 	@echo "\x1B[38;5;29mDone      $(NAME)!\x1B[0m"
 
