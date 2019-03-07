@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 06:23:35 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/07 09:20:48 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,25 @@
 
 int			ft_check_point(t_point c, t_filler *fl, int inv, int check_inner) // todo inline ?
 {
-	check_inner++; // todo tmp1
 	if (!inv && fl->offset)
 	{
-		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.x) >= fl->w || CRD(c.y) >= fl->h ||
-			(fl->map[CRD(c.y)][CRD(c.x)] != '.')) // todo . only
+		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.x) >= fl->w || CRD(c.y) >= fl->h)
+			return (0);
+		if (fl->map[CRD(c.y)][CRD(c.x)] != '.')
 		{
+			if (check_inner && ft_tolower(fl->map[CRD(c.y)][CRD(c.x)]) == PLAYERS[!fl->player]) // todo finish
+				fl->ray_to_opp++;
 			return (0);
 		}
 	}
 	else if (fl->offset)
 	{
-		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.y) >= fl->w || CRD(c.x) >= fl->h ||
-				(fl->map[CRD(c.x)][CRD(c.y)] != '.'))  // todo . only
+		if (CRD(c.x) < 0 || CRD(c.y) < 0 || CRD(c.y) >= fl->w || CRD(c.x) >= fl->h)
+			return (0);
+		if (fl->map[CRD(c.x)][CRD(c.y)] != '.')
 		{
-			//if (check_inner && fl->map[CRD(c.x)][CRD(c.y)] == PLAYERS[!fl->player]) // todo finish
-			//	fl->
+			if (check_inner && ft_tolower(fl->map[CRD(c.x)][CRD(c.y)]) == PLAYERS[!fl->player]) // todo finish
+				fl->ray_to_opp++;
 			return (0);
 		}
 	}
@@ -82,19 +85,21 @@ t_point			ft_sum_points(t_point p1, t_point p2)
 	return ((t_point){p1.x + p2.x, p1.y + p2.y});
 }
 
-void			ft_get_figure_inner_factor(t_filler *fl, t_point pos)
+int			ft_is_inner_figure(t_filler *fl, t_point pos)
 {
 	int i;
 	int j;
 
+	fl->ray_to_opp = 0;
 	i = fl->h + 1;
+	//ft_fdprintf(2, "{Green}%d %d{eof}\n", pos.x, pos.y);
 	while (--i >= -1 && (j = -1))
 	{
 		while (++j < (int)fl->curr_fig->points->len)
 		{
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 				(t_point){-1, i}, 1);
-				ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
+			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 				(t_point){fl->w, i}, 1);
 		}
 	}
@@ -105,10 +110,11 @@ void			ft_get_figure_inner_factor(t_filler *fl, t_point pos)
 		{
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 				(t_point){-1, i}, 1);
-				ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
+			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 					(t_point){i, fl->h}, 1);
 		}
 	}
+	return (fl->ray_to_opp == 0);
 }
 
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp)
@@ -171,36 +177,6 @@ void 		ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec)
 	}
 }
 
-
-int 		ft_get_secondary_perimiter(t_filler *fl, int pl)
-{
-	int i;
-	int res;
-
-	i = -1;
-	res = 0;
-	while (++i < (int)fl->points[pl]->len)
-	{
-		if (POINT(fl->points[pl], i).x > 0 && POINT(fl->points[pl], i).y > 0)
-		{
-			res += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x - 1] == '.';
-		}
-		if (POINT(fl->points[pl], i).x < fl->w - 1 && POINT(fl->points[pl], i).y > 0)
-		{
-			res += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x + 1] == '.';
-		}
-		if (POINT(fl->points[pl], i).y < fl->h - 1 && POINT(fl->points[pl], i).x < fl->w - 1)
-		{
-			res += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x + 1] == '.';
-		}
-		if (POINT(fl->points[pl], i).y < fl->h - 1 && POINT(fl->points[pl], i).x > 0)
-		{
-			res += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x - 1] == '.';
-		}
-	}
-	return (res);
-}
-
 int 		ft_filler_min(int a, int b, int c, int d)
 {
 	int min1;
@@ -211,7 +187,7 @@ int 		ft_filler_min(int a, int b, int c, int d)
 	return ((min1 <= min2) ? min1 : min2);
 }
 
-int 		ft_get_dictance_to_wall(t_filler *fl) // todo use distance to opposite of enemy wall
+int 		ft_get_dictance_to_wall(t_filler *fl)
 {
 	int res;
 	int i;

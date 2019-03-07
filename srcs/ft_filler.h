@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 07:45:50 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/07 07:59:25 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct	s_filler
 	int 		prev_opp_size;
 	char 		offset;
 	t_point		last_pos;
+	int 		ray_to_opp;
 }				t_filler;
 
 typedef struct	s_weights
@@ -84,10 +85,8 @@ int				ft_make_map(t_filler *fl);
 int				ft_set_fig(t_filler *fl);
 int 			ft_set_fig_dummy(t_filler *fl);
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp);
-//int			ft_get_surround_factor(t_filler *fl, int player);
+int				ft_is_inner_figure(t_filler *fl, t_point pos);
 void 			ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec);
-//int				ft_get_primary_perimiter(t_filler *fl, int pl);
-//int				ft_get_secondary_perimiter(t_filler *fl, int pl);
 int 			ft_get_dictance_to_wall(t_filler *fl);
 int 			ft_get_fig_dictance_to_wall(t_filler *fl, t_point pos);
 int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner);
