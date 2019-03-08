@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/08 14:55:43 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/08 15:00:52 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,11 @@ void		*ft_set_fig_mt(void *tdt)
 							kfc[6] * ((double)ft_get_fig_distance_to_wall(
 									thd->fl,
 									(t_point){j, i}) / w.my_dst_to_wall) -
-							kfc[7] * DELTA(w.curr_dst_to_cnt, w.max_dst_to_cnt) +
+							kfc[7] * (w.curr_dst_to_cnt / w.max_dst_to_cnt) +
 							kfc[8] * (thd->fl->player == 0) +
-							kfc[9] * (thd->fl->player == 1);
+							kfc[9] * (thd->fl->player == 1) -
+							kfc[10] * (ft_get_distance_to_opp(thd->fl,
+								(t_point){j, i}) / (w.max_dst_to_cnt * 2 * thd->fl->points[1]->len));
 					ft_unput_fig_tmp(thd->fl, (t_point){j, i});
 				}
 				if (score > thd->best_score)
@@ -150,7 +152,7 @@ void		*ft_set_fig_mt(void *tdt)
 					thd->best_score = score;
 					thd->best_pos = (t_point){i, j};
 				}
-				ft_fdprintf(2, "{\\200}best:%f curr:%f{eof}\n", thd->best_score, score);
+				//ft_fdprintf(2, "{\\200}best:%f curr:%f{eof}\n", thd->best_score, score);
 			}
 		}
 	}
