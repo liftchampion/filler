@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 09:14:57 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/08 14:55:43 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,10 @@ void		*ft_set_fig_mt(void *tdt)
 	t_weights w;
 	ft_bzero(&w, sizeof(w));
 	ft_get_surround_factor(thd->fl, &w.my_rays_pr, &w.opp_rays_pr);
-	ft_get_perimiter(thd->fl, 0, &w.my_p_pr, &w.my_s_pr);
-	ft_get_perimiter(thd->fl, 1, &w.opp_p_pr, &w.opp_s_pr);
-	w.my_dst_to_wall = ft_get_dictance_to_wall(thd->fl);
+	ft_get_perimeter(thd->fl, 0, &w.my_p_pr, &w.my_s_pr);
+	ft_get_perimeter(thd->fl, 1, &w.opp_p_pr, &w.opp_s_pr);
+	w.my_dst_to_wall = ft_get_distance_to_wall(thd->fl);
+	w.max_dst_to_cnt = SQ(0 - thd->fl->w / 2.) + SQ(0 - thd->fl->h / 2.);
 
 	i = thd->start - 1;
 	thd->best_score = -1. / 0.;
@@ -114,8 +115,10 @@ void		*ft_set_fig_mt(void *tdt)
 				if (ft_is_inner_figure(thd->fl, (t_point){j, i}))
 				{
 					///ft_fdprintf(2, "{\\200}INNER_FIG\n{eof}");
-					score = -1000000 - ft_get_dictance_to_opp(thd->fl, (t_point){j, i});
+					score = -1000000 - ft_get_distance_to_opp(thd->fl, (t_point){j, i});
 				}
+				else if (ft_need_to_close_door(thd->fl, (t_point){j, i}))
+					score = 1000;
 				else
 				{
 					///ft_fdprintf(2, "{\\202}NO_INNER_FIG 1337{eof}\n");
@@ -124,8 +127,9 @@ void		*ft_set_fig_mt(void *tdt)
 					///ft_print_map(fl);
 					ft_get_surround_factor(thd->fl, &w.my_rays_new,
 							&w.opp_rays_new);
-					ft_get_perimiter(thd->fl, 0, &w.my_p_new, &w.my_s_new);
-					ft_get_perimiter(thd->fl, 1, &w.opp_p_new, &w.opp_s_new);
+					ft_get_perimeter(thd->fl, 0, &w.my_p_new, &w.my_s_new);
+					ft_get_perimeter(thd->fl, 1, &w.opp_p_new, &w.opp_s_new);
+					w.curr_dst_to_cnt = SQ(j - thd->fl->w / 2.) + SQ(i - thd->fl->h / 2.);
 
 					score = kfc[0] * DELTA(w.my_rays_new, w.my_rays_pr) -
 							kfc[1] * DELTA(w.opp_rays_new, w.opp_rays_pr) +
@@ -133,11 +137,12 @@ void		*ft_set_fig_mt(void *tdt)
 							kfc[3] * DELTA(w.my_s_new, w.my_s_pr) -
 							kfc[4] * DELTA(w.opp_p_new, w.opp_p_pr) -
 							kfc[5] * DELTA(w.opp_s_new, w.opp_s_pr) +
-							kfc[6] * ((double)ft_get_fig_dictance_to_wall(
+							kfc[6] * ((double)ft_get_fig_distance_to_wall(
 									thd->fl,
-									(t_point){j, i}) / w.my_dst_to_wall) +
-							kfc[7] * (thd->fl->player == 0) +
-							kfc[8] * (thd->fl->player == 1);
+									(t_point){j, i}) / w.my_dst_to_wall) -
+							kfc[7] * DELTA(w.curr_dst_to_cnt, w.max_dst_to_cnt) +
+							kfc[8] * (thd->fl->player == 0) +
+							kfc[9] * (thd->fl->player == 1);
 					ft_unput_fig_tmp(thd->fl, (t_point){j, i});
 				}
 				if (score > thd->best_score)
@@ -145,7 +150,7 @@ void		*ft_set_fig_mt(void *tdt)
 					thd->best_score = score;
 					thd->best_pos = (t_point){i, j};
 				}
-				///ft_fdprintf(2, "{\\200}best:%f curr:%f{eof}\n", best_score, score);
+				ft_fdprintf(2, "{\\200}best:%f curr:%f{eof}\n", thd->best_score, score);
 			}
 		}
 	}

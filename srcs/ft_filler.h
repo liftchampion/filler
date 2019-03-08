@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 07:59:25 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/08 14:54:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 # define PLAYERS "ox"
 
 # include "libft.h"
+
+#define SCALE 10000
+#define DBL_EPS (DBL_EPSILON * SCALE)
+#define UPD_VAL(v) ((v * SCALE) + (SCALE / 2.) * (1 - 2 * ((v) < 0)))
+
+#define CRD(c) ((int)((c) / SCALE))
+
+#define SQ(a) ((a) * (a))
 
 extern double kfc[];
 
@@ -48,6 +56,8 @@ typedef struct	s_filler
 
 typedef struct	s_weights
 {
+	double		max_dst_to_cnt;
+	double		curr_dst_to_cnt;
 	int 		my_rays_pr;
 	int 		opp_rays_pr;
 	int 		my_rays_new;
@@ -86,10 +96,12 @@ int				ft_set_fig(t_filler *fl);
 int 			ft_set_fig_dummy(t_filler *fl);
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp);
 int				ft_is_inner_figure(t_filler *fl, t_point pos);
-void 			ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec);
-int 			ft_get_dictance_to_wall(t_filler *fl);
-int 			ft_get_fig_dictance_to_wall(t_filler *fl, t_point pos);
-double			ft_get_dictance_to_opp(t_filler *fl, t_point pos);
+void 			ft_get_perimeter(t_filler *fl, int pl, int *prim, int *sec);
+int 			ft_get_distance_to_wall(t_filler *fl);
+int 			ft_get_fig_distance_to_wall(t_filler *fl, t_point pos);
+int				ft_need_to_close_door(t_filler *fl, t_point pos);
+double			ft_get_distance_to_opp(t_filler *fl, t_point pos);
+double			ft_get_distance_to_center(t_weights *w, t_filler *fl, t_point pos);
 int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner);
 void			*ft_send_rays_thread(void *vars);
 

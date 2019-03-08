@@ -13,7 +13,6 @@
 #include "libft.h"
 #include "ft_filler.h"
 
-#include "koeffs.h"
 
 t_filler *ft_start_gama(void)
 {

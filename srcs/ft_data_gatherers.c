@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 11:17:10 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/08 14:54:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,7 @@
 
 #include <pthread.h>
 
-#define SCALE 10000
-#define DBL_EPS (DBL_EPSILON * SCALE)
-#define UPD_VAL(v) ((v * SCALE) + (SCALE / 2.) * (1 - 2 * ((v) < 0)))
 
-#define CRD(c) ((int)((c) / SCALE))
-
-#define SQ(a) ((a) * (a))
 
 #define CHECK_FIRST(v) (CRD(v) != p1.v)
 
@@ -36,7 +30,7 @@ int			ft_check_point(t_point c, t_filler *fl, int inv, int check_inner) // todo 
 			return (0);
 		if (fl->map[CRD(c.y)][CRD(c.x)] != '.')
 		{
-			if (check_inner && ft_tolower(fl->map[CRD(c.y)][CRD(c.x)]) == PLAYERS[!fl->player]) // todo finish
+			if (check_inner && ft_tolower(fl->map[CRD(c.y)][CRD(c.x)]) == PLAYERS[!fl->player])
 				fl->ray_to_opp++;
 			return (0);
 		}
@@ -47,7 +41,7 @@ int			ft_check_point(t_point c, t_filler *fl, int inv, int check_inner) // todo 
 			return (0);
 		if (fl->map[CRD(c.x)][CRD(c.y)] != '.')
 		{
-			if (check_inner && ft_tolower(fl->map[CRD(c.x)][CRD(c.y)]) == PLAYERS[!fl->player]) // todo finish
+			if (check_inner && ft_tolower(fl->map[CRD(c.x)][CRD(c.y)]) == PLAYERS[!fl->player])
 				fl->ray_to_opp++;
 			return (0);
 		}
@@ -87,7 +81,7 @@ t_point			ft_sum_points(t_point p1, t_point p2)
 	return ((t_point){p1.x + p2.x, p1.y + p2.y});
 }
 
-double			ft_get_dictance_to_opp(t_filler *fl, t_point pos)
+double			ft_get_distance_to_opp(t_filler *fl, t_point pos)
 {
 	double res;
 	int i;
@@ -109,6 +103,35 @@ double			ft_get_dictance_to_opp(t_filler *fl, t_point pos)
 	return (res);
 }
 
+int				ft_need_to_close_door(t_filler *fl, t_point pos)
+{
+	int i;
+	int j;
+	t_point p;
+	int min_dist;
+
+	i = -1;
+	min_dist = 2000000000;
+	while (++i < (int)fl->curr_fig->points->len)
+	{
+		p = ft_sum_points(pos, POINT(fl->curr_fig->points, i));
+		if ((!p.x || p.x == fl->w - 1 || !p.y || p.y == fl->h - 1) &&
+			(j = (!p.x || p.x == fl->w - 1) ? fl->h : fl->w))
+			while (--j <= 0)
+			{
+				if (fl->map[(!p.x || p.x == fl->w - 1) ? j : p.y]
+			[(!p.y || p.y == fl->h - 1) ? j : p.x] - 32 == PLAYERS[fl->player]
+			&& FT_ABS(j - ((!p.x || p.x == fl->w - 1) ? p.y : p.x)) < min_dist)
+					min_dist =
+						FT_ABS(j - ((!p.x || p.x == fl->w - 1) ? p.y : p.x));
+
+			}
+	}
+	if (min_dist < (((!p.x || p.x == fl->w - 1) ? fl->h : fl->w)) / 5.)
+		return (1);
+	return (0);
+}
+
 int			ft_is_inner_figure(t_filler *fl, t_point pos)
 {
 	int i;
@@ -116,9 +139,7 @@ int			ft_is_inner_figure(t_filler *fl, t_point pos)
 
 	fl->ray_to_opp = 0;
 	i = fl->h + 1;
-	//ft_fdprintf(2, "{Green}%d %d{eof}\n", pos.x, pos.y);
 	while (--i >= -1 && (j = -1))
-	{
 		while (++j < (int)fl->curr_fig->points->len)
 		{
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
@@ -126,18 +147,15 @@ int			ft_is_inner_figure(t_filler *fl, t_point pos)
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 				(t_point){fl->w, i}, 1);
 		}
-	}
 	i = fl->w + 1;
 	while (--i >= -1 && (j = -1))
-	{
 		while (++j < (int)fl->curr_fig->points->len)
 		{
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
 				(t_point){-1, i}, 1);
 			ft_send_ray(fl, ft_sum_points(POINT(fl->curr_fig->points, j), pos),
-					(t_point){i, fl->h}, 1);
+				(t_point){i, fl->h}, 1);
 		}
-	}
 	return (fl->ray_to_opp == 0);
 }
 
@@ -153,27 +171,25 @@ void			ft_get_surround_factor(t_filler *fl, int *me, int *opp)
 	while (--i >= -1 && (j = -1) && (k = -1))
 	{
 		while (++j < (int)fl->points[0]->len)
-			*me += ft_send_ray(fl, POINT(fl->points[0], j), (t_point){-1, i}, 0) +
-							ft_send_ray(fl, POINT(fl->points[0], j), (t_point){fl->w, i}, 0);
+			*me += ft_send_ray(fl, POINT(fl->points[0], j), (t_point){-1, i}, 0)
+			+ ft_send_ray(fl, POINT(fl->points[0], j), (t_point){fl->w, i}, 0);
 		while (++k < (int)fl->points[1]->len)
-			*opp += ft_send_ray(fl, POINT(fl->points[1], k),(t_point){-1, i}, 0) +
-					ft_send_ray(fl, POINT(fl->points[1], k), (t_point){fl->w, i}, 0);
+			*opp += ft_send_ray(fl, POINT(fl->points[1], k),(t_point){-1, i}, 0)
+			+ ft_send_ray(fl, POINT(fl->points[1], k), (t_point){fl->w, i}, 0);
 	}
 	i = fl->w + 1;
 	while (--i >= -1 && (j = -1) && (k = -1))
 	{
 		while (++j < (int)fl->points[0]->len)
-			*me += ft_send_ray(fl, POINT(fl->points[0], j),(t_point){i, -1}, 0) +
-					ft_send_ray(fl, POINT(fl->points[0], j),
-							(t_point){i, fl->h}, 0);
+			*me += ft_send_ray(fl, POINT(fl->points[0], j),(t_point){i, -1}, 0)
+			+ ft_send_ray(fl, POINT(fl->points[0], j), (t_point){i, fl->h}, 0);
 		while (++k < (int)fl->points[1]->len)
-			*opp += ft_send_ray(fl, POINT(fl->points[1], k),(t_point){i, -1}, 0) +
-					ft_send_ray(fl, POINT(fl->points[1], k),
-							(t_point){i, fl->h}, 0);
+			*opp += ft_send_ray(fl, POINT(fl->points[1], k),(t_point){i, -1}, 0)
+			+ ft_send_ray(fl, POINT(fl->points[1], k), (t_point){i, fl->h}, 0);
 	}
 }
 
-void 		ft_get_perimiter(t_filler *fl, int pl, int *prim, int *sec)
+void 		ft_get_perimeter(t_filler *fl, int pl, int *prim, int *sec)
 {
 	int i;
 
@@ -211,7 +227,7 @@ int 		ft_filler_min(int a, int b, int c, int d)
 	return ((min1 <= min2) ? min1 : min2);
 }
 
-int 		ft_get_dictance_to_wall(t_filler *fl)
+int 		ft_get_distance_to_wall(t_filler *fl)
 {
 	int res;
 	int i;
@@ -228,7 +244,7 @@ int 		ft_get_dictance_to_wall(t_filler *fl)
 	return (res);
 }
 
-int 		ft_get_fig_dictance_to_wall(t_filler *fl, t_point pos)
+int 		ft_get_fig_distance_to_wall(t_filler *fl, t_point pos)
 {
 	int res;
 	int i;
