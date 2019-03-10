@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 23:46:42 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 06:38:47 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/10 10:36:16 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,12 @@ int			ft_map_parser(t_filler *fl)
 	char 	*b;
 	int 	was_begin;
 
+	ft_printf("{Red}MP{eof}\n");
+
 	if (!(l = (char*)1lu) || !ft_get_next_line(0, &l, 1) || !l ||
-		!(b = ft_strstr(l, "lateau ")) ||
-		!(fl->h = ft_atoi(b + 7))
-		|| !(fl->w = ft_atoi(b + 7 + ft_intlen(fl->h))) || ft_free_ret(l, 0))
+		!(b = ft_strstr(l, "ateau ")) ||
+		!(fl->h = ft_atoi(b + 6))
+		|| !(fl->w = ft_atoi(b + 6 + ft_intlen(fl->h))) || ft_free_ret(l, 0))
 		return (ft_free_ret(l, 0));
 	if ((i = -1) && !(fl->map = ft_make_map(fl->h, fl->w)))
 		return (0);
@@ -112,7 +114,7 @@ int			ft_map_parser(t_filler *fl)
 		free(l);
 	}
 	ft_printf("{\\200}MP{eof}\n");
-	ft_print_filler(fl);
+	///ft_print_filler(fl);
 	return (i == fl->h);
 }
 
@@ -141,6 +143,6 @@ int			ft_figure_parser(t_filler *fl)
 		free(l);
 	}
 	ft_printf("{\\200}FP{eof}\n");
-	ft_print_filler(fl);
+	///ft_print_filler(fl);
 	return (i == fl->f_h);
 }

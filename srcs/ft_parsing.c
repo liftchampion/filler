@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/10 00:05:06 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 06:32:38 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/10 10:53:47 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,22 @@ int				ft_result_parser(t_filler *fl)
 	b[1] = 0;
 	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line)
 		return (0);
-	if (line[0] == '<' && (fl->pos_y = ft_atoi(line + 11)) &&
-		(fl->pos_x = ft_atoi(line + 11 + ft_intlen(fl->pos_y) + 2)) &&
-		(((fl->turn = (line[6] == 'X')) || 1) && ft_free_ret(line, 1)))
+	if (line[0] == '<' && (fl->pos_y = ft_atoi(line + 11)) >= 0 &&
+		(fl->pos_x = ft_atoi(line + 11 + ft_intlen(fl->pos_y) + 2)) >= 0)
 	{
+		if (fl->turn == (line[6] == 'X') && !fl->st[line[6] != 'X'])
+			fl->st[line[6] != 'X'] = END;
+		fl->turn = (line[6] == 'X');
 		if (!read(0, b, 2) || !b[1])
-			return (0);
+			return (ft_free_ret(line, 0));
+		ft_printf("{\\202}%c%c{eof}\n", b[0], b[1]);
 		if (b[1] == 'i' && (fl->st[fl->turn] = WRG) &&
 				(!ft_figure_parser(fl) || !ft_result_parser(fl)))
-			return (0);
+			return (ft_free_ret(line, 0));
 		ft_printf("{\\200}RP_V{eof}\n");
-		ft_print_filler(fl);
-		return (1);
+		return (ft_free_ret(line, 1));
 	}
 	ft_printf("{\\200}RP_I{eof}\n");
-	ft_print_filler(fl);
 	return (ft_invalid_res(fl, line));
 }
 

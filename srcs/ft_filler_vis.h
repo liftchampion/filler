@@ -23,6 +23,7 @@ typedef enum	e_status
 	SEG = 2,
 	WRG = 3,
 	END = 4,
+	OUT = 5,
 }				t_status;
 
 typedef struct	s_filler

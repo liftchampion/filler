@@ -13,6 +13,18 @@
 #include "libft.h"
 #include "ft_filler_vis.h"
 
+/*
+ *
+Warrior: [ 0.35 2 3.85 1.35 0 1 1.7 0 -1 0] score is 14685
+ win_rate(round) is 32.6667% win_rate(game) is 40
+players/bmiklaz.filler: 2
+players/carli.filler: 14
+players/jcorwin.filler: 10
+players/lcharvol.filler: 11
+players/mwunsch.filler: 12
+ *
+ */
+
 
 int		ft_main_loop(void)
 {
