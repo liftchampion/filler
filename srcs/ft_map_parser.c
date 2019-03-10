@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 23:46:42 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 04:24:28 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/10 06:38:47 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,27 +89,27 @@ int			ft_map_parser(t_filler *fl)
 {
 	int		i;
 	int		j;
-	char	*line;
+	char	*l;
+	char 	*b;
 	int 	was_begin;
 
-	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line ||
-		ft_strstr(line, "Plateau ") != line || !(fl->h = ft_atoi(line + 8))
-	|| !(fl->w = ft_atoi(line + 8 + ft_intlen(fl->h))) || ft_free_ret(line, 0))
-		return (ft_free_ret(line, 0));
+	if (!(l = (char*)1lu) || !ft_get_next_line(0, &l, 1) || !l ||
+		!(b = ft_strstr(l, "lateau ")) ||
+		!(fl->h = ft_atoi(b + 7))
+		|| !(fl->w = ft_atoi(b + 7 + ft_intlen(fl->h))) || ft_free_ret(l, 0))
+		return (ft_free_ret(l, 0));
 	if ((i = -1) && !(fl->map = ft_make_map(fl->h, fl->w)))
 		return (0);
 	was_begin = 0;
-	while (++i < fl->h && (line = (char*)1lu) && ft_get_next_line(0, &line, 1))
+	while (++i < fl->h && (l = (char*)1lu) && ft_get_next_line(0, &l, 1) && l)
 	{
-		if (!line)
-			return (0);
-		was_begin = (ft_strstr(line, "000") && !was_begin) ? 1 : was_begin;
-		if ((j = 3) && !was_begin && ft_free_ret(line, 1) && (--i || 1))
+		was_begin = (ft_strstr(l, "000") && !was_begin) ? 1 : was_begin;
+		if ((j = 3) && !was_begin && ft_free_ret(l, 1) && (--i || 1))
 			continue;
-		while (line[++j])
-			if (ft_strchr("oOxX", line[j]))
-				fl->map[i][j - 4] = line[j];
-		free(line);
+		while (l[++j])
+			if (ft_strchr("oOxX", l[j]))
+				fl->map[i][j - 4] = l[j];
+		free(l);
 	}
 	ft_printf("{\\200}MP{eof}\n");
 	ft_print_filler(fl);
@@ -118,26 +118,27 @@ int			ft_map_parser(t_filler *fl)
 
 int			ft_figure_parser(t_filler *fl)
 {
-	char	*line;
+	char	*l;
 	int		i;
 	int		j;
+	char 	*b;
 
-	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line
-		|| ft_strstr(line + 1, "iece ") != line + 1
-		|| !(fl->f_h = ft_atoi(line + 6))
-		|| !(fl->f_w = ft_atoi(line + 6 + ft_intlen(fl->f_h)))
-		|| ft_free_ret(line, 0))
-		return (ft_free_ret(line, 0));
+	if (!(l = (char*)1lu) || !ft_get_next_line(0, &l, 1) || !l
+		|| !(b = ft_strstr(l, "ece "))
+		|| !(fl->f_h = ft_atoi(b + 4))
+		|| !(fl->f_w = ft_atoi(b + 4 + ft_intlen(fl->f_h)))
+		|| ft_free_ret(l, 0))
+		return (ft_free_ret(l, 0));
 	if ((i = -1) && !(fl->fig = ft_make_map(fl->f_h, fl->f_w)))
 		return (0);
-	while (++i < fl->f_h && (line = (char*)1lu) &&
-									ft_get_next_line(0, &line, 1))
+	while (++i < fl->f_h && (l = (char*)1lu) &&
+									ft_get_next_line(0, &l, 1))
 	{
-		if (!(j = -1) || !line)
+		if (!(j = -1) || !l)
 			return (0);
-		while (line[++j])
-				fl->fig[i][j] = line[j];
-		free(line);
+		while (l[++j])
+				fl->fig[i][j] = l[j];
+		free(l);
 	}
 	ft_printf("{\\200}FP{eof}\n");
 	ft_print_filler(fl);
