@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_rstrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/09 19:46:50 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 02:27:04 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/03/09 22:41:02 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/03/09 22:41:02 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "ft_filler_vis.h"
-
-
-int		ft_main_loop(void)
+char		*ft_rstrchr(const char *str, int ch)
 {
-	t_filler *fl;
+	char c;
+	char *chr;
 
-	if (!(fl = ft_parse_begin()))
-		return (ft_free_filler(fl, 0));
-	ft_map_parser(fl);
-	ft_figure_parser(fl);
-	//while (ft_map_parser(fl) && ft_figure_parser(fl))
-	//{
-		ft_print_filler(fl);
-	//}
-
-
-	return (1);
-}
-
-int main()
-{
-	ft_main_loop();
-	return 0;
+	c = (char)ch;
+	chr = 0;
+	while (*str)
+	{
+		if (*str == c)
+		{
+			chr = (char*)str;
+		}
+		str++;
+	}
+	if (*str == 0 && c == 0)
+		return ((char*)str);
+	return (chr);
 }
