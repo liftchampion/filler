@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:31:10 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 01:54:40 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/10 04:15:08 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 
 void			ft_print_filler(t_filler *fl)
 {
+	char enm[5][4] = {"OKE", "ERR", "SEG", "WRG", "END"};
 	ft_printf("p1 - %s, p2 - %s\n", fl->p1, fl->p2);
+	ft_printf("p1 - %s, p2 - %s\n", enm[fl->st[0]], enm[fl->st[1]]);
+	ft_printf("turn - %d\n", fl->turn);
 	ft_print_map(fl);
 	ft_print_fig(fl);
 }

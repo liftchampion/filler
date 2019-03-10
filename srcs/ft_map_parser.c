@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 23:46:42 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 02:27:33 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/10 04:24:28 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,9 @@ int			ft_map_parser(t_filler *fl)
 				fl->map[i][j - 4] = line[j];
 		free(line);
 	}
-	return (1);
+	ft_printf("{\\200}MP{eof}\n");
+	ft_print_filler(fl);
+	return (i == fl->h);
 }
 
 int			ft_figure_parser(t_filler *fl)
@@ -120,10 +122,11 @@ int			ft_figure_parser(t_filler *fl)
 	int		i;
 	int		j;
 
-	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line ||
-			ft_strstr(line, "Piece ") != line || !(fl->f_h = ft_atoi(line + 6))
-			|| !(fl->f_w = ft_atoi(line + 6 + ft_intlen(fl->f_h))) ||
-			ft_free_ret(line, 0))
+	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line
+		|| ft_strstr(line + 1, "iece ") != line + 1
+		|| !(fl->f_h = ft_atoi(line + 6))
+		|| !(fl->f_w = ft_atoi(line + 6 + ft_intlen(fl->f_h)))
+		|| ft_free_ret(line, 0))
 		return (ft_free_ret(line, 0));
 	if ((i = -1) && !(fl->fig = ft_make_map(fl->f_h, fl->f_w)))
 		return (0);
@@ -136,5 +139,7 @@ int			ft_figure_parser(t_filler *fl)
 				fl->fig[i][j] = line[j];
 		free(line);
 	}
-	return (1);
+	ft_printf("{\\200}FP{eof}\n");
+	ft_print_filler(fl);
+	return (i == fl->f_h);
 }
