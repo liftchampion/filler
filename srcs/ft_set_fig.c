@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 21:56:02 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 22:20:18 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,8 +234,8 @@ int 		ft_set_fig(register t_filler *fl)
 				double opp_sum = ft_map_sum(fl, 1);
 				double my_sum = (opp_sum == opp_sum_p) ? 10000000 : ft_map_sum(fl, 0);
 
-				score = (80 * opp_sum - 1 * my_sum) +
-						1000 * ft_sum_gate_points(fl, fl->curr_fig, (t_point){j, i}) +
+				score = (4 * opp_sum - 1 * my_sum) +
+						30 * ft_sum_gate_points(fl, fl->curr_fig, (t_point){j, i}) +
 			900000000 * ((double)fl->unrch_opp / (fl->h * fl->w) > WIN_LIMIT);
 				ft_unput_fig_tmp(fl);
 				if (score > best_score)

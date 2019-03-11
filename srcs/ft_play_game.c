@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 20:44:34 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 21:41:06 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int 	ft_gamer(t_filler *fl)
 		return (0);
 	if (((int)fl->points[1]->len == fl->prev_opp_size ||
 	(double)fl->unrch_opp / (fl->h * fl->w) > WIN_LIMIT)
-	? ft_set_fig_dummy(fl) : ft_set_fig(fl))
+			? ft_set_fig_dummy(fl) : ft_set_fig(fl))
 	{
 		///ft_print_heat_map(fl, 0);
 		///sleep(1);
