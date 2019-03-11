@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 15:23:24 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 21:49:14 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,31 @@ int ft_make_map(t_filler *fl)
 int ft_make_heat_map(t_filler *fl)
 {
 	int i;
-	int **mtr[2];
+	int **mtr[3];
 
 	if (!(mtr[0] = (int**)ft_memalloc(sizeof(int*) * fl->h)) ||
-		!(mtr[1] = (int**)ft_memalloc(sizeof(int*) * fl->h)))
+		!(mtr[1] = (int**)ft_memalloc(sizeof(int*) * fl->h)) ||
+		!(mtr[2] = (int**)ft_memalloc(sizeof(int*) * fl->h)))
 		return (0);
 	i = -1;
 	while (++i < fl->h)
 	{
 		if (!(mtr[0][i] = (int*)malloc(sizeof(int) * (fl->w))) ||
-			!(mtr[1][i] = (int*)malloc(sizeof(int) * (fl->w))))
+			!(mtr[1][i] = (int*)malloc(sizeof(int) * (fl->w))) ||
+			!(mtr[2][i] = (int*)malloc(sizeof(int) * (fl->w))))
 		{
 			while (i >= 0)
 			{
-				free(mtr[0][i--]);
-				free(mtr[1][i--]);
+				free(mtr[0][i]);
+				free(mtr[1][i]);
+				free(mtr[2][i--]);
 			}
-			return (ft_free_ret(mtr[0], 0) + ft_free_ret(mtr[1], 0));
+			return (ft_free_ret(mtr[0], 0) + ft_free_ret(mtr[1], 0) + ft_free_ret(mtr[2], 0));
 		}
 	}
 	fl->heat_map[0] = mtr[0];
 	fl->heat_map[1] = mtr[1];
+	fl->heat_map[2] = mtr[2];
 	return (1);
 }
 
@@ -154,8 +158,8 @@ void	ft_print_heat_map(t_filler *fl, int pl)
 				ft_fdprintf(2, "{\\202}  %2d{eof}", fl->heat_map[pl][i][j]);
 			else if (fl->heat_map[pl][i][j] == -2)
 				ft_fdprintf(2, "{\\200}  %2d{eof}", fl->heat_map[pl][i][j]);
-			else if (fl->heat_map[pl][i][j] < -10)
-				ft_fdprintf(2, "{Red}  %2d{eof}", -1 * fl->heat_map[pl][i][j] - 10);
+			else if (fl->heat_map[pl][i][j] <= -1000)
+				ft_fdprintf(2, "{Red}  %2d{eof}", -1 * fl->heat_map[pl][i][j] - 1000);
 			else
 				ft_fdprintf(2, "{Magenta}  %2d{eof}", fl->heat_map[pl][i][j]);
 		}
@@ -220,15 +224,20 @@ int	ft_fill_heat_map(register t_filler *fl, register int pl)
 	return (1);
 }
 
-void		ft_zero_heat_map(register t_filler *fl)
+void		ft_zero_heat_map(register t_filler *fl, int clean_gates)
 {
 	register int i;
 
 	i = -1;
 	while (++i < fl->h)
 	{
-		ft_bzero(fl->heat_map[0][i], sizeof(int) * fl->w);
-		ft_bzero(fl->heat_map[1][i], sizeof(int) * fl->w);
+		if (!clean_gates)
+		{
+			ft_bzero(fl->heat_map[0][i], sizeof(int) * fl->w);
+			ft_bzero(fl->heat_map[1][i], sizeof(int) * fl->w);
+		}
+		else
+			ft_bzero(fl->heat_map[2][i], sizeof(int) * fl->w);
 	}
 }
 
@@ -253,56 +262,51 @@ int 	ft_count_enemy_unr(register t_filler *fl)
 	return (1);
 }
 
-void 	ft_fill_nhbs(t_filler *fl, t_point pt, int nhbs[8])
+void 	ft_fill_nhbs(t_filler *fl, t_point pt, int nhbs[8], int pl)
 {
 	nhbs[0] = (pt.x > 0) ?
-			fl->heat_map[1][pt.y][pt.x - 1] : -1;
+			fl->heat_map[pl][pt.y][pt.x - 1] : -1;
 	nhbs[1] = (pt.x > 0 && pt.y > 0) ?
-			fl->heat_map[1][pt.y - 1][pt.x - 1] : -1;
+			fl->heat_map[pl][pt.y - 1][pt.x - 1] : -1;
 	nhbs[2] = (pt.y > 0) ?
-			fl->heat_map[1][pt.y - 1][pt.x] : -1;
+			fl->heat_map[pl][pt.y - 1][pt.x] : -1;
 	nhbs[3] = (pt.y > 0 && pt.x < fl->w - 1) ?
-			fl->heat_map[1][pt.y - 1][pt.x + 1] : -1;
+			fl->heat_map[pl][pt.y - 1][pt.x + 1] : -1;
 	nhbs[4] = (pt.x < fl->w - 1) ?
-			fl->heat_map[1][pt.y][pt.x + 1] : -1;
+			fl->heat_map[pl][pt.y][pt.x + 1] : -1;
 	nhbs[5] = (pt.x < fl->w - 1 && pt.y < fl->h - 1) ?
-			fl->heat_map[1][pt.y + 1][pt.x + 1] : -1;
+			fl->heat_map[pl][pt.y + 1][pt.x + 1] : -1;
 	nhbs[6] = (pt.y < fl->h - 1) ?
-			fl->heat_map[1][pt.y + 1][pt.x] : -1;
+			fl->heat_map[pl][pt.y + 1][pt.x] : -1;
 	nhbs[7] = (pt.x > 0 && pt.y < fl->h - 1) ?
-			fl->heat_map[1][pt.y + 1][pt.x - 1] : -1;
+			fl->heat_map[pl][pt.y + 1][pt.x - 1] : -1;
 }
 
-int 	ft_is_gate_pt(register t_filler *fl, t_point pt)
+void 	ft_sum_gate(register t_filler *fl, t_point pt, int *sum, int deep)
 {
-	const int val = fl->heat_map[1][pt.y][pt.x];
 	int nhbs[8];
+	int val;
 	int i;
-	int res;
+	int is_start;
 
-	ft_fill_nhbs(fl, pt, nhbs);
+	is_start = !deep;
+	++deep;
+	val = fl->heat_map[0][pt.y][pt.x];
+	if (val <= 0)
+		return;
+	fl->heat_map[0][pt.y][pt.x] = -1000000 - fl->heat_map[0][pt.y][pt.x];
+	*sum += val;
+	ft_fill_nhbs(fl, pt, nhbs, 0);
 	i = -1;
-	res = 0;
 	while (++i < 8)
 	{
-		if (nhbs[i] == -2)
-			return (0);
-		if ((nhbs[i] == nhbs[(i + 3) % 8] ||
-			nhbs[i] == nhbs[(i + 4) % 8] ||
-			nhbs[i] == nhbs[(i + 5) % 8]) && nhbs[i] < val)
-		{
-			ft_fdprintf(2, "{Red}%d %d{eof}\n", pt.x, pt.y);
-			res = (res == -1) ? -1 : 1;
-			if (res == 1)
-				fl->heat_map[0][pt.y][pt.x] = -10 - fl->heat_map[1][pt.y][pt.x];
-		}
-		if (nhbs[i] > val)
-			res = -1;
+		if (nhbs[i] > val || (!is_start && nhbs[i] == val))
+			ft_sum_gate(fl, (t_point){pt.x + (i >= 3 && i <= 5) - (!i || i == 1 || i == 7),
+							  pt.y - (i >= 1 && i <= 3) + (i >= 5 && i <= 7)}, sum, deep);
 	}
-	return (res == 1);
 }
 
-void 	ft_parse_gates(register t_filler *fl)
+void 	ft_restore_map(register t_filler *fl)
 {
 	register int i;
 	register int j;
@@ -313,9 +317,68 @@ void 	ft_parse_gates(register t_filler *fl)
 		j = -1;
 		while (++j < fl->w)
 		{
-			ft_is_gate_pt(fl, (t_point){j, i});
+			if (fl->heat_map[0][i][j] < -900000)
+			{
+				fl->heat_map[0][i][j] = -1000000 - fl->heat_map[0][i][j];
+			}
 		}
 	}
+}
+
+int 	ft_is_gate_pt(register t_filler *fl, t_point pt)
+{
+	const int val = fl->heat_map[1][pt.y][pt.x];
+	int nhbs[8];
+	int i;
+	int res;
+
+	ft_fill_nhbs(fl, pt, nhbs, 1);
+	i = -1;
+	while (++i < 4)
+		if (nhbs[i * 2] <= 0 && nhbs[(i * 2 + 1) % 8] <= 0 &&
+				nhbs[(i * 2 + 2) % 8] <= 0)
+			return (0);
+	res = 0;
+	i = -1;
+	while (++i < 8)
+	{
+		if (nhbs[i] == -2 || nhbs[i] > val)
+			return (0);
+		if ((nhbs[i] == nhbs[(i + 3) % 8] ||
+			nhbs[i] == nhbs[(i + 4) % 8] ||
+			nhbs[i] == nhbs[(i + 5) % 8]) && nhbs[i] < val)
+			res = 1;
+
+	}
+	return (res == 1);
+}
+
+int 	ft_parse_gates(register t_filler *fl)
+{
+	register int i;
+	register int j;
+
+	i = -1;
+	while (++i < fl->h)
+	{
+		j = -1;
+		while (++j < fl->w)
+		{
+			if (ft_is_gate_pt(fl, (t_point){j, i}))
+			{
+				ft_sum_gate(fl, (t_point){j, i}, &(fl->heat_map[2][i][j]), 0);
+			}
+		}
+	}
+	ft_restore_map(fl);
+	/*size_t e = (size_t)-1;
+	while (++e < fl->gates->len)
+	{
+		t_point pt = POINT(fl->gates, e);
+		fl->heat_map[0][pt.y][pt.x] = -1000 - (int)fl->gt_vals->data[e];
+	}*/
+
+	return (1);
 }
 
 int 	ft_update_heat_map(register t_filler *fl)
@@ -326,7 +389,7 @@ int 	ft_update_heat_map(register t_filler *fl)
 
 	if ((!fl->heat_map[0] || !fl->heat_map[1]) && !ft_make_heat_map(fl))
 		return (0);
-	ft_zero_heat_map(fl);
+	ft_zero_heat_map(fl, 0);
 	pl = -1;
 	while (++pl < 2)
 	{
@@ -340,19 +403,12 @@ int 	ft_update_heat_map(register t_filler *fl)
 		if (!ft_fill_heat_map(fl, pl))
 			return (0);
 	}
-	ft_parse_gates(fl);
-	ft_print_heat_map(fl, 0);
-	ft_print_heat_map(fl, 1);
-	ft_fdprintf(2, "{Black}T{eof}\n");
-	ft_fdprintf(2, "{Red}T{eof}\n");
-	ft_fdprintf(2, "{Green}T{eof}\n");
-	ft_fdprintf(2, "{Yellow}T{eof}\n");
-	ft_fdprintf(2, "{Blue}T{eof}\n");
-	ft_fdprintf(2, "{Magenta}T{eof}\n");
-	ft_fdprintf(2, "{Cyan}T{eof}\n");
-	ft_fdprintf(2, "{White}T{eof}\n");
-
-	exit(42);
+	///ft_print_heat_map(fl, 0);
+	///ft_parse_gates(fl);
+	///ft_print_heat_map(fl, 0);
+	///ft_print_heat_map(fl, 1);
+	///ft_print_heat_map(fl, 2);
+	///exit(42);
 	return (ft_count_enemy_unr(fl));
 }
 

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 09:11:43 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 21:51:30 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include "libft.h"
 
-# define WIN_LIMIT 0.7
+# define WIN_LIMIT 1.1
 
 
 #define SCALE 10000
@@ -50,7 +50,7 @@ typedef struct	s_filler
 	int 		w;
 	t_fig		*curr_fig;
 	char 		**map;
-	int 		**heat_map[2];
+	int 		**heat_map[3];
 	t_vector	*points[2];
 	int 		prev_opp_size;
 	int 		unrch_opp;
@@ -101,6 +101,9 @@ int 			ft_update_heat_map(t_filler *fl);
 void			ft_print_heat_map(t_filler *fl, int pl);
 
 t_point			ft_sum_points(t_point p1, t_point p2);
+
+void		ft_zero_heat_map(register t_filler *fl, int clean_gates);
+int 			ft_parse_gates(register t_filler *fl);
 
 int 			ft_check_fig(t_filler *fl, t_point pos);
 int				ft_set_fig(t_filler *fl);

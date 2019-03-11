@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 13:18:26 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 20:44:34 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,14 @@ t_filler *ft_start_gama(void)
 	t_filler	*fl;
 	char		*line;
 
-	//ft_fdprintf(2, "{Red}Game started{eof}\n");
-
 	line = (char*)1lu;
 	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line ||
 			!(fl = (t_filler*)ft_memalloc(sizeof(t_filler))) ||
 			!(fl->points[0] = ft_make_vector(64)) ||
 			!(fl->points[1] = ft_make_vector(64)))
 		return (0);
-	//ft_fdprintf(2, "{Red}Line got <%s>{eof}\n", line);
-	if (!ft_strchr(line, 'p'))
-	{
-		free(line);
-		free(fl);
+	if (!ft_strchr(line, 'p') && (ft_free_ret(line, 0) || ft_free_ret(fl, 0))) // todo filler_free
 		return (0);
-	}
 	fl->player = ft_atoi(line + (ft_strchr(line, 'p') - line) + 1);
 	if ((fl->player != 1 && fl->player != 2) ||
 			!ft_strstr(line, "ggerardy.filler") || (--fl->player && 0))
@@ -41,18 +34,9 @@ t_filler *ft_start_gama(void)
 		free(line);
 		free(fl);
 		return (0);
+
 	}
-	//ft_fdprintf(2, "{Red}Player is <%d>{eof}\n", fl->player);
 	free(line);
-
-
-
-	/*for (int e = 0; e < 9; e++)
-	{
-		ft_fdprintf(2, "{\\200}koeff[%d]=%f{eof} ", e, kfc[e]);
-	}
-	ft_fdprintf(2, "\n");*/
-
 	return (fl);
 }
 

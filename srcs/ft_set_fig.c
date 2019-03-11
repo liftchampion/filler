@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 12:20:45 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 21:56:02 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,22 @@ int 		ft_oracle(register t_filler *fl, register t_fig *fg, t_point pos)
 	}
 }*/
 
+int 		ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos)
+{
+	size_t i;
+	t_point pt;
+	int res;
+
+	res = 0;
+	i = (size_t)-1;
+	while (++i < fg->points->len)
+	{
+		pt = ft_sum_points(POINT(fg->points, i), pos);
+		res += fl->heat_map[2][pt.y][pt.x];
+	}
+	return (res);
+}
+
 int 		ft_set_fig(register t_filler *fl)
 {
 	double best_score;
@@ -199,6 +215,9 @@ int 		ft_set_fig(register t_filler *fl)
 
 	//int my_sum_p = ft_map_sum(fl, 0);
 	double opp_sum_p = ft_map_sum(fl, 1);
+	ft_zero_heat_map(fl, 1);
+	ft_parse_gates(fl);
+	//ft_print_heat_map(fl, 2);
 
 	while (++i < fl->h)
 	{
@@ -216,6 +235,7 @@ int 		ft_set_fig(register t_filler *fl)
 				double my_sum = (opp_sum == opp_sum_p) ? 10000000 : ft_map_sum(fl, 0);
 
 				score = (80 * opp_sum - 1 * my_sum) +
+						1000 * ft_sum_gate_points(fl, fl->curr_fig, (t_point){j, i}) +
 			900000000 * ((double)fl->unrch_opp / (fl->h * fl->w) > WIN_LIMIT);
 				ft_unput_fig_tmp(fl);
 				if (score > best_score)
