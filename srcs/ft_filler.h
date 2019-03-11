@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 08:03:46 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 09:11:43 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int				ft_make_map(t_filler *fl);
 int 			ft_update_heat_map(t_filler *fl);
 void			ft_print_heat_map(t_filler *fl, int pl);
 
+t_point			ft_sum_points(t_point p1, t_point p2);
 
 int 			ft_check_fig(t_filler *fl, t_point pos);
 int				ft_set_fig(t_filler *fl);

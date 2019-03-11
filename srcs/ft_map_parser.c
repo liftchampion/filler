@@ -6,15 +6,19 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 07:30:48 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 13:28:21 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <zconf.h> // todo
 #include "libft.h"
 #include "ft_filler.h"
 
 #define VPUSH(v, n) ft_vector_push_back(&(v), (n))
 #define HM flr->heat_map[pl]
+
+//!HM[pt.y + 1][pt.x + 1]
+#define LG(a, b) (HM[pt.y + b][pt.x + a] > ds)
 
 int ft_make_map(t_filler *fl)
 {
@@ -125,9 +129,15 @@ void	ft_print_heat_map(t_filler *fl, int pl)
 {
 	int i;
 	int j;
+	static int count = 0;
 
 	j = -1;
-	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d pl = %d{eof}\n   ", fl->w, fl->h, pl);
+	/*for (int e = 0; e < fl->h + 2; ++e)
+	{
+		ft_fdprintf(2, "\033[A\033[K");
+	}*/
+	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d pl = %d num = %d{eof}\n   ",
+			fl->w, fl->h, pl, ++count);
 	while (++j < fl->w)
 	{
 		ft_fdprintf(2, "{Green} %3d{eof}", j);
@@ -149,6 +159,7 @@ void	ft_print_heat_map(t_filler *fl, int pl)
 		}
 		ft_fdprintf(2, "\n");
 	}
+
 }
 
 static inline int		ft_check_and_add_pt(t_point pt, t_filler *flr, int ds, int pl)
@@ -262,8 +273,9 @@ int 	ft_update_heat_map(register t_filler *fl)
 		if (!ft_fill_heat_map(fl, pl))
 			return (0);
 	}
-	//ft_print_heat_map(fl, 0);
-	//ft_print_heat_map(fl, 1);
+	ft_print_heat_map(fl, 0);
+	ft_print_heat_map(fl, 1);
+	exit(42);
 	return (ft_count_enemy_unr(fl));
 }
 

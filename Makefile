@@ -73,7 +73,7 @@ clean_master:
 	rm -f master
 
 test: all
-	@cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler -p2 ../ggerardy.filler; cd ..
+	@cd resources; ./filler_vm -f maps/map01 -p1 players/superjeannot.filler -p2 ../ggerardy.filler 1> /dev/null; cd ..
 
 ################################--LINKING--#####################################
 

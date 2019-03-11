@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 09:11:00 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 12:20:45 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,27 @@ double 		ft_map_sum(register t_filler *fl, register int pl)
 	return (res);
 }
 
+/*int			ft_check_opp_point(t_filler *fl, t_point pt)
+{
+	if (fl->heat_map[1][pt.y][pt.x] <= 0)
+		return (0);
+}
+
+int 		ft_oracle(register t_filler *fl, register t_fig *fg, t_point pos)
+{
+	register int	i;
+	register int	to_go;
+	t_point			pt;
+
+	i = -1;
+	to_go = (int)fg->points->len;
+	while (++i < to_go)
+	{
+		pt = ft_sum_points(POINT(fl->points[1], i), pos);
+
+	}
+}*/
+
 int 		ft_set_fig(register t_filler *fl)
 {
 	double best_score;
@@ -194,7 +215,7 @@ int 		ft_set_fig(register t_filler *fl)
 				double opp_sum = ft_map_sum(fl, 1);
 				double my_sum = (opp_sum == opp_sum_p) ? 10000000 : ft_map_sum(fl, 0);
 
-				score = (1 * opp_sum - 0 * my_sum) +
+				score = (80 * opp_sum - 1 * my_sum) +
 			900000000 * ((double)fl->unrch_opp / (fl->h * fl->w) > WIN_LIMIT);
 				ft_unput_fig_tmp(fl);
 				if (score > best_score)
