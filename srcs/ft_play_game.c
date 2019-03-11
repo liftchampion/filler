@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/07 07:45:50 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 07:36:04 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ int 	ft_gamer(t_filler *fl)
 {
 	if (!ft_game_parser(fl))
 		return (0);
-	if (((int)fl->points[1]->len == fl->prev_opp_size) ? ft_set_fig_dummy(fl) : ft_set_fig(fl))
+	if (((int)fl->points[1]->len == fl->prev_opp_size ||
+	(double)fl->unrch_opp / (fl->h * fl->w) > WIN_LIMIT)
+	? ft_set_fig_dummy(fl) : ft_set_fig(fl))
 	{
 		//ft_fdprintf(2, "{\\200}%d %d{eof}\n", fl->last_pos.y, fl->last_pos.x);
 		fl->prev_opp_size = (int)fl->points[1]->len;

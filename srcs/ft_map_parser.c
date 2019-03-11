@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 06:04:13 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 07:30:48 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,16 +165,16 @@ static inline int		ft_check_and_add_pt(t_point pt, t_filler *flr, int ds, int pl
 	if (pt.y < flr->h - 1 && !HM[pt.y + 1][pt.x] &&
 				(HM[pt.y + 1][pt.x] = ds))
 		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x, pt.y + 1}));
-	if (pt.x > 0 && pt.y > 0 && HM[pt.y - 1][pt.x - 1] == 0 &&
+	if (pt.x > 0 && pt.y > 0 && !HM[pt.y - 1][pt.x - 1] &&
 				(HM[pt.y - 1][pt.x - 1] = ds))
 		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y - 1}));
-	if (pt.x > 0 && pt.y < flr->h - 1 && HM[pt.y + 1][pt.x - 1] == 0 &&
+	if (pt.x > 0 && pt.y < flr->h - 1 && !HM[pt.y + 1][pt.x - 1] &&
 				(HM[pt.y + 1][pt.x - 1] = ds))
 		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y + 1}));
-	if (pt.x < flr->w - 1 && pt.y > 0 && HM[pt.y - 1][pt.x + 1] == 0 &&
+	if (pt.x < flr->w - 1 && pt.y > 0 && !HM[pt.y - 1][pt.x + 1] &&
 				(HM[pt.y - 1][pt.x + 1] = ds))
 		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y - 1}));
-	if (pt.x < flr->w - 1 && pt.y < flr->h - 1 && HM[pt.y + 1][pt.x + 1] == 0 &&
+	if (pt.x < flr->w - 1 && pt.y < flr->h - 1 && !HM[pt.y + 1][pt.x + 1] &&
 				(HM[pt.y + 1][pt.x + 1] = ds))
 		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y + 1}));
 	return (flr->points[pl] ? 1 : 0);
@@ -232,7 +232,7 @@ int 	ft_count_enemy_unr(register t_filler *fl)
 		j = -1;
 		while (++j < fl->w)
 		{
-			res += !fl->heat_map[1][i][j];
+			res += !fl->heat_map[1][i][j] || fl->heat_map[1][i][j] == -2;
 		}
 	}
 	///ft_fdprintf(2, "{Magenta}Unreachable for enemy %d{eof}\n", res);
@@ -262,8 +262,8 @@ int 	ft_update_heat_map(register t_filler *fl)
 		if (!ft_fill_heat_map(fl, pl))
 			return (0);
 	}
-	///ft_print_heat_map(fl, 0);
-	///ft_print_heat_map(fl, 1);
+	//ft_print_heat_map(fl, 0);
+	//ft_print_heat_map(fl, 1);
 	return (ft_count_enemy_unr(fl));
 }
 

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 05:18:54 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 08:03:46 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define PLAYERS "ox"
 
 # include "libft.h"
+
+# define WIN_LIMIT 0.7
+
 
 #define SCALE 10000
 #define DBL_EPS (DBL_EPSILON * SCALE)
@@ -94,10 +97,11 @@ int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
 int				ft_make_map(t_filler *fl);
 
-int 	ft_update_heat_map(t_filler *fl);
-void	ft_print_heat_map(t_filler *fl, int pl);
+int 			ft_update_heat_map(t_filler *fl);
+void			ft_print_heat_map(t_filler *fl, int pl);
 
 
+int 			ft_check_fig(t_filler *fl, t_point pos);
 int				ft_set_fig(t_filler *fl);
 int 			ft_set_fig_dummy(t_filler *fl);
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp);
