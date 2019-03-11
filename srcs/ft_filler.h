@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/08 14:54:41 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 05:18:54 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ typedef struct	s_filler
 	int 		w;
 	t_fig		*curr_fig;
 	char 		**map;
+	int 		**heat_map[2];
 	t_vector	*points[2];
 	int 		prev_opp_size;
-	char 		offset;
+	int 		unrch_opp;
+	char 		offset;   // todo no need
 	t_point		last_pos;
-	int 		ray_to_opp;
+	int 		ray_to_opp; // todo no need
 }				t_filler;
 
 typedef struct	s_weights
@@ -92,6 +94,10 @@ int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
 int				ft_make_map(t_filler *fl);
 
+int 	ft_update_heat_map(t_filler *fl);
+void	ft_print_heat_map(t_filler *fl, int pl);
+
+
 int				ft_set_fig(t_filler *fl);
 int 			ft_set_fig_dummy(t_filler *fl);
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp);
@@ -99,8 +105,8 @@ int				ft_is_inner_figure(t_filler *fl, t_point pos);
 void 			ft_get_perimeter(t_filler *fl, int pl, int *prim, int *sec);
 int 			ft_get_distance_to_wall(t_filler *fl);
 int 			ft_get_fig_distance_to_wall(t_filler *fl, t_point pos);
-int				ft_need_to_close_door(t_filler *fl, t_point pos);
 double			ft_get_distance_to_opp(t_filler *fl, t_point pos);
+int 			ft_need_close_door(t_filler *fl, t_point pos);
 double			ft_get_distance_to_center(t_weights *w, t_filler *fl, t_point pos);
 int 			ft_send_ray(t_filler *fl, t_point p1, t_point p2, int check_inner);
 void			*ft_send_rays_thread(void *vars);

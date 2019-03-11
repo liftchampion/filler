@@ -86,7 +86,7 @@ int			ft_figure_parser(const char *str, t_filler *fl)
 	str += 6;
 	i = ft_atoi_m(&str) + 1;
 	f->w = ft_atoi_m(&str);
-	while (--i && (line = (char*)1lu) && ft_get_next_line(0, &line, 256))
+	while (--i && (line = (char*)1lu) && ft_get_next_line(0, &line, 1))
 	{
 		if (!line)
 			return ((int)ft_free_fig(&f, 0));

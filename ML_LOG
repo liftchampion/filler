@@ -1,0 +1,58 @@
+Step is 0.5
+Warrior:  0 2 3.5 1 0 1 1 0 -1 0 score is 15046 win_rate(round) is 36.6667% win_rate(game) is 40
+players/bmiklaz.filler: 6
+players/carli.filler: 16
+players/jcorwin.filler: 11
+players/lcharvol.filler: 10
+players/mwunsch.filler: 12
+
+Step is 0.5
+               !INIT IS BETTER!               
+Warrior:  0 2 3.5 1 0 1 1 0 -1 0 score is 14231 win_rate(round) is 33.3333% win_rate(game) is 43.3333
+players/bmiklaz.filler: 7
+players/carli.filler: 14
+players/jcorwin.filler: 12
+players/lcharvol.filler: 12
+players/mwunsch.filler: 5
+
+Step is 0.35
+Warrior:  0 2 3.5 1 0 1 1.35 0 -1 0 score is 15847 win_rate(round) is 37.3333% win_rate(game) is 40
+players/bmiklaz.filler: 6
+players/carli.filler: 17
+players/jcorwin.filler: 10
+players/lcharvol.filler: 10
+players/mwunsch.filler: 13
+
+Step is 0.35
+Warrior:  0 2 3.5 1 0 1 1.7 0 -1 0 score is 16757 win_rate(round) is 38.6667% win_rate(game) is 43.3333
+players/bmiklaz.filler: 6
+players/carli.filler: 19
+players/jcorwin.filler: 7
+players/lcharvol.filler: 11
+players/mwunsch.filler: 15
+
+Step is 0.35
+Warrior:  0 2 3.85 1 0 1 1.7 0 -1 0 score is 14834 win_rate(round) is 34.6667% win_rate(game) is 43.3333
+players/bmiklaz.filler: 4
+players/carli.filler: 15
+players/jcorwin.filler: 12
+players/lcharvol.filler: 8
+players/mwunsch.filler: 13
+
+Step is 0.35
+Warrior:  0 2 3.85 1.35 0 1 1.7 0 -1 0 score is 15557 win_rate(round) is 37.3333% win_rate(game) is 43.3333
+players/bmiklaz.filler: 8
+players/carli.filler: 10
+players/jcorwin.filler: 13
+players/lcharvol.filler: 14
+players/mwunsch.filler: 11
+
+Step is 0.35
+Warrior:  0.35 2 3.85 1.35 0 1 1.7 0 -1 0 score is 14685 win_rate(round) is 32.6667% win_rate(game) is 40
+players/bmiklaz.filler: 2
+players/carli.filler: 14
+players/jcorwin.filler: 10
+players/lcharvol.filler: 11
+players/mwunsch.filler: 12
+
+Step is 0.35

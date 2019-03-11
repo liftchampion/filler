@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 12:40:43 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/05 12:40:43 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/10 05:24:28 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 using namespace std;
 
-#define MATCHES_COUNT 3
+#define MATCHES_COUNT 2
 
 int n_matches;
 
-vector<string> opponents = {"mwunsch", "jcorwin"};
+vector<string> opponents = {"mwunsch", "jcorwin", "carli", "lcharvol", "bmiklaz"};
 //vector<string> opponents = {"superjeannot", "carli", "mwunsch", "hcao", "grati", "jcorwin"};
 //vector<string> opponents = {"carli"};
 
@@ -133,7 +133,7 @@ void ft_build_warrior(const vector<double>& coefficients)
 
 	system("rm -f objs/koeffs.o");
 	system("gcc -Ofast -c srcs/koeffs.c -o objs/koeffs.o");
-	system("gcc -Ofast -I libft/includes objs/*.o libft/libft.a -o ggerardy.filler");
+	system("gcc -Ofast -lpthread -I libft/includes objs/*.o libft/libft.a -o ggerardy.filler");
 	system("mv ggerardy.filler ./bg/ggerardy.filler");
 }
 
@@ -217,27 +217,24 @@ t_player_data ft_check_warrior(const vector<double>& coefficients)
 }
 
 
-
 void ft_gradient_decrease()
 {
-	vector<double> coefficients(9);
-	coefficients = {1, 2.5, 0, 1, 1, 1, 0.5, 0, 0};
+	vector<double> coefficients(10);
+	coefficients = {0, 2, 3, 1, 0, 1, 1, 0, -1, 0};
 
 	fstream fs;
 	fs.open("ML_LOG", fstream::out);
 
 	double step = 0.5;
-	int i = 2;
+	int i = 0;
 	while (i < 10)
 	{
-		if (i == 5)
-		{
-			step /= 2;
-		}
+		cout << "Step is " << step << endl;
+		fs << "Step is " << step << endl;
 		t_player_data init = ft_check_warrior(coefficients);
-		vector<t_player_data> ws(9);
+		vector<t_player_data> ws(10);
 		int j = 0;
-		while (j < 9)
+		while (j < 10)
 		{
 			coefficients[j] += step * (1 - 2 * (j == 8));
 			ws[j] = ft_check_warrior(coefficients);
@@ -252,6 +249,8 @@ void ft_gradient_decrease()
 			cout << "               !INIT IS BETTER!               " << endl;
 			fs   << "               !INIT IS BETTER!               " << endl;
 			cout << "**********************************************" << endl;
+			step *= 0.7;
+			ws[0] = init;
 		}
 		cout << "######################## BEST ####################" << endl;
 		cout << ws[0];

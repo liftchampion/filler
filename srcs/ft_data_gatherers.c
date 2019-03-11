@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 07:03:49 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/08 14:54:41 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/09 17:10:45 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include <pthread.h>
 
-
+#define PL fl->points[pl]
 
 #define CHECK_FIRST(v) (CRD(v) != p1.v)
 
@@ -103,35 +103,6 @@ double			ft_get_distance_to_opp(t_filler *fl, t_point pos)
 	return (res);
 }
 
-int				ft_need_to_close_door(t_filler *fl, t_point pos)
-{
-	int i;
-	int j;
-	t_point p;
-	int min_dist;
-
-	i = -1;
-	min_dist = 2000000000;
-	while (++i < (int)fl->curr_fig->points->len)
-	{
-		p = ft_sum_points(pos, POINT(fl->curr_fig->points, i));
-		if ((!p.x || p.x == fl->w - 1 || !p.y || p.y == fl->h - 1) &&
-			(j = (!p.x || p.x == fl->w - 1) ? fl->h : fl->w))
-			while (--j <= 0)
-			{
-				if (fl->map[(!p.x || p.x == fl->w - 1) ? j : p.y]
-			[(!p.y || p.y == fl->h - 1) ? j : p.x] - 32 == PLAYERS[fl->player]
-			&& FT_ABS(j - ((!p.x || p.x == fl->w - 1) ? p.y : p.x)) < min_dist)
-					min_dist =
-						FT_ABS(j - ((!p.x || p.x == fl->w - 1) ? p.y : p.x));
-
-			}
-	}
-	if (min_dist < (((!p.x || p.x == fl->w - 1) ? fl->h : fl->w)) / 5.)
-		return (1);
-	return (0);
-}
-
 int			ft_is_inner_figure(t_filler *fl, t_point pos)
 {
 	int i;
@@ -157,6 +128,21 @@ int			ft_is_inner_figure(t_filler *fl, t_point pos)
 				(t_point){i, fl->h}, 1);
 		}
 	return (fl->ray_to_opp == 0);
+}
+
+int 			ft_need_close_door(t_filler *fl, t_point pos)
+{
+	size_t i;
+	t_point p;
+
+	i = (size_t)-1;
+	while (++i < fl->curr_fig->points->len)
+	{
+		p = ft_sum_points(POINT(fl->curr_fig->points, i), pos);
+		if (!p.x || !p.y || p.x == fl->w - 1 || p.y == fl->h - 1)
+			return (1);
+	}
+	return (0);
 }
 
 void			ft_get_surround_factor(t_filler *fl, int *me, int *opp)
@@ -196,24 +182,24 @@ void 		ft_get_perimeter(t_filler *fl, int pl, int *prim, int *sec)
 	i = -1;
 	*prim = 0;
 	*sec = 0;
-	while (++i < (int)fl->points[pl]->len)
+	while (++i < (int)PL->len)
 	{
-		if (POINT(fl->points[pl], i).x > 0)
-			*prim += fl->map[POINT(fl->points[pl], i).y][POINT(fl->points[pl], i).x - 1] == '.';
-		if (POINT(fl->points[pl], i).x > 0 && POINT(fl->points[pl], i).y > 0)
-			*sec += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x - 1] == '.';
-		if (POINT(fl->points[pl], i).x < fl->w - 1)
-			*prim += fl->map[POINT(fl->points[pl], i).y][POINT(fl->points[pl], i).x + 1] == '.';
-		if (POINT(fl->points[pl], i).x < fl->w - 1 && POINT(fl->points[pl], i).y > 0)
-			*sec += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x + 1] == '.';
-		if (POINT(fl->points[pl], i).y > 0)
-			*prim += fl->map[POINT(fl->points[pl], i).y - 1][POINT(fl->points[pl], i).x] == '.';
-		if (POINT(fl->points[pl], i).y < fl->h - 1 && POINT(fl->points[pl], i).x < fl->w - 1)
-			*sec += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x + 1] == '.';
-		if (POINT(fl->points[pl], i).y < fl->h - 1)
-			*prim += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x] == '.';
-		if (POINT(fl->points[pl], i).y < fl->h - 1 && POINT(fl->points[pl], i).x > 0)
-			*sec += fl->map[POINT(fl->points[pl], i).y + 1][POINT(fl->points[pl], i).x - 1] == '.';
+		if (POINT(PL, i).x > 0)
+			*prim += fl->map[POINT(PL, i).y][POINT(PL, i).x - 1] == '.';
+		if (POINT(PL, i).x > 0 && POINT(PL, i).y > 0)
+			*sec += fl->map[POINT(PL, i).y - 1][POINT(PL, i).x - 1] == '.';
+		if (POINT(PL, i).x < fl->w - 1)
+			*prim += fl->map[POINT(PL, i).y][POINT(PL, i).x + 1] == '.';
+		if (POINT(PL, i).x < fl->w - 1 && POINT(PL, i).y > 0)
+			*sec += fl->map[POINT(PL, i).y - 1][POINT(PL, i).x + 1] == '.';
+		if (POINT(PL, i).y > 0)
+			*prim += fl->map[POINT(PL, i).y - 1][POINT(PL, i).x] == '.';
+		if (POINT(PL, i).y < fl->h - 1 && POINT(PL, i).x < fl->w - 1)
+			*sec += fl->map[POINT(PL, i).y + 1][POINT(PL, i).x + 1] == '.';
+		if (POINT(PL, i).y < fl->h - 1)
+			*prim += fl->map[POINT(PL, i).y + 1][POINT(PL, i).x] == '.';
+		if (POINT(PL, i).y < fl->h - 1 && POINT(PL, i).x > 0)
+			*sec += fl->map[POINT(PL, i).y + 1][POINT(PL, i).x - 1] == '.';
 	}
 }
 
