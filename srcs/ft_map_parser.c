@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 13:28:21 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/11 15:23:24 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ void	ft_print_heat_map(t_filler *fl, int pl)
 				ft_fdprintf(2, "{\\202}  %2d{eof}", fl->heat_map[pl][i][j]);
 			else if (fl->heat_map[pl][i][j] == -2)
 				ft_fdprintf(2, "{\\200}  %2d{eof}", fl->heat_map[pl][i][j]);
+			else if (fl->heat_map[pl][i][j] < -10)
+				ft_fdprintf(2, "{Red}  %2d{eof}", -1 * fl->heat_map[pl][i][j] - 10);
 			else
 				ft_fdprintf(2, "{Magenta}  %2d{eof}", fl->heat_map[pl][i][j]);
 		}
@@ -251,6 +253,71 @@ int 	ft_count_enemy_unr(register t_filler *fl)
 	return (1);
 }
 
+void 	ft_fill_nhbs(t_filler *fl, t_point pt, int nhbs[8])
+{
+	nhbs[0] = (pt.x > 0) ?
+			fl->heat_map[1][pt.y][pt.x - 1] : -1;
+	nhbs[1] = (pt.x > 0 && pt.y > 0) ?
+			fl->heat_map[1][pt.y - 1][pt.x - 1] : -1;
+	nhbs[2] = (pt.y > 0) ?
+			fl->heat_map[1][pt.y - 1][pt.x] : -1;
+	nhbs[3] = (pt.y > 0 && pt.x < fl->w - 1) ?
+			fl->heat_map[1][pt.y - 1][pt.x + 1] : -1;
+	nhbs[4] = (pt.x < fl->w - 1) ?
+			fl->heat_map[1][pt.y][pt.x + 1] : -1;
+	nhbs[5] = (pt.x < fl->w - 1 && pt.y < fl->h - 1) ?
+			fl->heat_map[1][pt.y + 1][pt.x + 1] : -1;
+	nhbs[6] = (pt.y < fl->h - 1) ?
+			fl->heat_map[1][pt.y + 1][pt.x] : -1;
+	nhbs[7] = (pt.x > 0 && pt.y < fl->h - 1) ?
+			fl->heat_map[1][pt.y + 1][pt.x - 1] : -1;
+}
+
+int 	ft_is_gate_pt(register t_filler *fl, t_point pt)
+{
+	const int val = fl->heat_map[1][pt.y][pt.x];
+	int nhbs[8];
+	int i;
+	int res;
+
+	ft_fill_nhbs(fl, pt, nhbs);
+	i = -1;
+	res = 0;
+	while (++i < 8)
+	{
+		if (nhbs[i] == -2)
+			return (0);
+		if ((nhbs[i] == nhbs[(i + 3) % 8] ||
+			nhbs[i] == nhbs[(i + 4) % 8] ||
+			nhbs[i] == nhbs[(i + 5) % 8]) && nhbs[i] < val)
+		{
+			ft_fdprintf(2, "{Red}%d %d{eof}\n", pt.x, pt.y);
+			res = (res == -1) ? -1 : 1;
+			if (res == 1)
+				fl->heat_map[0][pt.y][pt.x] = -10 - fl->heat_map[1][pt.y][pt.x];
+		}
+		if (nhbs[i] > val)
+			res = -1;
+	}
+	return (res == 1);
+}
+
+void 	ft_parse_gates(register t_filler *fl)
+{
+	register int i;
+	register int j;
+
+	i = -1;
+	while (++i < fl->h)
+	{
+		j = -1;
+		while (++j < fl->w)
+		{
+			ft_is_gate_pt(fl, (t_point){j, i});
+		}
+	}
+}
+
 int 	ft_update_heat_map(register t_filler *fl)
 {
 	register size_t i;
@@ -273,8 +340,18 @@ int 	ft_update_heat_map(register t_filler *fl)
 		if (!ft_fill_heat_map(fl, pl))
 			return (0);
 	}
+	ft_parse_gates(fl);
 	ft_print_heat_map(fl, 0);
 	ft_print_heat_map(fl, 1);
+	ft_fdprintf(2, "{Black}T{eof}\n");
+	ft_fdprintf(2, "{Red}T{eof}\n");
+	ft_fdprintf(2, "{Green}T{eof}\n");
+	ft_fdprintf(2, "{Yellow}T{eof}\n");
+	ft_fdprintf(2, "{Blue}T{eof}\n");
+	ft_fdprintf(2, "{Magenta}T{eof}\n");
+	ft_fdprintf(2, "{Cyan}T{eof}\n");
+	ft_fdprintf(2, "{White}T{eof}\n");
+
 	exit(42);
 	return (ft_count_enemy_unr(fl));
 }
