@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 08:42:43 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 09:36:48 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # define PTR (void*)(size_t)
+
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 extern int		g_colors[];
 
@@ -63,27 +65,30 @@ typedef struct	s_point
 
 typedef struct	s_filler
 {
-	t_mtx 		wait;
-	char		*p1;
-	char		*p2;
-	char 		**map;
-	char 		**fig;
-	int 		turn;
-	int			w;
-	int			h;
-	int			f_h;
-	int 		f_w;
-	int 		pos_y;
-	int 		pos_x;
-	t_status	st[2];
-	void		*mlx_ptr;
-	void		*win_ptr;
-	int 		sq_size;
+	t_mtx 			wait;
+	char			*p1;
+	char			*p2;
+	char 			**map;
+	char 			**fig;
+	int 			turn;
+	int				w;
+	int				h;
+	int				f_h;
+	int 			f_w;
+	int 			pos_y;
+	int 			pos_x;
+	t_status		st[2];
+	void			*mlx_ptr;
+	void			*win_ptr;
+	int 			sq_size;
+	void			*img;
+	char			*img_data;
 }				t_filler;
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color);
 void	ft_draw_map(t_filler *fl);
 void	ft_draw_base(t_filler *fl);
+void			ft_pix_put_img(t_filler *fl, int x, int y, int color);
 
 void*			ft_main_read_loop(void* dt);
 

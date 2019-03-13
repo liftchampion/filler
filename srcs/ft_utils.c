@@ -6,13 +6,24 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:31:10 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 03:55:30 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 09:58:16 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler_vis.h"
 #include <stdlib.h>
+
+void			ft_pix_put_img(t_filler *fl, int x, int y, int color)
+{
+	int *img;
+
+	if (x >= 0 && x < 1600 && y >= 0 && y < 1000)
+	{
+		img = (int*)fl->img_data;
+		img[y * 1600 + x] = color;
+	}
+}
 
 void			ft_print_filler(t_filler *fl)
 {
