@@ -57,7 +57,7 @@ WAS_PRINTED_CMP := 0
 all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 
 test: all
-	cd test; ./filler_vm -f maps/map00 -p1 players/carli.filler -p2 players/invalid3.filler | head -n 100 | ../filler_visualizer ; cd ..
+	cd test; ./filler_vm -f maps/map00 -p1 players/carli.filler -p2 players/invalid3.filler  | ../filler_visualizer ; cd ..
 
 ################################--LINKING--#####################################
 
@@ -71,7 +71,7 @@ ifeq ($(IS_LIB),a)
 		@ar rcs $(NAME) $(OBJS) $(LIBFT)/libft.a;
 		@ranlib $(NAME);
 else
-		@$(CC) $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
+		@$(CC) -lpthread $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
 endif
 	@echo "\x1B[38;5;29mDone      $(NAME)!\x1B[0m"
 

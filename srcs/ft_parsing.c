@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/10 00:05:06 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 10:53:47 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 04:11:29 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_filler		*ft_parse_begin(void)
 
 	if (!(fl = (t_filler*)ft_memalloc(sizeof(t_filler))))
 		return (0);
+	fl->wait = READ;
 	while (!fl->p2 && (line = (char*)1lu) && ft_get_next_line(0, &line, 1))
 	{
 		if (!line)

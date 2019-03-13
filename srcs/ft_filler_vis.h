@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 03:59:00 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 04:25:44 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,24 @@ typedef enum	e_status
 	OUT = 5,
 }				t_status;
 
+typedef enum 	e_mtx
+{
+	DRAW = 0,
+	READ = 1,
+}				t_mtx;
+
+typedef enum	e_keys
+{
+	ESC = 53,
+	LEFT = 123,
+	UP = 126,
+	RIGHT = 124,
+	DOWN = 125
+}				t_keys;
+
 typedef struct	s_filler
 {
+	t_mtx 		wait;
 	char		*p1;
 	char		*p2;
 	char 		**map;
@@ -40,9 +56,15 @@ typedef struct	s_filler
 	int 		pos_y;
 	int 		pos_x;
 	t_status	st[2];
+	void		*mlx_ptr;
+	void		*win_ptr;
 }				t_filler;
 
-int				ft_main_loop(void);
+void*			ft_main_read_loop(void* dt);
+
+int 			ft_parse_cycle(t_filler *fl);
+
+int				ft_wait(t_filler *fl, t_mtx mtx);
 
 void			ft_print_filler(t_filler *fl);
 int				ft_free_filler(t_filler *fl, int ret);

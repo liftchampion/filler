@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:31:10 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 10:29:26 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 03:55:30 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ int 	ft_free_ret(void *ptr, int ret)
 {
 	free(ptr);
 	return (ret);
+}
+
+int		ft_wait(t_filler *fl, t_mtx mtx)
+{
+	while (fl->wait == mtx)
+	{
+		;
+	}
+	fl->wait = !mtx;
+	return (1);
 }
