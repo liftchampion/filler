@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 19:46:50 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 07:01:57 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 08:04:11 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ int 		ft_expose(void *dt)
 	char *s;
 
 	fl = (t_filler*)dt;
-	ft_draw_rect(fl, (t_point){600, 1000}, (t_point){1000, 0}, 0x00ffffff);
+	ft_draw_rect(fl, (t_point){1000, 1000}, (t_point){0, 0}, 0x002e2e2e);
+	ft_draw_rect(fl, (t_point){600, 1000}, (t_point){1000, 0}, 0x00272727);
+	ft_draw_base(fl);
 	while (ft_parse_cycle(fl))
 	{
 		ft_sprintf(&s, "%d %d", fl->pos_x, fl->pos_y);
