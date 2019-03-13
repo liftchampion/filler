@@ -6,14 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 11:00:05 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 11:09:26 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "ft_filler_vis.h"
 
-int		g_colors[] = {0x00be3f43, 0x00be3f43, 0x0000b289, 0x0000b289, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
+int		g_colors[] = {0x00be3f43, 0x00FF5157, 0x0000b289, 0x0000EFB7, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color)
 {
