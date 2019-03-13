@@ -466,18 +466,6 @@ int 	ft_parse_gates(register t_filler *fl)
 		}
 	}
 	ft_restore_map(fl);
-	//ft_draw_circle(fl, 9, 0, (t_point){3, 8});
-	//ft_draw_circle(fl, 7, 1, (t_point){3, 8});
-	//ft_draw_circle(fl, 6, 2, (t_point){3, 8});
-	//ft_draw_circle(fl, 5, 3, (t_point){3, 8});
-	//
-	//
-	/*size_t e = (size_t)-1;
-	while (++e < fl->gates->len)
-	{
-		t_point pt = POINT(fl->gates, e);
-		fl->heat_map[0][pt.y][pt.x] = -1000 - (int)fl->gt_vals->data[e];
-	}*/
 
 	return (1);
 }

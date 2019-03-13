@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 02:42:51 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 07:38:30 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ double 		ft_map_sum(register t_filler *fl, register int pl)
 	return (res);
 }
 
-int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos)
+int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
 {
 	size_t i;
 	t_point pt;
@@ -175,10 +175,10 @@ int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos)
 	while (++i < fg->points->len)
 	{
 		pt = ft_sum_points(POINT(fg->points, i), pos);
-		if (fl->heat_map[1][pt.y][pt.x] == 0)
-			res += (fl->h + fl->w) * 2;
-		else if (fl->heat_map[1][pt.y][pt.x] > 0)
-			res += fl->heat_map[1][pt.y][pt.x];
+		if (fl->heat_map[pl][pt.y][pt.x] == 0)
+			res += (fl->h + fl->w) * 0.1;
+		else if (fl->heat_map[pl][pt.y][pt.x] > 0)
+			res += fl->heat_map[pl][pt.y][pt.x];
 	}
 	return (res);
 }
@@ -230,22 +230,24 @@ int 		ft_set_fig(register t_filler *fl)
 					return (0);
 				if ((double)fl->unrch_opp / (fl->h * fl->w) > 0.7 && end_game != 2)
 					end_game = 1;
-				double fig_opp_sum = ft_sum_opp_points(fl, fl->curr_fig, (t_point){j, i});
+				double fig_opp_sum = ft_sum_opp_points(fl, fl->curr_fig, (t_point){j, i}, 1);
+				double fig_my_sum = ft_sum_opp_points(fl, fl->curr_fig, (t_point){j, i}, 0);
 				double opp_sum = ft_map_sum(fl, 1);
-				double my_sum = (opp_sum == opp_sum_p) ? 1000000000 : ft_map_sum(fl, 0);
+				double my_sum = (opp_sum == opp_sum_p) ? SQ(1000000000) : ft_map_sum(fl, 0);
 				double gate_sum = (opp_sum == opp_sum_p) ? 0 : ft_sum_gate_points(fl, fl->curr_fig, (t_point){j, i});
 
 				//k1 = SQ(k1);
 				//k2 = SQ(k2);
 
-				opp_sum = 5 * SQ(opp_sum);
+				opp_sum = 8 * SQ(opp_sum);
 				my_sum = 1 * SQ(my_sum);
 				gate_sum = 3 * SQ(gate_sum) * gate_sum;
-				fig_opp_sum = fl->w * fl->h * SQ(fig_opp_sum);
+				fig_opp_sum = 5 * fl->w * fl->h * SQ(fig_opp_sum);
+				fig_my_sum = 5 * fl->w * fl->h * SQ(fig_my_sum);
 
 				//score = k1 + k1;
 
-				score = (end_game == 1) * BIG + opp_sum - my_sum + gate_sum - fig_opp_sum;
+				score = (end_game == 1) * BIG + opp_sum - my_sum + gate_sum - fig_opp_sum + fig_my_sum;
 				ft_unput_fig_tmp(fl);
 				if (score > best_score)
 				{
