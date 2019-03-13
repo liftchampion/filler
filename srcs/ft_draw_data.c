@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 12:11:16 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:44:48 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,37 @@ void	ft_draw_status(t_filler *fl)
 	ft_gather_data(fl);
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 130, g_colors[TEXT], "Score:");
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 - 30 - ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[0]) * 10,
+			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[0]) * 10,
 			130, g_colors[RED], ft_itoa_buf(fl->score[0], buf));
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 + 30 + ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[1]) * 10,
+			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 - ft_intlen(fl->score[1]) * 10,
 			130, g_colors[GREEN], ft_itoa_buf(fl->score[1], buf));
+
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 160, g_colors[TEXT], "Available area:");
+	/*mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 15 + ((int)ft_strlen(fl->p1) * 10) / 2 -
+					ft_intlen((100 * (fl->w * fl->h - fl->unrch[1])) / fl->w * fl->h) * 10,
+			160, g_colors[RED],
+			ft_itoa_buf((100 * (fl->w * fl->h - fl->unrch[1])) / fl->w * fl->h, buf));
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 -
+			ft_intlen((100 * (fl->w * fl->h - fl->unrch[0])) / fl->w * fl->h) * 10,
+			160, g_colors[GREEN],
+			ft_itoa_buf((100 * (fl->w * fl->h - fl->unrch[0])) / fl->w * fl->h, buf));*/
+
+
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 15 + ((int)ft_strlen(fl->p1) * 10) / 2 -
+					ft_intlen((fl->unrch[0])) * 10,
+			160, g_colors[RED],
+			ft_itoa_buf(fl->unrch[0], buf));
+
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 -
+					ft_intlen((fl->unrch[1])) * 10,
+			160, g_colors[GREEN],
+			ft_itoa_buf(fl->unrch[1], buf));
+
 }
 
 void	ft_draw_base(t_filler *fl)

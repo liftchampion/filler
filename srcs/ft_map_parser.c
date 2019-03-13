@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 23:46:42 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/10 10:36:16 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 11:57:12 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ int			ft_figure_parser(t_filler *fl)
 				fl->fig[i][j] = l[j];
 		free(l);
 	}
-	ft_printf("{\\200}FP{eof}\n");
 	///ft_print_filler(fl);
 	return (i == fl->f_h);
 }

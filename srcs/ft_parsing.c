@@ -91,14 +91,11 @@ int				ft_result_parser(t_filler *fl)
 		fl->turn = (line[6] == 'X');
 		if (!read(0, b, 2) || !b[1])
 			return (ft_free_ret(line, 0));
-		ft_printf("{\\202}%c%c{eof}\n", b[0], b[1]);
 		if (b[1] == 'i' && (fl->st[fl->turn] = WRG) &&
 				(!ft_figure_parser(fl) || !ft_result_parser(fl)))
 			return (ft_free_ret(line, 0));
-		ft_printf("{\\200}RP_V{eof}\n");
 		return (ft_free_ret(line, 1));
 	}
-	ft_printf("{\\200}RP_I{eof}\n");
 	return (ft_invalid_res(fl, line));
 }
 

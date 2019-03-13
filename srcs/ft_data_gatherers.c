@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 11:40:56 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 12:18:04 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:53:10 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,52 @@ void 	ft_count_unrch(register t_filler *fl)
 		j = -1;
 		while (++j < fl->w)
 		{
-			fl->unrch[1] += !fl->heat_map[1][i][j] || fl->heat_map[1][i][j] == -2;
-			fl->unrch[0] += !fl->heat_map[1][i][j] || fl->heat_map[1][i][j] == -2;
+			fl->unrch[1] += !fl->heat_map[1][i][j] /*|| fl->heat_map[1][i][j] == -2*/;
+			fl->unrch[0] += !fl->heat_map[0][i][j] /*|| fl->heat_map[0][i][j] == -2*/;
 		}
 	}
 }
+
+
+void	ft_print_heat_map(t_filler *fl, int pl)
+{
+	int i;
+	int j;
+	static int count = 0;
+
+	j = -1;
+	/*for (int e = 0; e < fl->h + 2; ++e)
+	{
+		ft_fdprintf(2, "\033[A\033[K");
+	}*/
+	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d pl = %d num = %d{eof}\n   ",
+			fl->w, fl->h, pl, ++count);
+	while (++j < fl->w)
+	{
+		ft_fdprintf(2, "{Green} %3d{eof}", j);
+	}
+	i = -1;
+	ft_fdprintf(2, "\n");
+	while (++i < fl->h)
+	{
+		j = -1;
+		ft_fdprintf(2, "{Green}%3d{eof}", i);
+		while (++j < fl->w)
+		{
+			if (fl->heat_map[pl][i][j] == -1)
+				ft_fdprintf(2, "{\\202}  %2d{eof}", fl->heat_map[pl][i][j]);
+			else if (fl->heat_map[pl][i][j] == -2)
+				ft_fdprintf(2, "{\\200}  %2d{eof}", fl->heat_map[pl][i][j]);
+			else if (fl->heat_map[pl][i][j] <= -1000)
+				ft_fdprintf(2, "{Red}  %2d{eof}", -1 * fl->heat_map[pl][i][j] - 1000);
+			else
+				ft_fdprintf(2, "{Magenta}  %2d{eof}", fl->heat_map[pl][i][j]);
+		}
+		ft_fdprintf(2, "\n");
+	}
+	ft_fdprintf(2, "{Magenta}Unreachable for me %d{eof}\n", fl->unrch[pl]);
+}
+
 
 void		ft_gather_data(t_filler *fl)
 {
@@ -180,8 +221,9 @@ void		ft_gather_data(t_filler *fl)
 	if ((!fl->pts[0] && !(fl->pts[0] = ft_make_vector(64))) ||
 		(!fl->pts[1] && !(fl->pts[1] = ft_make_vector(64))))
 		exit(666);
-	ft_zero_heat_map(fl);
 	ft_preprocess_data(fl);
 	ft_update_heat_map(fl);
 	ft_count_unrch(fl);
+	ft_print_heat_map(fl, 0);
+	ft_print_heat_map(fl, 1);
 }

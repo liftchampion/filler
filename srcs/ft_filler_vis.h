@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 11:57:12 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 11:59:35 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct	s_filler
 	int 			score[2];
 	int 			unrch[2];
 }				t_filler;
+
+void 	ft_kill_players(t_filler *fl);
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color);
 void	ft_draw_map(t_filler *fl);

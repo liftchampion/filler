@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 19:46:50 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 11:34:01 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:34:36 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,35 @@ int 		ft_expose(void *dt);
 
 int ft_key_event_proceeder(int key, void *param)
 {
-	(void)param;
+	t_filler *fl;
+
+	fl = (t_filler*)param;
 	if (key == ESC)
+	{
+		ft_kill_players(fl);
 		exit(0);
+	}
 	return (0);
 }
 
 int			ft_mlx_close(void *p)
 {
-	(void)p;
+	t_filler *fl;
+
+	fl = (t_filler*)p;
+	ft_kill_players(fl);
 	exit(0);
 }
 
 
 int 		ft_parse_cycle(t_filler *fl)
 {
-	ft_printf("{\\202}Parsing{eof}\n");
 	if (!ft_map_parser(fl))
 		return (0);
 	if (!ft_figure_parser(fl))
 		return (0);
 	if (!ft_result_parser(fl))
 		return (0);
-	ft_printf("{\\202}End of Parsing{eof}\n");
 	return (1);
 }
 
@@ -63,6 +69,7 @@ int 		ft_expose(void *dt)
 	if (!ft_parse_cycle(fl))
 	{
 		stop = 1;
+		///ft_kill_players(fl);
 		return (0);
 	}
 	//ft_printf("{\\202}Total{eof}\n");
