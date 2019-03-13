@@ -6,12 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 12:44:48 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 13:20:06 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "ft_filler_vis.h"
+
+#define AVL(n) ((double)(fl->h * fl->w - fl->unrch[(n)]) / (fl->h * fl->w) * 100)
 
 int		g_colors[] = {0x00be3f43, 0x00FF6666, 0x0000b289, 0x0000EFB7, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
 
@@ -106,20 +108,32 @@ void	ft_draw_status(t_filler *fl)
 			130, g_colors[GREEN], ft_itoa_buf(fl->score[1], buf));
 
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 160, g_colors[TEXT], "Available area:");
-	/*mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 - 15 + ((int)ft_strlen(fl->p1) * 10) / 2 -
-					ft_intlen((100 * (fl->w * fl->h - fl->unrch[1])) / fl->w * fl->h) * 10,
+
+
+
+
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 -
+					ft_intlen((int)AVL(0)) * 10 - 10,
 			160, g_colors[RED],
-			ft_itoa_buf((100 * (fl->w * fl->h - fl->unrch[1])) / fl->w * fl->h, buf));
+			ft_strcat(ft_itoa_buf((int)AVL(0), buf), "%"));
+
+
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
 			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 -
-			ft_intlen((100 * (fl->w * fl->h - fl->unrch[0])) / fl->w * fl->h) * 10,
+			ft_intlen((int)AVL(1)) * 10 - 10,
 			160, g_colors[GREEN],
-			ft_itoa_buf((100 * (fl->w * fl->h - fl->unrch[0])) / fl->w * fl->h, buf));*/
+			ft_strcat(ft_itoa_buf((int)AVL(1), buf), "%"));
+
+
+	/*char buf2[30];
+	ft_bzero(buf2, 30);
+
+	double k = ((double)(fl->h * fl->w - fl->unrch[0]) / (fl->h * fl->w) * 10);
 
 
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 - 15 + ((int)ft_strlen(fl->p1) * 10) / 2 -
+			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 -
 					ft_intlen((fl->unrch[0])) * 10,
 			160, g_colors[RED],
 			ft_itoa_buf(fl->unrch[0], buf));
@@ -128,7 +142,7 @@ void	ft_draw_status(t_filler *fl)
 			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 -
 					ft_intlen((fl->unrch[1])) * 10,
 			160, g_colors[GREEN],
-			ft_itoa_buf(fl->unrch[1], buf));
+			ft_itoa_buf(fl->unrch[1], buf));*/
 
 }
 

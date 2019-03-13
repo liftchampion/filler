@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 11:40:56 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 12:53:10 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 13:08:02 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	ft_fill_heat_map(register t_filler *fl, register int pl)
 	return (1);
 }
 
+void	ft_print_heat_map(t_filler *fl, int pl);
+
 void 	ft_update_heat_map(register t_filler *fl)
 {
 	register size_t i;
@@ -122,9 +124,9 @@ void 	ft_update_heat_map(register t_filler *fl)
 			fl->heat_map[pl][POINT(fl->pts[pl], i).y][POINT(fl->pts[pl], i).x] = -1;
 			fl->heat_map[!pl][POINT(fl->pts[pl], i).y][POINT(fl->pts[pl], i).x] = -2;
 		}
-		if (!ft_fill_heat_map(fl, pl))
-			exit(666);
 	}
+	if (!ft_fill_heat_map(fl, 0) || !ft_fill_heat_map(fl, 1))
+		exit(666);
 }
 
 void		ft_preprocess_data(register t_filler *fl)
@@ -167,8 +169,8 @@ void 	ft_count_unrch(register t_filler *fl)
 		j = -1;
 		while (++j < fl->w)
 		{
-			fl->unrch[1] += !fl->heat_map[1][i][j] /*|| fl->heat_map[1][i][j] == -2*/;
-			fl->unrch[0] += !fl->heat_map[0][i][j] /*|| fl->heat_map[0][i][j] == -2*/;
+			fl->unrch[1] += !fl->heat_map[1][i][j] || fl->heat_map[1][i][j] == -2;
+			fl->unrch[0] += !fl->heat_map[0][i][j] || fl->heat_map[0][i][j] == -2;
 		}
 	}
 }
@@ -224,6 +226,6 @@ void		ft_gather_data(t_filler *fl)
 	ft_preprocess_data(fl);
 	ft_update_heat_map(fl);
 	ft_count_unrch(fl);
-	ft_print_heat_map(fl, 0);
-	ft_print_heat_map(fl, 1);
+	//ft_print_heat_map(fl, 0);
+	//ft_print_heat_map(fl, 1);
 }

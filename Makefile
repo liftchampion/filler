@@ -57,7 +57,7 @@ WAS_PRINTED_CMP := 0
 all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 
 test: all
-	cd test; ./filler_vm -f maps/map00 -p1 players/mwunsch.filler -p2 players/jcorwin.filler  | ../filler_visualizer ; cd ..
+	cd test; ./filler_vm -f maps/map02 -p1 players/mwunsch.filler -p2 players/jcorwin.filler  | ../filler_visualizer ; cd ..
 
 ################################--LINKING--#####################################
 

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:31:10 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 12:36:31 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:59:03 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ void 	ft_kill_players(t_filler *fl)
 	char buf[100];
 
 	ft_bzero(buf, 100);
-	ft_strlcpy(buf, "kill $(pgrep ", 100);
+	ft_strlcpy(buf, "kill -KILL $(pgrep ", 100);
 	ft_strlcat(buf, ft_tolower_str(fl->p1), 100);
-	ft_strlcat(buf, ".filler) > /dev/null", 100);
+	ft_strlcat(buf, ".filler) 2> /dev/null", 100);
 	system(buf);
 	ft_bzero(buf, 100);
-	ft_strlcpy(buf, "kill $(pgrep ", 100);
+	ft_strlcpy(buf, "kill -KILL $(pgrep ", 100);
 	ft_strlcat(buf, ft_tolower_str(fl->p2), 100);
-	ft_strlcat(buf, ".filler) > /dev/null", 100);
+	ft_strlcat(buf, ".filler) 2> /dev/null", 100);
 	system(buf);
-	system("kill $(pgrep ruby) > /dev/null");
+	system("kill -KILL $(pgrep ruby) 2> /dev/null");
 }
