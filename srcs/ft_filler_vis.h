@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 07:45:06 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 08:42:43 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@
 # include "libft.h"
 # define PTR (void*)(size_t)
 
+extern int		g_colors[];
+
 typedef enum	e_colors
 {
-	RED,
-	GREEN,
-	LIGHT_GRAY,
-	GRAY,
-	DARK_GRAY,
-	TEXT
+	RED = 0,
+	DARK_RED = 1,
+	GREEN = 2,
+	DARK_GREEN = 3,
+	LIGHT_GRAY = 4,
+	GRAY = 5,
+	DARK_GRAY = 6,
+	TEXT = 7
 }				t_colors;
 
 typedef enum	e_status
@@ -78,6 +82,7 @@ typedef struct	s_filler
 }				t_filler;
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color);
+void	ft_draw_map(t_filler *fl);
 void	ft_draw_base(t_filler *fl);
 
 void*			ft_main_read_loop(void* dt);

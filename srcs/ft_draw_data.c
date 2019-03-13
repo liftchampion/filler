@@ -6,12 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 08:02:56 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 08:53:20 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "ft_filler_vis.h"
+
+int		g_colors[] = {0x00be3f43, 0x00be3f43, 0x0000b289, 0x0000b289, 0x00606060, 0x002e2e2e, 0x00272727, 0x00909090};
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color)
 {
@@ -33,17 +35,42 @@ void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color)
 		if (line_count && !(line_count % 100))
 			mlx_do_sync(fl->mlx_ptr);
 	}
+	mlx_do_sync(fl->mlx_ptr);
 }
 
 void	ft_draw_sq(t_filler *fl, t_point pos, int pl)
 {
 	static int side = 0;
+	static int colors[] = {RED, DARK_RED, GREEN, DARK_GREEN, LIGHT_GRAY};
 	t_point ps;
+
 
 	side = (!side) ? (1000 - 6 - fl->w + 1) / fl->w : side;
 	ps.x = 3 + pos.x * (side + 1);
 	ps.y = 3 + pos.y * (side + 1);
-	ft_draw_rect(fl, (t_point){side, side}, (t_point){ps.x, ps.y}, )
+	ft_draw_rect(fl, (t_point){side, side}, (t_point){ps.x, ps.y}, colors[pl]);
+
+}
+
+void	ft_draw_map(t_filler *fl)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < fl->h)
+	{
+		j = -1;
+		while (++j < fl->w)
+		{
+			if (fl->map[i][j] == 'O' || fl->map[i][j] == 'o')
+				ft_draw_sq(fl, (t_point){j, i}, (fl->map[i][j] == 'o') + 0);
+			else if (fl->map[i][j] == 'X' || fl->map[i][j] == 'x')
+				ft_draw_sq(fl, (t_point){j, i}, (fl->map[i][j] == 'o') + 2);
+			else
+				ft_draw_sq(fl, (t_point){j, i}, 4);
+		}
+	}
 }
 
 void	ft_draw_base(t_filler *fl)
@@ -58,9 +85,9 @@ void	ft_draw_base(t_filler *fl)
 		mlx_pixel_put(fl->mlx_ptr, fl->win_ptr, 1300, i, 0x00ff00ff);
 		++i;
 	}
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 - 30 - (int)ft_strlen(fl->p1) * 10, 80, 0x0000b289, fl->p1);
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 - 30, 80, 0x00909090, "  VS  ");
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 + 30, 80, 0x00be3f43, fl->p2);
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 - 30 - (int)ft_strlen(fl->p1) * 10, 80, g_colors[RED], fl->p1);
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 - 30, 80, g_colors[TEXT], "  VS  ");
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 + 30, 80, g_colors[GREEN], fl->p2);
 
 }
 
