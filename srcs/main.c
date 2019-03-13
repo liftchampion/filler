@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 19:46:50 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 10:51:37 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 11:34:01 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int 		ft_expose(void *dt)
 	//ft_draw_rect(fl, (t_point){1000, 1000}, (t_point){0, 0}, g_colors[GRAY]);
 	//ft_draw_rect(fl, (t_point){600, 1000}, (t_point){1000, 0}, g_colors[DARK_GRAY]);
 	//mlx_string_put(fl->mlx_ptr, fl->win_ptr, pos, pos, 0x00ffffff, "HUI");
-	//nanosleep(&(struct timespec){0, 500000000}, 0);
+	//nanosleep(&(struct timespec){0, 10000000}, 0);
 	if (!ft_parse_cycle(fl))
 	{
 		stop = 1;
@@ -70,6 +70,7 @@ int 		ft_expose(void *dt)
 	//
 	ft_draw_map(fl);
 	ft_draw_base(fl);
+	ft_draw_status(fl);
 	//while (ft_parse_cycle(fl))
 	//{
 		//break ;

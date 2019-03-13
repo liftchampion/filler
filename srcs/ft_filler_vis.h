@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 09:36:48 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 11:57:12 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # define PTR (void*)(size_t)
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
+
+# define POINT(v, n) (*(t_point*)&((v)->data)[(n)])
+
+# define VPUSH(v, n) ft_vector_push_back(&(v), (n))
+# define HM flr->heat_map[pl]
 
 extern int		g_colors[];
 
@@ -83,12 +88,20 @@ typedef struct	s_filler
 	int 			sq_size;
 	void			*img;
 	char			*img_data;
+	int 			**heat_map[2];
+	t_vector		*pts[2];
+	int 			score[2];
+	int 			unrch[2];
 }				t_filler;
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color);
 void	ft_draw_map(t_filler *fl);
 void	ft_draw_base(t_filler *fl);
+void	ft_draw_status(t_filler *fl);
 void			ft_pix_put_img(t_filler *fl, int x, int y, int color);
+
+void		ft_gather_data(t_filler *fl);
+int			ft_make_heat_map(t_filler *fl);
 
 void*			ft_main_read_loop(void* dt);
 

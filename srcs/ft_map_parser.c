@@ -93,8 +93,6 @@ int			ft_map_parser(t_filler *fl)
 	char 	*b;
 	int 	was_begin;
 
-	ft_printf("{Red}MP{eof}\n");
-
 	if (!(l = (char*)1lu) || !ft_get_next_line(0, &l, 1) || !l ||
 		!(b = ft_strstr(l, "ateau ")) ||
 		!(fl->h = ft_atoi(b + 6))
@@ -113,8 +111,6 @@ int			ft_map_parser(t_filler *fl)
 				fl->map[i][j - 4] = l[j];
 		free(l);
 	}
-	ft_printf("{\\200}MP{eof}\n");
-	///ft_print_filler(fl);
 	return (i == fl->h);
 }
 

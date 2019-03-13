@@ -6,14 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 11:09:26 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:11:16 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "ft_filler_vis.h"
 
-int		g_colors[] = {0x00be3f43, 0x00FF5157, 0x0000b289, 0x0000EFB7, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
+int		g_colors[] = {0x00be3f43, 0x00FF6666, 0x0000b289, 0x0000EFB7, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color)
 {
@@ -80,6 +80,32 @@ void	ft_draw_map(t_filler *fl)
 	//mlx_do_sync(fl->mlx_ptr);
 }
 
+void	ft_draw_line(t_filler *fl, t_point pos, int len, int color)
+{
+	int i;
+
+	i = pos.x;
+	while (i <= pos.x + len)
+	{
+		mlx_pixel_put(fl->mlx_ptr, fl->win_ptr, i, pos.y, color);
+		mlx_pixel_put(fl->mlx_ptr, fl->win_ptr, i, pos.y + 1, color);
+		++i;
+	}
+}
+
+void	ft_draw_status(t_filler *fl)
+{
+	char buf[20];
+	ft_gather_data(fl);
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 130, g_colors[TEXT], "Score:");
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 30 - ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[0]) * 10,
+			130, g_colors[RED], ft_itoa_buf(fl->score[0], buf));
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 + 30 + ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[1]) * 10,
+			130, g_colors[GREEN], ft_itoa_buf(fl->score[1], buf));
+}
+
 void	ft_draw_base(t_filler *fl)
 {
 	fl->p1 = ft_toupper_str(fl->p1);
@@ -91,10 +117,18 @@ void	ft_draw_base(t_filler *fl)
 		mlx_pixel_put(fl->mlx_ptr, fl->win_ptr, 1300, i, 0x00ff00ff);
 		++i;
 	}
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 - 30 - (int)ft_strlen(fl->p1) * 10, 80, g_colors[RED], fl->p1);
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 - 30, 80, g_colors[TEXT], "  VS  ");
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1300 + 30, 80, g_colors[GREEN], fl->p2);
-
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 30 - (int)ft_strlen(fl->p1) * 10, 80, g_colors[RED], fl->p1);
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 30, 80, g_colors[TEXT], "  VS  ");
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 + 30, 80, g_colors[GREEN], fl->p2);
+	if (fl->turn == 0)
+		ft_draw_line(fl, (t_point){1300 - 30 - (int)ft_strlen(fl->p1) * 10, 100},
+							 (int)ft_strlen(fl->p1) * 10, g_colors[RED]);
+	else
+		ft_draw_line(fl, (t_point){1300 + 30, 100},
+				(int)ft_strlen(fl->p2) * 10, g_colors[GREEN]);
 }
 
 /*
