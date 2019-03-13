@@ -6,13 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 21:49:14 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/12 22:02:29 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <zconf.h> // todo
 #include "libft.h"
 #include "ft_filler.h"
+#include <math.h>
 
 #define VPUSH(v, n) ft_vector_push_back(&(v), (n))
 #define HM flr->heat_map[pl]
@@ -301,8 +302,9 @@ void 	ft_sum_gate(register t_filler *fl, t_point pt, int *sum, int deep)
 	while (++i < 8)
 	{
 		if (nhbs[i] > val || (!is_start && nhbs[i] == val))
-			ft_sum_gate(fl, (t_point){pt.x + (i >= 3 && i <= 5) - (!i || i == 1 || i == 7),
-							  pt.y - (i >= 1 && i <= 3) + (i >= 5 && i <= 7)}, sum, deep);
+			ft_sum_gate(fl, (t_point){
+			pt.x + (i >= 3 && i <= 5) - (!i || i == 1 || i == 7),
+			pt.y - (i >= 1 && i <= 3) + (i >= 5 && i <= 7)}, sum, deep);
 	}
 }
 
@@ -353,10 +355,94 @@ int 	ft_is_gate_pt(register t_filler *fl, t_point pt)
 	return (res == 1);
 }
 
+void 	ft_draw_circle_y(register t_filler *fl, int val, int r, t_point c)
+{
+	double y_fr;
+	double y_to;
+	int x1;
+
+	y_fr = c.y - r / 2.;
+	y_to = c.y + r / 2.;
+	while (y_fr <= y_to)
+	{
+		x1 = (int)(sqrt(SQ(r) - SQ(y_fr - c.y)) + 0.);
+		if ((int)(y_fr + 0.) >= 0 && (int)(y_fr + 0.) <= fl->h - 1)
+		{
+			if (x1 + c.x >= 0 && x1 + c.x <= fl->w - 1)
+			{
+				if (fl->heat_map[1][(int)(y_fr + 0.)][x1 + c.x] > 0)
+					fl->heat_map[2][(int)(y_fr + 0.)][x1 + c.x] = val;
+			}
+			if (-x1 + c.x >= 0 && -x1 + c.x <= fl->w - 1)
+			{
+				if (fl->heat_map[1][(int)(y_fr + 0.)][-x1 + c.x] > 0)
+					fl->heat_map[2][(int)(y_fr + 0.)][-x1 + c.x] = val;
+			}
+		}
+		x1 = (int)(sqrt(SQ(r) - SQ(y_fr - c.y)) + 0.5);
+		if ((int)(y_fr + 0.5) >= 0 && (int)(y_fr + 0.5) <= fl->h - 1)
+		{
+			if (x1 + c.x >= 0 && x1 + c.x <= fl->w - 1)
+			{
+				if (fl->heat_map[1][(int)(y_fr + 0.5)][x1 + c.x] > 0)
+					fl->heat_map[2][(int)(y_fr + 0.5)][x1 + c.x] = val;
+			}
+			if (-x1 + c.x >= 0 && -x1 + c.x <= fl->w - 1)
+			{
+				if (fl->heat_map[1][(int)(y_fr + 0.5)][-x1 + c.x] > 0)
+					fl->heat_map[2][(int)(y_fr + 0.5)][-x1 + c.x] = val;
+			}
+		}
+		++y_fr;
+	}
+}
+
+void 	ft_draw_circle(register t_filler *fl, int val, int r, t_point c)
+{
+	double x_fr;
+	double x_to;
+	int y1;
+
+	ft_draw_circle_y(fl, val, r, c);
+	x_fr = c.x - r / 2.;
+	x_to = c.x + r / 2.;
+	while (x_fr <= x_to)
+	{
+		y1 = (int)(sqrt(SQ(r) - SQ(x_fr - c.x)) + 0.);
+		if ((int)(x_fr + 0.) >= 0 && (int)(x_fr + 0.) <= fl->w - 1)
+		{
+			if (y1 + c.y >= 0 && y1 + c.y <= fl->h - 1)
+				if (fl->heat_map[1][y1 + c.y][(int)x_fr] > 0)
+					fl->heat_map[2][y1 + c.y][(int)(x_fr + 0.)] = val;
+			if (-y1 + c.y >= 0 && -y1 + c.y <= fl->h - 1)
+				if (fl->heat_map[1][-y1 + c.y][(int)x_fr] > 0)
+					fl->heat_map[2][-y1 + c.y][(int)(x_fr + 0.)] = val;
+		}
+		y1 = (int)(sqrt(SQ(r) - SQ(x_fr - c.x)) + 0.5);
+		if ((int)(x_fr + 0.5) >= 0 && (int)(x_fr + 0.5) <= fl->w - 1)
+		{
+			if (y1 + c.y >= 0 && y1 + c.y <= fl->h - 1)
+			{
+				if (fl->heat_map[1][y1 + c.y][(int)x_fr] > 0)
+					fl->heat_map[2][y1 + c.y][(int)(x_fr + 0.5)] = val;
+			}
+			if (-y1 + c.y >= 0 && -y1 + c.y <= fl->h - 1)
+			{
+				if (fl->heat_map[1][-y1 + c.y][(int)x_fr] > 0)
+					fl->heat_map[2][-y1 + c.y][(int)(x_fr + 0.5)] = val;
+			}
+		}
+		++x_fr;
+	}
+}
+
 int 	ft_parse_gates(register t_filler *fl)
 {
-	register int i;
-	register int j;
+	register int 	i;
+	register int	j;
+	int 			k;
+	int 			gate_val;
+	int 			val;
 
 	i = -1;
 	while (++i < fl->h)
@@ -366,11 +452,26 @@ int 	ft_parse_gates(register t_filler *fl)
 		{
 			if (ft_is_gate_pt(fl, (t_point){j, i}))
 			{
+				gate_val = fl->heat_map[1][i][j];
 				ft_sum_gate(fl, (t_point){j, i}, &(fl->heat_map[2][i][j]), 0);
+				fl->heat_map[2][i][j] /= gate_val;
+				k = gate_val;
+				val = 0;
+				while (--k > 0)
+				{
+					val += gate_val / k;
+					ft_draw_circle(fl, gate_val, k, (t_point){j, i});
+				}
 			}
 		}
 	}
 	ft_restore_map(fl);
+	//ft_draw_circle(fl, 9, 0, (t_point){3, 8});
+	//ft_draw_circle(fl, 7, 1, (t_point){3, 8});
+	//ft_draw_circle(fl, 6, 2, (t_point){3, 8});
+	//ft_draw_circle(fl, 5, 3, (t_point){3, 8});
+	//
+	//
 	/*size_t e = (size_t)-1;
 	while (++e < fl->gates->len)
 	{
@@ -404,11 +505,11 @@ int 	ft_update_heat_map(register t_filler *fl)
 			return (0);
 	}
 	///ft_print_heat_map(fl, 0);
-	///ft_parse_gates(fl);
-	///ft_print_heat_map(fl, 0);
-	///ft_print_heat_map(fl, 1);
-	///ft_print_heat_map(fl, 2);
-	///exit(42);
+	ft_parse_gates(fl);
+	/*ft_print_heat_map(fl, 0);
+	ft_print_heat_map(fl, 1);
+	ft_print_heat_map(fl, 2);
+	exit(42);*/
 	return (ft_count_enemy_unr(fl));
 }
 
