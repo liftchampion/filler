@@ -12,5 +12,5 @@ link_directories(/usr/local/lib ./libft)
 link_libraries(mlx)
 FILE(GLOB LIBFT_SRCS ./libft/*.c ./libft/*/*.c)  # ADD LIBFT as sources
 
-add_executable(filler_viz ${LIBFT_SRCS} srcs/main.c srcs/ft_parsers.c srcs/ft_filler_vis.h srcs/ft_utils.c srcs/ft_map_parser.c srcs/ft_parsing.c) # all c-files here
+add_executable(filler_viz ${LIBFT_SRCS} srcs/main.c srcs/ft_parsers.c srcs/ft_filler_vis.h srcs/ft_utils.c srcs/ft_map_parser.c srcs/ft_parsing.c srcs/ft_draw_data.c) # all c-files here
 target_link_libraries(filler_viz ${OPEN_GL} ${APP_KIT})  # LINK libraries

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 04:25:44 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/13 04:46:12 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ typedef enum	e_keys
 	DOWN = 125
 }				t_keys;
 
+typedef struct	s_point
+{
+	int		x;
+	int 	y;
+}				t_point;
+
 typedef struct	s_filler
 {
 	t_mtx 		wait;
@@ -58,7 +64,10 @@ typedef struct	s_filler
 	t_status	st[2];
 	void		*mlx_ptr;
 	void		*win_ptr;
+	int 		sq_size;
 }				t_filler;
+
+void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color);
 
 void*			ft_main_read_loop(void* dt);
 
