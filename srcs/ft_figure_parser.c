@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:38:39 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 20:38:53 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int			ft_figure_parser(const char *str, t_filler *fl)
 	char	*line;
 	int		i;
 
+	ft_free_fig(&fl->curr_fig, 0);
 	if (!(f = ft_memalloc(sizeof(t_fig))) ||
 		!(f->points = ft_make_vector(32)))
 		return (0);
