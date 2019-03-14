@@ -65,7 +65,7 @@ t_string	*ft_vprintf(const char *frmt, va_list vl)
 
 int			ft_fdprintf(int fd, const char *frmt, ...)
 {
-	int			b_strs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	static int	b_strs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	va_list		vl;
 	t_string	*str;
 	long int	ret;

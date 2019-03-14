@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 
-void 	ft_swap(void *a, void *b, size_t s)
+void		ft_swap(void *a, void *b, size_t s)
 {
 	unsigned char	tmp;
 	size_t			i;
