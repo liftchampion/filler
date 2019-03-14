@@ -72,7 +72,7 @@ clean_master:
 	rm -f master
 
 test: all
-	@cd resources; ./filler_vm -f maps/map02 -p1 players/bmiklaz.filler -p2 ../ggerardy.filler | ../filler_visualizer; cd ..
+	@cd resources; ./filler_vm -f maps/map02 -p1 players/iburel.filler -p2 ../ggerardy.filler | ../filler_visualizer; cd ..
 
 ################################--LINKING--#####################################
 

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:39:45 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 20:39:55 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_filler		*ft_start_gama(void)
 			!(fl->points[1] = ft_make_vector(64)))
 		return (0);
 	if (!ft_strchr(line, 'p') &&
-			(ft_free_ret(line, 0) || ft_filler_free(fl, 0)))
+			(ft_free_ret(line, 0) || ft_filler_free(fl, 1)))
 		return (0);
 	fl->player = ft_atoi(line + (ft_strchr(line, 'p') - line) + 1);
 	if ((fl->player != 1 && fl->player != 2) ||

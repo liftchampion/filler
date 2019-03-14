@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:59:08 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:31:42 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:42:38 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,19 @@ int			ft_free_ret(void *ptr, int ret)
 
 int			ft_filler_free(t_filler *fl, int ret)
 {
+	int i;
+
+	i = -1;
 	if (!fl)
 		return (ret);
 	ft_free_fig(&fl->curr_fig, 0);
 	if (fl->map)
-		while (fl->h > 0)
-			free(fl->map[--fl->h]);
-	free(fl->map);
+		ft_free_matrix((void**)fl->map, (size_t)fl->h);
+	while (++i < 3)
+		if (fl->heat_map[i])
+			ft_free_matrix((void **)fl->heat_map[i], (size_t)fl->h);
+	ft_free_vector(&fl->points[0]);
+	ft_free_vector(&fl->points[1]);
 	free(fl);
 	return (ret);
 }

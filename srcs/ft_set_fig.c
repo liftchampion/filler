@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:40:56 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:08:00 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ double		ft_find_pos_score(t_filler *fl, int i, int j)
 
 	if (!ft_put_fig_tmp(fl, (t_point){j, i}) || !ft_update_heat_map(fl))
 		return (0);
-	if ((double)fl->unrch_opp / (fl->h * fl->w) > 0.7 && fl->end_game != 2)
+	if ((double)fl->unrch_opp / (fl->h * fl->w) > 0.5 && fl->end_game != 2)
 		fl->end_game = 1;
 	OPP_SUM = ft_map_sum(fl, 1);
 	FIG_OPP_SUM = (OPP_SUM == fl->opp_sum_p) ? BIG :
@@ -100,10 +100,10 @@ double		ft_find_pos_score(t_filler *fl, int i, int j)
 			ft_sum_gate_points(fl, fl->curr_fig, (t_point){j, i});
 	OPP_SUM = 5 * SQ(OPP_SUM);
 	MY_SUM = 1 * SQ(MY_SUM);
-	GATE_SUM = 3 * SQ(GATE_SUM) * GATE_SUM;
+	GATE_SUM = 3 * SQ(0.3 * GATE_SUM) * SQ(0.3 * GATE_SUM);
 	FIG_OPP_SUM = SQ(FIG_OPP_SUM) * SQ(FIG_OPP_SUM);
 	FIG_MY_SUM = SQ(FIG_MY_SUM) * FIG_MY_SUM;
-	score = (fl->end_game == 1) * BIG + OPP_SUM - MY_SUM + GATE_SUM -
+	score = (fl->end_game == 1) * SQ(BIG) + OPP_SUM - MY_SUM + GATE_SUM -
 			FIG_OPP_SUM + FIG_MY_SUM;
 	fl->points[0]->len -= fl->curr_fig->points->len;
 	return (score);
