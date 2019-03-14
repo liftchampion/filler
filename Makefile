@@ -61,7 +61,7 @@ all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 test: all $(VIZ) run_test
 
 run_test:
-	./filler_vm -f maps/map02 -p1 players/carli.filler \
+	@./filler_vm -f maps/map02 -p1 players/carli.filler \
 	-p2 ./ggerardy.filler | ./visualizer/filler_visualizer
 
 fclean_vis:
