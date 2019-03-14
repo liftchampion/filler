@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 02:20:26 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 19:34:23 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 20:50:40 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_filler.h"
 #include <math.h>
 
-double 		ft_map_sum(register t_filler *fl, register int pl)
+double		ft_map_sum(register t_filler *fl, register int pl)
 {
 	static int		map_size = 0;
 	register double	res;
@@ -43,7 +43,7 @@ double 		ft_map_sum(register t_filler *fl, register int pl)
 	return (res);
 }
 
-int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
+int			ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
 {
 	size_t	i;
 	t_point	pt;
@@ -62,11 +62,11 @@ int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
 	return (res);
 }
 
-int 		ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos)
+int			ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos)
 {
-	size_t i;
-	t_point pt;
-	int res;
+	size_t	i;
+	t_point	pt;
+	int		res;
 
 	res = 0;
 	i = (size_t)-1;

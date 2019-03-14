@@ -6,42 +6,12 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:02:44 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 06:02:40 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 20:38:39 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
-
-void		ft_print_fig(t_fig *f)
-{
-	char **mtr;
-	int i;
-
-	ft_fdprintf(2, "{Green}w=%d  h=%d{eof}\n", f->w, f->h, (i = -1));
-	if (!(mtr = (char**)ft_memalloc(sizeof(char*) * f->h)))
-		return;
-	while (++i < f->h)
-	{
-		if (!(mtr[i] = (char *)ft_memalloc(sizeof(char) * (f->w + 1))))
-		{
-			while (i >= 0)
-				free(mtr[i--]);
-			return (free(mtr));
-		}
-		ft_memset(mtr[i], '.', (size_t)f->w);
-	}
-	i = -1;
-	while (++i < (int)f->points->len)
-		mtr[POINT(f->points, i).y][POINT(f->points, i).x] = '*';
-	i = -1;
-	while (++i < f->h)
-		ft_fdprintf(2, "{Blue}%s{eof}\n", mtr[i]);
-	i = f->h;
-	while (i > 0)
-		free(mtr[i-- - 1]);
-	free(mtr);
-}
 
 size_t		ft_free_fig(t_fig **f, size_t ret)
 {
@@ -60,7 +30,8 @@ int			ft_proceede_fig_line(char *line, t_fig *f)
 	while (*line)
 	{
 		if (*line == '*')
-			if (!ft_vector_push_back(&f->points, *(void**)&(t_point){len, f->h}))
+			if (!ft_vector_push_back(&f->points,
+					*(void**)&(t_point){len, f->h}))
 			{
 				free(line);
 				return ((int)ft_free_fig(&f, 0));

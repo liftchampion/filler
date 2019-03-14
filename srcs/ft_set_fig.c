@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 04:06:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:09:39 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 20:40:56 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 #define BIG 1000000000000000000.
 
-int 		ft_check_fig(t_filler *fl, t_point pos)
+int			ft_check_fig(t_filler *fl, t_point pos)
 {
 	int		i;
 	int		to_go;
 	int		overlaps;
 	t_fig	*fig;
-	char 	val;
+	char	val;
 
 	i = -1;
 	fig = fl->curr_fig;
@@ -44,8 +44,8 @@ int 		ft_check_fig(t_filler *fl, t_point pos)
 
 int			ft_put_fig_tmp(t_filler *fl, t_point pos)
 {
-	int i;
-	t_point p;
+	int		i;
+	t_point	p;
 
 	i = -1;
 	while (++i < (int)fl->curr_fig->points->len)
@@ -58,7 +58,7 @@ int			ft_put_fig_tmp(t_filler *fl, t_point pos)
 	return (1);
 }
 
-int 		ft_set_fig_dummy(t_filler *fl)
+int			ft_set_fig_dummy(t_filler *fl)
 {
 	int i;
 	int j;
@@ -109,13 +109,13 @@ double		ft_find_pos_score(t_filler *fl, int i, int j)
 	return (score);
 }
 
-int 		ft_set_fig(register t_filler *fl)
+int			ft_set_fig(register t_filler *fl)
 {
-	double best_score;
-	double score;
-	t_point best_pos;
-	register int i;
-	register int j;
+	double			best_score;
+	double			score;
+	t_point			best_pos;
+	register int	i;
+	register int	j;
 
 	i = -1;
 	best_score = -1. / 0.;

@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:09:39 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 20:31:42 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define OPP_SUM metrics[2]
 # define MY_SUM metrics[3]
 # define GATE_SUM metrics[4]
+# define VPUSH(v, n) ft_vector_push_back(&(v), (n))
+# define HM flr->heat_map[pl]
 
 # include "libft.h"
 
@@ -50,7 +52,7 @@ typedef struct	s_filler
 	int			unrch_opp;
 	t_point		last_pos;
 	double		opp_sum_p;
-	int 		end_game;
+	int			end_game;
 }				t_filler;
 
 t_filler		*ft_start_gama(void);
@@ -62,14 +64,19 @@ int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
 int				ft_make_map(t_filler *fl);
 
-int				ft_update_heat_map(t_filler *fl);
-
 t_point			ft_sum_points(t_point p1, t_point p2);
-int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl);
-int 		ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos);
-double 		ft_map_sum(register t_filler *fl, register int pl);
+int				ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl);
+int				ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos);
+double			ft_map_sum(register t_filler *fl, register int pl);
 
 void			ft_zero_heat_map(register t_filler *fl, int clean_gates);
+int				ft_update_heat_map(t_filler *fl);
+int				ft_count_enemy_unr(register t_filler *fl);
+
+void			ft_draw_circle_y(register t_filler *fl, int val, int r,
+		t_point c);
+void			ft_draw_circle_x(register t_filler *fl, int val, int r,
+		t_point c);
 int				ft_parse_gates(register t_filler *fl);
 
 int				ft_check_fig(t_filler *fl, t_point pos);
