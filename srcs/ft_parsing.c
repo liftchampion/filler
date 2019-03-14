@@ -6,13 +6,14 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/10 00:05:06 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 13:15:46 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:30:58 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler_vis.h"
 #include <unistd.h>
+#include <stdio.h>
 
 char			*ft_get_name(const char *line)
 {
@@ -37,7 +38,7 @@ char			*ft_get_name(const char *line)
 t_filler		*ft_parse_begin(void)
 {
 	t_filler	*fl;
-	char 		*line;
+	char		*line;
 
 	if (!(fl = (t_filler*)ft_memalloc(sizeof(t_filler))))
 		return (0);
@@ -56,7 +57,7 @@ t_filler		*ft_parse_begin(void)
 	return (fl);
 }
 
-int 			ft_timeout(t_filler *fl, char *ln)
+int				ft_timeout(t_filler *fl, char *ln)
 {
 	char buf[2];
 
@@ -67,10 +68,26 @@ int 			ft_timeout(t_filler *fl, char *ln)
 	return (ft_figure_parser(fl) && ft_result_parser(fl));
 }
 
+int				ft_parse_endgame(t_filler *fl)
+{
+	char *line;
+
+	fl->unrch[0] = 0;
+	if (!(line = (char *)1lu) || !ft_get_next_line(0, &line, 1) || !line)
+		return (0);
+	ft_printf("==%s\n", line);
+	free(line);
+	if (!(line = (char *)1lu) || !ft_get_next_line(0, &line, 1) || !line)
+		return (0);
+	ft_printf("%s\n", line);
+	free(line);
+	return (0);
+}
+
 int				ft_invalid_res(t_filler *fl, char *ln)
 {
-	char b[2];
-	int pl;
+	char	b[2];
+	int		pl;
 
 	b[0] = 0;
 	if (ft_strstr(ln, "timedout"))
@@ -91,39 +108,3 @@ int				ft_invalid_res(t_filler *fl, char *ln)
 		return (0);
 	return (1);
 }
-
-int				ft_result_parser(t_filler *fl)
-{
-	char	*line;
-	char 	b[2];
-
-	b[1] = 0;
-	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line)
-		return (0);
-	if (line[0] == '<' && (fl->pos_y = ft_atoi(line + 11)) >= 0 &&
-		(fl->pos_x = ft_atoi(line + 11 + ft_intlen(fl->pos_y) + 2)) >= 0)
-	{
-		if (fl->turn == (line[6] == 'X') && !fl->st[line[6] != 'X'])
-			fl->st[line[6] != 'X'] = END;
-		fl->turn = (line[6] == 'X');
-		if (!read(0, b, 2) || !b[1])
-			return (ft_free_ret(line, 0));
-		if (b[1] == 'i' && (fl->st[fl->turn] = WRG) &&
-				(!ft_figure_parser(fl) || !ft_result_parser(fl)))
-			return (ft_free_ret(line, 0));
-		return (ft_free_ret(line, 1));
-	}
-	return (ft_invalid_res(fl, line));
-}
-
-
-
-
-
-
-
-
-
-
-
-
