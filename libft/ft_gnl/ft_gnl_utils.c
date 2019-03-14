@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 23:55:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/01 07:00:35 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:06:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,11 @@ t_result		ft_gnl_init_works(int fd, t_map **fd_bf, t_buf ***curr_buf,
 	{
 		if (!(**curr_buf = (t_buf*)malloc(sizeof(t_buf))))
 			return (ERROR);
-		***curr_buf = (t_buf){(char*)ft_memalloc((size_t)buf_size), 0, 0, buf_size};
+		***curr_buf = (t_buf){(char*)ft_memalloc((size_t)buf_size), 0, 0,
+						buf_size};
 		if (!(**curr_buf)->buffer || ((**curr_buf)->len = read(fd,
 				(**curr_buf)->buffer, (size_t)(**curr_buf)->capac)) == -1)
 			return (ERROR);
 	}
-	/*else if ((**curr_buf)->len < (**curr_buf)->capac)
-		ft_gnl_check_stdin(&res, **curr_buf, fd);*/
 	return (res);
 }

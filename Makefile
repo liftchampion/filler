@@ -22,8 +22,7 @@ OBJS_DIR = objs
 DPDS_DIR = dpds
 
 CC = clang
-# todo delete -Ofast
-WFLAGS = -Wall -Wextra -Werror -Ofast
+WFLAGS = -Wall -Wextra -Werror
 DFLAGS = -g
 SANITIZE_ADDRESS_FLAGS = -fsanitize=address -g
 SANITIZE_LEAK_FLAGS = -g -fno-sanitize=all
@@ -73,7 +72,7 @@ clean_master:
 	rm -f master
 
 test: all
-	@cd resources; ./filler_vm -f maps/map00 -p1 players/superjeannot.filler -p2 ../ggerardy.filler cd ..
+	@cd resources; ./filler_vm -f maps/map02 -p1 players/bmiklaz.filler -p2 ../ggerardy.filler | ../filler_visualizer; cd ..
 
 ################################--LINKING--#####################################
 
@@ -87,7 +86,7 @@ ifeq ($(IS_LIB),a)
 		@ar rcs $(NAME) $(OBJS) $(LIBFT)/libft.a;
 		@ranlib $(NAME);
 else
-		@$(CC) -lpthread $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
+		@$(CC) $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
 endif
 	@echo "\x1B[38;5;29mDone      $(NAME)!\x1B[0m"
 

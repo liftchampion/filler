@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 22:36:59 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/03/02 19:58:20 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:06:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_string	*ft_vprintf(const char *frmt, va_list vl)
 
 int			ft_fdprintf(int fd, const char *frmt, ...)
 {
-	int			b_strs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	static int	b_strs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	va_list		vl;
 	t_string	*str;
 	long int	ret;

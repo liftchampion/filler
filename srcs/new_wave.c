@@ -6,75 +6,74 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 02:20:26 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 06:23:46 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:34:23 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
+#include <math.h>
 
-
-/*static inline int		ft_check_and_add_pt_f(t_point pt, t_fig *f, int ds, int pl)
+double 		ft_map_sum(register t_filler *fl, register int pl)
 {
-	if (pt.x > 0 && !HM[pt.y][pt.x - 1] &&
-			(HM[pt.y][pt.x - 1] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y}));
-	if (pt.y > 0 && !HM[pt.y - 1][pt.x] &&
-			(HM[pt.y - 1][pt.x] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x, pt.y - 1}));
-	if (pt.x < f->w - 1 && !HM[pt.y][pt.x + 1] &&
-			(HM[pt.y][pt.x + 1] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y}));
-	if (pt.y < f->h - 1 && !HM[pt.y + 1][pt.x] &&
-			(HM[pt.y + 1][pt.x] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x, pt.y + 1}));
-	if (pt.x > 0 && pt.y > 0 && !HM[pt.y - 1][pt.x - 1] &&
-			(HM[pt.y - 1][pt.x - 1] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y - 1}));
-	if (pt.x > 0 && pt.y < f->h - 1 && !HM[pt.y + 1][pt.x - 1] &&
-			(HM[pt.y + 1][pt.x - 1] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y + 1}));
-	if (pt.x < f->w - 1 && pt.y > 0 && !HM[pt.y - 1][pt.x + 1] &&
-			(HM[pt.y - 1][pt.x + 1] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y - 1}));
-	if (pt.x < f->w - 1 && pt.y < f->h - 1 && !HM[pt.y + 1][pt.x + 1] &&
-			(HM[pt.y + 1][pt.x + 1] = ds))
-		VPUSH(f->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y + 1}));
-	return (f->points[pl] ? 1 : 0);
-}*/
+	static int		map_size = 0;
+	register double	res;
+	register int	i;
+	register int	j;
+	register int	curr_res;
 
-
-/*int 		ft_set_fig_dummy(t_filler *fl)
-{
-	int i;
-	int j;
-
+	res = 0;
 	i = -1;
-	fl->last_pos = (t_point){666, 666};
+	if (map_size == 0)
+		map_size = fl->h + fl->w;
 	while (++i < fl->h)
 	{
 		j = -1;
 		while (++j < fl->w)
 		{
-			if (ft_check_fig(fl, (t_point){j, i}))
-			{
-				fl->last_pos = (t_point){i, j};
-				return (1);
-			}
+			curr_res = fl->heat_map[pl][i][j];
+			if (curr_res > 0)
+				res += curr_res;
+			else if (!curr_res)
+				res += map_size;
+			else if (curr_res == -1 - pl)
+				res += map_size;
 		}
 	}
-	return (1);
-}*/
+	return (res);
+}
 
-/*int 		ft_find_fig_delta(t_filler *fl)
+int 		ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
 {
+	size_t	i;
+	t_point	pt;
+	int		res;
 
+	res = 0;
+	i = (size_t)-1;
+	while (++i < fg->points->len)
+	{
+		pt = ft_sum_points(POINT(fg->points, i), pos);
+		if (fl->heat_map[pl][pt.y][pt.x] == 0)
+			res += lround((fl->h + fl->w) * 0.5);
+		else if (fl->heat_map[pl][pt.y][pt.x] > 0)
+			res += fl->heat_map[pl][pt.y][pt.x];
+	}
+	return (res);
+}
 
-
-}*/
-
-/*int 		ft_set_fig_new(t_filler *fl)
+int 		ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos)
 {
+	size_t i;
+	t_point pt;
+	int res;
 
-	return (1);
-}*/
+	res = 0;
+	i = (size_t)-1;
+	while (++i < fg->points->len)
+	{
+		pt = ft_sum_points(POINT(fg->points, i), pos);
+		res += fl->heat_map[2][pt.y][pt.x];
+	}
+	return (res);
+}

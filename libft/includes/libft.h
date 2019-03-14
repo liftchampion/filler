@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 17:25:22 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/02/28 17:31:00 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:06:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char				*ft_strncat(char *dest, const char *src, size_t nb);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
 
 char				*ft_strchr(const char *str, int ch);
+
+char				*ft_rstrchr(const char *str, int ch);
 
 char				*ft_strrchr(const char *str, int ch);
 

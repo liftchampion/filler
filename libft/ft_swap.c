@@ -6,13 +6,13 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 14:50:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/02 14:50:09 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:06:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void 	ft_swap(void *a, void *b, size_t s)
+void		ft_swap(void *a, void *b, size_t s)
 {
 	unsigned char	tmp;
 	size_t			i;

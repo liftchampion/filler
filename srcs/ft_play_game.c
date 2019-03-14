@@ -6,13 +6,12 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 03:57:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/11 21:41:06 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:19:02 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_filler.h"
-#include <zconf.h> // todo
 
 t_filler *ft_start_gama(void)
 {
@@ -25,7 +24,7 @@ t_filler *ft_start_gama(void)
 			!(fl->points[0] = ft_make_vector(64)) ||
 			!(fl->points[1] = ft_make_vector(64)))
 		return (0);
-	if (!ft_strchr(line, 'p') && (ft_free_ret(line, 0) || ft_free_ret(fl, 0))) // todo filler_free
+	if (!ft_strchr(line, 'p') && (ft_free_ret(line, 0) || ft_filler_free(fl, 0)))
 		return (0);
 	fl->player = ft_atoi(line + (ft_strchr(line, 'p') - line) + 1);
 	if ((fl->player != 1 && fl->player != 2) ||
@@ -48,9 +47,6 @@ int 	ft_gamer(t_filler *fl)
 	(double)fl->unrch_opp / (fl->h * fl->w) > WIN_LIMIT)
 			? ft_set_fig_dummy(fl) : ft_set_fig(fl))
 	{
-		///ft_print_heat_map(fl, 0);
-		///sleep(1);
-		//ft_fdprintf(2, "{\\200}%d %d{eof}\n", fl->last_pos.y, fl->last_pos.x);
 		fl->prev_opp_size = (int)fl->points[1]->len;
 		ft_printf("%d %d\n", fl->last_pos.x, fl->last_pos.y);
 		return (1);
@@ -62,7 +58,5 @@ int 	ft_game_master(t_filler *filler)
 {
 	while (ft_gamer(filler))
 		;
-
-
 	return (1);
 }

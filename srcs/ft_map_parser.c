@@ -6,20 +6,16 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 08:52:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/12 22:02:29 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:25:54 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <zconf.h> // todo
 #include "libft.h"
 #include "ft_filler.h"
 #include <math.h>
 
 #define VPUSH(v, n) ft_vector_push_back(&(v), (n))
 #define HM flr->heat_map[pl]
-
-//!HM[pt.y + 1][pt.x + 1]
-#define LG(a, b) (HM[pt.y + b][pt.x + a] > ds)
 
 int ft_make_map(t_filler *fl)
 {
@@ -48,16 +44,16 @@ int ft_make_heat_map(t_filler *fl)
 	int i;
 	int **mtr[3];
 
-	if (!(mtr[0] = (int**)ft_memalloc(sizeof(int*) * fl->h)) ||
-		!(mtr[1] = (int**)ft_memalloc(sizeof(int*) * fl->h)) ||
-		!(mtr[2] = (int**)ft_memalloc(sizeof(int*) * fl->h)))
+	if (!(mtr[0] = (int **)ft_memalloc(sizeof(int *) * fl->h)) ||
+			!(mtr[1] = (int **)ft_memalloc(sizeof(int *) * fl->h)) ||
+			!(mtr[2] = (int **)ft_memalloc(sizeof(int *) * fl->h)))
 		return (0);
 	i = -1;
 	while (++i < fl->h)
 	{
-		if (!(mtr[0][i] = (int*)malloc(sizeof(int) * (fl->w))) ||
-			!(mtr[1][i] = (int*)malloc(sizeof(int) * (fl->w))) ||
-			!(mtr[2][i] = (int*)malloc(sizeof(int) * (fl->w))))
+		if (!(mtr[0][i] = (int *)malloc(sizeof(int) * (fl->w))) ||
+				!(mtr[1][i] = (int *)malloc(sizeof(int) * (fl->w))) ||
+				!(mtr[2][i] = (int *)malloc(sizeof(int) * (fl->w))))
 		{
 			while (i >= 0)
 			{
@@ -65,108 +61,14 @@ int ft_make_heat_map(t_filler *fl)
 				free(mtr[1][i]);
 				free(mtr[2][i--]);
 			}
-			return (ft_free_ret(mtr[0], 0) + ft_free_ret(mtr[1], 0) + ft_free_ret(mtr[2], 0));
+			return (ft_free_ret(mtr[0], 0) + ft_free_ret(mtr[1], 0)
+					+ ft_free_ret(mtr[2], 0));
 		}
 	}
 	fl->heat_map[0] = mtr[0];
 	fl->heat_map[1] = mtr[1];
 	fl->heat_map[2] = mtr[2];
 	return (1);
-}
-
-void ft_print_map(t_filler *fl)
-{
-	int i;
-	int j;
-
-	char **mtr;
-
-	if (!(mtr = (char**)ft_memalloc(sizeof(char*) * fl->h)))
-		return ;
-	i = -1;
-	while (++i < fl->h)
-	{
-		if (!(mtr[i] = (char *)ft_memalloc(sizeof(char) * (fl->w + 1))))
-		{
-			while (i >= 0)
-				free(mtr[i--]);
-			return (free(mtr));
-		}
-		ft_memset(mtr[i], '.', (size_t)fl->w);
-	}
-
-	i = -1;
-	while (++i < (int)fl->points[0]->len)
-	{
-		mtr[POINT(fl->points[0], i).y][POINT(fl->points[0], i).x] = 'X';
-	}
-	i = -1;
-	while (++i < (int)fl->points[1]->len)
-	{
-		mtr[POINT(fl->points[1], i).y][POINT(fl->points[1], i).x] = 'O';
-	}
-	char **tmp = fl->map;
-	fl->map = mtr;
-
-	j = -1;
-	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d{eof}\n   ", fl->w, fl->h);
-	while (++j < fl->w)
-	{
-		ft_fdprintf(2, "{Magenta} %2d{eof}", j);
-	}
-	i = -1;
-	ft_fdprintf(2, "\n");
-	while (++i < fl->h)
-	{
-		j = -1;
-		ft_fdprintf(2, "{Magenta}%3d{eof}", i);
-		while (++j < fl->w)
-		{
-			ft_fdprintf(2, "{Magenta}  %c{eof}", fl->map[i][j]);
-		}
-		ft_fdprintf(2, "\n");
-	}
-	fl->map = tmp;
-	//ft_fdprintf(2, "{Magenta}%s{eof}\n", fl->map[i]);
-}
-
-void	ft_print_heat_map(t_filler *fl, int pl)
-{
-	int i;
-	int j;
-	static int count = 0;
-
-	j = -1;
-	/*for (int e = 0; e < fl->h + 2; ++e)
-	{
-		ft_fdprintf(2, "\033[A\033[K");
-	}*/
-	ft_fdprintf(2, "{Yellow}map_w=%d map_h=%d pl = %d num = %d{eof}\n   ",
-			fl->w, fl->h, pl, ++count);
-	while (++j < fl->w)
-	{
-		ft_fdprintf(2, "{Green} %3d{eof}", j);
-	}
-	i = -1;
-	ft_fdprintf(2, "\n");
-	while (++i < fl->h)
-	{
-		j = -1;
-		ft_fdprintf(2, "{Green}%3d{eof}", i);
-		while (++j < fl->w)
-		{
-			if (fl->heat_map[pl][i][j] == -1)
-				ft_fdprintf(2, "{\\202}  %2d{eof}", fl->heat_map[pl][i][j]);
-			else if (fl->heat_map[pl][i][j] == -2)
-				ft_fdprintf(2, "{\\200}  %2d{eof}", fl->heat_map[pl][i][j]);
-			else if (fl->heat_map[pl][i][j] <= -1000)
-				ft_fdprintf(2, "{Red}  %2d{eof}", -1 * fl->heat_map[pl][i][j] - 1000);
-			else
-				ft_fdprintf(2, "{Magenta}  %2d{eof}", fl->heat_map[pl][i][j]);
-		}
-		ft_fdprintf(2, "\n");
-	}
-
 }
 
 static inline int		ft_check_and_add_pt(t_point pt, t_filler *flr, int ds, int pl)
@@ -258,7 +160,6 @@ int 	ft_count_enemy_unr(register t_filler *fl)
 			res += !fl->heat_map[1][i][j] || fl->heat_map[1][i][j] == -2;
 		}
 	}
-	///ft_fdprintf(2, "{Magenta}Unreachable for enemy %d{eof}\n", res);
 	fl->unrch_opp = res;
 	return (1);
 }
@@ -472,9 +373,9 @@ int 	ft_parse_gates(register t_filler *fl)
 
 int 	ft_update_heat_map(register t_filler *fl)
 {
-	register size_t i;
-	register size_t to_go;
-	int pl;
+	register size_t	i;
+	register size_t	to_go;
+	int				pl;
 
 	if ((!fl->heat_map[0] || !fl->heat_map[1]) && !ft_make_heat_map(fl))
 		return (0);
@@ -486,18 +387,16 @@ int 	ft_update_heat_map(register t_filler *fl)
 		to_go = fl->points[pl]->len;
 		while (++i < to_go)
 		{
-			fl->heat_map[pl][POINT(fl->points[pl], i).y][POINT(fl->points[pl], i).x] = -1;
-			fl->heat_map[!pl][POINT(fl->points[pl], i).y][POINT(fl->points[pl], i).x] = -2;
+			fl->heat_map[pl][POINT(fl->points[pl], i).y]
+				[POINT(fl->points[pl], i).x] = -1;
+			fl->heat_map[!pl][POINT(fl->points[pl], i).y]
+				[POINT(fl->points[pl], i).x] = -2;
 		}
-		if (!ft_fill_heat_map(fl, pl))
-			return (0);
+
 	}
-	///ft_print_heat_map(fl, 0);
+	if (!ft_fill_heat_map(fl, 0) || !ft_fill_heat_map(fl, 1))
+		return (0);
 	ft_parse_gates(fl);
-	/*ft_print_heat_map(fl, 0);
-	ft_print_heat_map(fl, 1);
-	ft_print_heat_map(fl, 2);
-	exit(42);*/
 	return (ft_count_enemy_unr(fl));
 }
 
@@ -541,12 +440,10 @@ int		ft_game_parser(register t_filler *fl)
 			|| (fl->w = ft_atoi(line + 8 + ft_intlen(fl->h))) <= 0 ||
 			!ft_map_parser(fl) || ft_free_ret(line, 0))
 		return (ft_free_ret(line, 0));
-	///ft_print_map(fl); // todo print
 	if (!(line = (char*)1lu) || !ft_get_next_line(0, &line, 1) || !line)
 		return (0);
 	if (ft_strstr(line, "Piece ") != line || !ft_figure_parser(line, fl) ||
 			ft_free_ret(line, 0))
 		return (ft_free_ret(line, 0));
-	///ft_print_fig(fl->curr_fig); // todo print
 	return (1);
 }

@@ -19,14 +19,15 @@ int 	ft_free_ret(void *ptr, int ret)
 	return (ret);
 }
 
-void ft_filler_free(t_filler *fl)
+int ft_filler_free(t_filler *fl, int ret)
 {
 	if (!fl)
-		return ;
+		return (ret);
 	ft_free_fig(&fl->curr_fig, 0);
 	if (fl->map)
 		while (fl->h > 0)
 			free(fl->map[--fl->h]);
 	free(fl->map);
 	free(fl);
+	return (ret);
 }
