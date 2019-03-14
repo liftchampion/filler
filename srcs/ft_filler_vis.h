@@ -100,6 +100,7 @@ void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color);
 void	ft_draw_map(t_filler *fl);
 void	ft_draw_base(t_filler *fl);
 void	ft_draw_status(t_filler *fl);
+void	ft_draw_info(t_filler *fl);
 void			ft_pix_put_img(t_filler *fl, int x, int y, int color);
 
 void		ft_gather_data(t_filler *fl);

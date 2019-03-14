@@ -6,16 +6,28 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 13:20:06 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 10:37:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "ft_filler_vis.h"
+#include <math.h>
 
-#define AVL(n) ((double)(fl->h * fl->w - fl->unrch[(n)]) / (fl->h * fl->w) * 100)
+
+
+#define AVL(n) (int)lround((((1. - ((double)(fl->h * fl->w - fl->unrch[(n)]) / (fl->h * fl->w)))) * 100))
 
 int		g_colors[] = {0x00be3f43, 0x00FF6666, 0x0000b289, 0x0000EFB7, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
+char 	g_statuses[6][9] =
+		{
+			"OK\0\0\0\0\0\0",
+			"Fallen\0\0",
+			"Segfault",
+			"Wrong\0\0\0",
+			"Left\0\0\0\0",
+			"Timeout\0"
+		};
 
 void 	ft_draw_rect(t_filler *fl, t_point size, t_point pos, int color)
 {
@@ -79,7 +91,6 @@ void	ft_draw_map(t_filler *fl)
 		}
 	}
 	mlx_put_image_to_window(fl->mlx_ptr, fl->win_ptr, fl->img, 0, 0);
-	//mlx_do_sync(fl->mlx_ptr);
 }
 
 void	ft_draw_line(t_filler *fl, t_point pos, int len, int color)
@@ -97,53 +108,40 @@ void	ft_draw_line(t_filler *fl, t_point pos, int len, int color)
 
 void	ft_draw_status(t_filler *fl)
 {
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 190,
+			g_colors[TEXT], "Status:");
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 - (int)ft_strlen(g_statuses[fl->st[0]]) * 10,
+			190, g_colors[RED], g_statuses[fl->st[0]]);
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
+			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 - (int)ft_strlen(g_statuses[fl->st[1]]) * 10,
+			190, g_colors[GREEN], g_statuses[fl->st[1]]);
+}
+
+void	ft_draw_info(t_filler *fl)
+{
 	char buf[20];
 	ft_gather_data(fl);
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 130, g_colors[TEXT], "Score:");
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 130,
+			g_colors[TEXT], "Score:");
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[0]) * 10,
+1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 - ft_intlen(fl->score[0]) * 10,
 			130, g_colors[RED], ft_itoa_buf(fl->score[0], buf));
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 - ft_intlen(fl->score[1]) * 10,
+1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 - ft_intlen(fl->score[1]) * 10,
 			130, g_colors[GREEN], ft_itoa_buf(fl->score[1], buf));
-
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 160, g_colors[TEXT], "Available area:");
-
-
-
-
+	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 160,
+			g_colors[TEXT], "Guaranteed area:");
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
 			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 -
-					ft_intlen((int)AVL(0)) * 10 - 10,
+			ft_intlen(AVL(1)) * 10 - 10,
 			160, g_colors[RED],
-			ft_strcat(ft_itoa_buf((int)AVL(0), buf), "%"));
-
-
+			ft_strcat(ft_itoa_buf(AVL(1), buf), "%"));
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
 			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 -
-			ft_intlen((int)AVL(1)) * 10 - 10,
+			ft_intlen(AVL(0)) * 10 - 10,
 			160, g_colors[GREEN],
-			ft_strcat(ft_itoa_buf((int)AVL(1), buf), "%"));
-
-
-	/*char buf2[30];
-	ft_bzero(buf2, 30);
-
-	double k = ((double)(fl->h * fl->w - fl->unrch[0]) / (fl->h * fl->w) * 10);
-
-
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 - 15 - ((int)ft_strlen(fl->p1) * 10) / 2 -
-					ft_intlen((fl->unrch[0])) * 10,
-			160, g_colors[RED],
-			ft_itoa_buf(fl->unrch[0], buf));
-
-	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
-			1300 + 45 + ((int)ft_strlen(fl->p2) * 10) / 2 -
-					ft_intlen((fl->unrch[1])) * 10,
-			160, g_colors[GREEN],
-			ft_itoa_buf(fl->unrch[1], buf));*/
-
+			ft_strcat(ft_itoa_buf(AVL(0), buf), "%"));
 }
 
 void	ft_draw_base(t_filler *fl)
@@ -151,19 +149,19 @@ void	ft_draw_base(t_filler *fl)
 	fl->p1 = ft_toupper_str(fl->p1);
 	fl->p2 = ft_toupper_str(fl->p2);
 
-	int i = 0;
+	/*int i = 0;
 	while (i <= 1000)
 	{
 		mlx_pixel_put(fl->mlx_ptr, fl->win_ptr, 1300, i, 0x00ff00ff);
 		++i;
-	}
+	}*/
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
 			1300 - 30 - (int)ft_strlen(fl->p1) * 10, 80, g_colors[RED], fl->p1);
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
 			1300 - 30, 80, g_colors[TEXT], "  VS  ");
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,
 			1300 + 30, 80, g_colors[GREEN], fl->p2);
-	if (fl->turn == 0)
+	if (fl->turn == 1)
 		ft_draw_line(fl, (t_point){1300 - 30 - (int)ft_strlen(fl->p1) * 10, 100},
 							 (int)ft_strlen(fl->p1) * 10, g_colors[RED]);
 	else

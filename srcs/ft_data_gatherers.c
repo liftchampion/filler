@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 11:40:56 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 13:08:02 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 10:22:00 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ void		ft_preprocess_data(register t_filler *fl)
 	fl->score[1] = 0;
 	fl->unrch[0] = 0;
 	fl->unrch[1] = 0;
+	fl->pts[0]->len = 0;
+	fl->pts[1]->len = 0;
 	i = -1;
 	while (++i < fl->h && (j = -1))
 		while (++j < fl->w)

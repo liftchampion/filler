@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/10 00:05:06 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 04:15:50 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 11:32:06 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_filler		*ft_parse_begin(void)
 
 	if (!(fl = (t_filler*)ft_memalloc(sizeof(t_filler))))
 		return (0);
-	fl->wait = READ;
+	fl->turn = 1;
 	while (!fl->p2 && (line = (char*)1lu) && ft_get_next_line(0, &line, 1))
 	{
 		if (!line)
@@ -59,18 +59,27 @@ t_filler		*ft_parse_begin(void)
 int				ft_invalid_res(t_filler *fl, char *ln)
 {
 	char b[2];
+	int pl;
 
 	b[0] = 0;
+	ft_fdprintf(2, "{Blue}Inv res<%s>\n{eof}", ln);
 	if (!ft_strstr(ln, "error"))
 		return (1);
 	fl->st[ln[12] == 'X'] = ERR;
+	pl = ln[12] == 'X';
 	if (!read(0, &b, 2) || b[0] != 'p')
-		return (b[0] == 'P');
-	if (!ft_strstr(ln, "Segfault"))
-		fl->st[ln[12] == 'X'] = SEG;
+		return (b[0] == 'P' && ft_figure_parser(fl) && ft_result_parser(fl));
 	free(ln);
-	if (!(ln = (char*)1lu) || !ft_get_next_line(0, &ln, 1) || !ln ||
-							ft_free_ret(ln, 0))
+	if (!(ln = (char*)1lu) || !ft_get_next_line(0, &ln, 1) || !ln)
+		return (0);
+	if (ft_strstr(ln, "Segfault"))
+		fl->st[pl] = SEG;
+	ft_fdprintf(2, "{Blue}INV<%s>\n{eof}", ln);
+	free(ln);
+	//if (!(ln = (char*)1lu) || !ft_get_next_line(0, &ln, 1) || !ln ||
+	//						ft_free_ret(ln, 0))
+	//	return (0);
+	if (!ft_figure_parser(fl) || !ft_result_parser(fl))
 		return (0);
 	return (1);
 }

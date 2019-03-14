@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 19:46:50 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/13 12:34:36 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 11:04:31 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ int 		ft_expose(void *dt)
 		///ft_kill_players(fl);
 		return (0);
 	}
-	//ft_printf("{\\202}Total{eof}\n");
-	//ft_print_filler(fl);
+	ft_printf("{\\202}Total{eof}\n");
+	ft_print_filler(fl);
 	//
 	ft_draw_map(fl);
 	ft_draw_base(fl);
+	ft_draw_info(fl);
 	ft_draw_status(fl);
 	//while (ft_parse_cycle(fl))
 	//{
@@ -114,6 +115,8 @@ int main()
 	ft_draw_rect(fl, (t_point){600, 1000}, (t_point){1000, 0}, g_colors[DARK_GRAY]);
 	mlx_put_image_to_window(fl->mlx_ptr, fl->win_ptr, fl->img, 0, 0);
 	ft_draw_base(fl);
+	//ft_draw_info(fl);
+	//ft_draw_status(fl);
 
 
 
