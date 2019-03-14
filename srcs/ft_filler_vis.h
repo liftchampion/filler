@@ -34,7 +34,9 @@ typedef enum	e_colors
 	LIGHT_GRAY = 4,
 	GRAY = 5,
 	DARK_GRAY = 6,
-	TEXT = 7
+	TEXT = 7,
+	GRAY_RED = 8,
+	GRAY_GREEN = 9,
 }				t_colors;
 
 typedef enum	e_status

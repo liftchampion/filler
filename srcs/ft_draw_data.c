@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 05:46:25 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 10:37:41 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 14:22:54 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,24 @@
 #include "ft_filler_vis.h"
 #include <math.h>
 
+//79292B
+//be3f43
 
+//00b289
 
 #define AVL(n) (int)lround((((1. - ((double)(fl->h * fl->w - fl->unrch[(n)]) / (fl->h * fl->w)))) * 100))
 
-int		g_colors[] = {0x00be3f43, 0x00FF6666, 0x0000b289, 0x0000EFB7, 0x00292929, 0x002e2e2e, 0x00272727, 0x00909090};
+int		g_colors[] = {
+		0x00be3f43,
+		0x00FF6666,
+		0x00248C74,
+		0x0000EFB7,
+		0x00292929,
+		0x002e2e2e,
+		0x00272727,
+		0x00909090,
+		0x002A2323,
+		0x00305A51};
 char 	g_statuses[6][9] =
 		{
 			"OK\0\0\0\0\0\0",
@@ -57,7 +70,7 @@ void	ft_draw_sq(t_filler *fl, t_point pos, int pl)
 	static int side = 0;
 	static int start_x = 0;
 	static int start_y = 0;
-	static int colors[] = {RED, DARK_RED, GREEN, DARK_GREEN, LIGHT_GRAY};
+	static int colors[] = {RED, DARK_RED, GREEN, DARK_GREEN, LIGHT_GRAY, GRAY_RED, GRAY_GREEN};
 	t_point ps;
 
 	side = (!side) ? (1000 - 6 - MAX(fl->w, fl->h) + 1) / MAX(fl->w, fl->h) : side;
@@ -86,6 +99,10 @@ void	ft_draw_map(t_filler *fl)
 				ft_draw_sq(fl, (t_point){j, i}, (fl->map[i][j] == 'o') + 0);
 			else if (fl->map[i][j] == 'X' || fl->map[i][j] == 'x')
 				ft_draw_sq(fl, (t_point){j, i}, (fl->map[i][j] == 'x') + 2);
+			else if (fl->heat_map[1][i][j] == 0)
+				ft_draw_sq(fl, (t_point){j, i}, 5);
+			else if (fl->heat_map[0][i][j] == 0)
+				ft_draw_sq(fl, (t_point){j, i}, 6);
 			else
 				ft_draw_sq(fl, (t_point){j, i}, 4);
 		}
@@ -121,7 +138,6 @@ void	ft_draw_status(t_filler *fl)
 void	ft_draw_info(t_filler *fl)
 {
 	char buf[20];
-	ft_gather_data(fl);
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr, 1000 + 30, 130,
 			g_colors[TEXT], "Score:");
 	mlx_string_put(fl->mlx_ptr, fl->win_ptr,

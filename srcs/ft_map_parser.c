@@ -93,13 +93,11 @@ int			ft_map_parser(t_filler *fl)
 	char 	*b;
 	int 	was_begin;
 
-	ft_fdprintf(2, "{Blue}MP\n{eof}");
 	if (!(l = (char*)1lu) || !ft_get_next_line(0, &l, 1) || !l ||
 		!(b = ft_strstr(l, "ateau ")) ||
 		!(fl->h = ft_atoi(b + 6))
 		|| !(fl->w = ft_atoi(b + 6 + ft_intlen(fl->h))) || ft_free_ret(l, 0))
 		return (ft_free_ret(l, 0));
-	ft_fdprintf(2, "{Blue}midMP\n{eof}");
 	if ((i = -1) && !(fl->map = ft_make_map(fl->h, fl->w)))
 		return (0);
 	was_begin = 0;
@@ -113,7 +111,6 @@ int			ft_map_parser(t_filler *fl)
 				fl->map[i][j - 4] = l[j];
 		free(l);
 	}
-	ft_fdprintf(2, "{Blue}endMP\n{eof}");
 	return (i == fl->h);
 }
 
@@ -124,7 +121,6 @@ int			ft_figure_parser(t_filler *fl)
 	int		j;
 	char 	*b;
 
-	ft_fdprintf(2, "{Blue}FP\n{eof}");
 	if (!(l = (char*)1lu) || !ft_get_next_line(0, &l, 1) || !l
 		|| !(b = ft_strstr(l, "ece "))
 		|| !(fl->f_h = ft_atoi(b + 4))
@@ -142,7 +138,5 @@ int			ft_figure_parser(t_filler *fl)
 				fl->fig[i][j] = l[j];
 		free(l);
 	}
-	ft_fdprintf(2, "{Blue}endFP %d\n{eof}", i == fl->f_h);
-	///ft_print_filler(fl);
 	return (i == fl->f_h);
 }

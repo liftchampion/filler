@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 19:46:50 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 11:04:31 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 13:22:14 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,8 @@ int 		ft_expose(void *dt)
 		///ft_kill_players(fl);
 		return (0);
 	}
-	ft_printf("{\\202}Total{eof}\n");
-	ft_print_filler(fl);
 	//
+	ft_gather_data(fl);
 	ft_draw_map(fl);
 	ft_draw_base(fl);
 	ft_draw_info(fl);

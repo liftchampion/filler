@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/10 00:05:06 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 11:32:06 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/14 13:15:46 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,25 @@ t_filler		*ft_parse_begin(void)
 	return (fl);
 }
 
+int 			ft_timeout(t_filler *fl, char *ln)
+{
+	char buf[2];
+
+	fl->st[ln[12] == 'X'] = OUT;
+	free(ln);
+	if (read(0, &buf, 2) <= 0)
+		return (0);
+	return (ft_figure_parser(fl) && ft_result_parser(fl));
+}
+
 int				ft_invalid_res(t_filler *fl, char *ln)
 {
 	char b[2];
 	int pl;
 
 	b[0] = 0;
-	ft_fdprintf(2, "{Blue}Inv res<%s>\n{eof}", ln);
+	if (ft_strstr(ln, "timedout"))
+		return (ft_timeout(fl, ln));
 	if (!ft_strstr(ln, "error"))
 		return (1);
 	fl->st[ln[12] == 'X'] = ERR;
@@ -74,11 +86,7 @@ int				ft_invalid_res(t_filler *fl, char *ln)
 		return (0);
 	if (ft_strstr(ln, "Segfault"))
 		fl->st[pl] = SEG;
-	ft_fdprintf(2, "{Blue}INV<%s>\n{eof}", ln);
 	free(ln);
-	//if (!(ln = (char*)1lu) || !ft_get_next_line(0, &ln, 1) || !ln ||
-	//						ft_free_ret(ln, 0))
-	//	return (0);
 	if (!ft_figure_parser(fl) || !ft_result_parser(fl))
 		return (0);
 	return (1);
