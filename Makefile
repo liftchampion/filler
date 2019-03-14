@@ -71,7 +71,7 @@ ifeq ($(IS_LIB),a)
 		@ar rcs $(NAME) $(OBJS) $(LIBFT)/libft.a;
 		@ranlib $(NAME);
 else
-		@$(CC) -lpthread $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
+		@$(CC) $(FLAGS) -I $(INCS) $(OBJS) $(LIBFT)/libft.a -o $(NAME)
 endif
 	@echo "\x1B[38;5;29mDone      $(NAME)!\x1B[0m"
 
