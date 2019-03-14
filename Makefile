@@ -52,27 +52,17 @@ WAS_PRINTED_CMP := 0
 # Add it for prevent remaking after clean
 #.SECONDARY:
 
-#################################--BUILD--######################################
+#################################--MISC--#######################################
+
+VIZ = ./visualizer/filler_visualizer
 
 all: make_lib $(AUTHOR) $(GITIGNORE) $(NAME)
 
-gen:
-	clang++ -Ofast killer_generator.cpp -o generator
-
-bm:
-	clang++ -Ofast battle_master.cpp -o bm
-
-prc:
-	clang++ -Ofast results_proceeder.cpp -o prcd
-
-master: clean_master
-	clang++ -std=c++1z -Ofast master.cpp -o master
-
-clean_master:
-	rm -f master
-
-test: all
+test: all $(VIZ)
 	@cd resources; ./filler_vm -f maps/map02 -p1 players/iburel.filler -p2 ../ggerardy.filler | ../filler_visualizer; cd ..
+
+$(VIZ):
+	@make -C visualizer/ all
 
 ################################--LINKING--#####################################
 

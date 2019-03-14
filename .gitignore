@@ -10,7 +10,7 @@ log
 *.trace
 resources
 .idea
-*.filler
+ggerardy.filler
 dpds
 objs
 battleground
