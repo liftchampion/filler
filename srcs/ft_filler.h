@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:03:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 20:31:42 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/03/15 05:21:55 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct	s_filler
 	t_point		last_pos;
 	double		opp_sum_p;
 	int			end_game;
+	int 		closen_corners[2];
+	double		crns_dst;
 }				t_filler;
 
 t_filler		*ft_start_gama(void);
