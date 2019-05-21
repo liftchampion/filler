@@ -20,6 +20,12 @@
 При том, что среди известных мне филлеров, игроки сделанные на волновом алгоритме, показывают лучший результат, я не считаю данный алгоритм оптимальным: переодически видно, как игрок ставит фигурку неоптимально.  
 Я считаю, что требуется алгоритм, сильнее специализированный на данной задаче.
 
+## Быстрый запуск (Docker)
+`docker run --rm -d -p 6901:6901 -e VNC_RESOLUTION=1900x1000 -e VNC_COL_DEPTH=32 -e VNC_PW=gg ggerardy/school42-filler:demo xterm -geometry 131x42+566+151`  
+Затем в браузере откройте `http://192.168.99.100:6901/?password=gg` с ip вашей виртуальной машины  
+Размер образа 1.3гб  
+Время запуска 1 минута  
+К сожалению, пока возможно наблюдать только за игрой моего филлера против себя самого.  
 ## Запуск
 `make`  
 `make -C visualizer`  
@@ -32,4 +38,4 @@
 ![map01](https://raw.githubusercontent.com/liftchampion/filler/master/imgs/Screen%20Shot%202019-05-13%20at%2021.29.40.png)
 ![map02](https://raw.githubusercontent.com/liftchampion/filler/master/imgs/Screen%20Shot%202019-05-13%20at%2021.28.59.png)
 
-*C код написан в Norminette code style*
+*C код написан в [Norminette code style](https://github.com/liftchampion/Norminette)*
