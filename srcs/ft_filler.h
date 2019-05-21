@@ -12,7 +12,7 @@
 
 #ifndef FT_FILLER_H
 # define FT_FILLER_H
-# define POINT(v, n) (*(t_point*)&((v)->data)[(n)])
+# define POINT(v, n) (*(t_poi_fl*)&((v)->data)[(n)])
 # define PLAYERS "ox"
 # define WIN_LIMIT 1.1
 # define SQ(a) ((a) * (a))
@@ -26,11 +26,11 @@
 
 # include "libft.h"
 
-typedef struct	s_point
+typedef struct	s_point_filler
 {
 	int	x;
 	int	y;
-}				t_point;
+}				t_poi_fl;
 
 typedef struct	s_fig
 {
@@ -50,7 +50,7 @@ typedef struct	s_filler
 	t_vector	*points[2];
 	int			prev_opp_size;
 	int			unrch_opp;
-	t_point		last_pos;
+	t_poi_fl	last_pos;
 	double		opp_sum_p;
 	int			end_game;
 }				t_filler;
@@ -64,9 +64,10 @@ int				ft_figure_parser(const char *str, t_filler *fl);
 int				ft_map_parser(t_filler *fl);
 int				ft_make_map(t_filler *fl);
 
-t_point			ft_sum_points(t_point p1, t_point p2);
-int				ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl);
-int				ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos);
+t_poi_fl		ft_sum_points(t_poi_fl p1, t_poi_fl p2);
+int				ft_sum_opp_points(t_filler *fl, t_fig *fg, t_poi_fl pos,
+		int pl);
+int				ft_sum_gate_points(t_filler *fl, t_fig *fg, t_poi_fl pos);
 double			ft_map_sum(register t_filler *fl, register int pl);
 
 void			ft_zero_heat_map(register t_filler *fl, int clean_gates);
@@ -74,12 +75,12 @@ int				ft_update_heat_map(t_filler *fl);
 int				ft_count_enemy_unr(register t_filler *fl);
 
 void			ft_draw_circle_y(register t_filler *fl, int val, int r,
-		t_point c);
+		t_poi_fl c);
 void			ft_draw_circle_x(register t_filler *fl, int val, int r,
-		t_point c);
+		t_poi_fl c);
 int				ft_parse_gates(register t_filler *fl);
 
-int				ft_check_fig(t_filler *fl, t_point pos);
+int				ft_check_fig(t_filler *fl, t_poi_fl pos);
 int				ft_set_fig(t_filler *fl);
 int				ft_set_fig_dummy(t_filler *fl);
 

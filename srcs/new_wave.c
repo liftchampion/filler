@@ -43,11 +43,12 @@ double		ft_map_sum(register t_filler *fl, register int pl)
 	return (res);
 }
 
-int			ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
+int			ft_sum_opp_points(t_filler *fl, t_fig *fg, t_poi_fl pos,
+		int pl)
 {
-	size_t	i;
-	t_point	pt;
-	int		res;
+	size_t			i;
+	t_poi_fl		pt;
+	int				res;
 
 	res = 0;
 	i = (size_t)-1;
@@ -62,11 +63,11 @@ int			ft_sum_opp_points(t_filler *fl, t_fig *fg, t_point pos, int pl)
 	return (res);
 }
 
-int			ft_sum_gate_points(t_filler *fl, t_fig *fg, t_point pos)
+int			ft_sum_gate_points(t_filler *fl, t_fig *fg, t_poi_fl pos)
 {
-	size_t	i;
-	t_point	pt;
-	int		res;
+	size_t			i;
+	t_poi_fl		pt;
+	int				res;
 
 	res = 0;
 	i = (size_t)-1;

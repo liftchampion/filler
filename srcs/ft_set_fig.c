@@ -16,7 +16,7 @@
 
 #define BIG 1000000000000000000.
 
-int			ft_check_fig(t_filler *fl, t_point pos)
+int			ft_check_fig(t_filler *fl, t_poi_fl pos)
 {
 	int		i;
 	int		to_go;
@@ -42,17 +42,17 @@ int			ft_check_fig(t_filler *fl, t_point pos)
 	return (overlaps);
 }
 
-int			ft_put_fig_tmp(t_filler *fl, t_point pos)
+int			ft_put_fig_tmp(t_filler *fl, t_poi_fl pos)
 {
-	int		i;
-	t_point	p;
+	int			i;
+	t_poi_fl	p;
 
 	i = -1;
 	while (++i < (int)fl->curr_fig->points->len)
 	{
 		p = POINT(fl->curr_fig->points, i);
 		if (!ft_vector_push_back(&fl->points[0],
-				*(void**)&(t_point){p.x + pos.x, p.y + pos.y}))
+				*(void**)&(t_poi_fl){p.x + pos.x, p.y + pos.y}))
 			return (0);
 	}
 	return (1);
@@ -64,15 +64,15 @@ int			ft_set_fig_dummy(t_filler *fl)
 	int j;
 
 	i = -1;
-	fl->last_pos = (t_point){666, 666};
+	fl->last_pos = (t_poi_fl){666, 666};
 	while (++i < fl->h)
 	{
 		j = -1;
 		while (++j < fl->w)
 		{
-			if (ft_check_fig(fl, (t_point){j, i}))
+			if (ft_check_fig(fl, (t_poi_fl){j, i}))
 			{
-				fl->last_pos = (t_point){i, j};
+				fl->last_pos = (t_poi_fl){i, j};
 				return (1);
 			}
 		}
@@ -85,19 +85,19 @@ double		ft_find_pos_score(t_filler *fl, int i, int j)
 	double score;
 	double metrics[5];
 
-	if (!ft_put_fig_tmp(fl, (t_point){j, i}) || !ft_update_heat_map(fl))
+	if (!ft_put_fig_tmp(fl, (t_poi_fl){j, i}) || !ft_update_heat_map(fl))
 		return (0);
 	if ((double)fl->unrch_opp / (fl->h * fl->w) > 0.5 && fl->end_game != 2)
 		fl->end_game = 1;
 	OPP_SUM = ft_map_sum(fl, 1);
 	FIG_OPP_SUM = (OPP_SUM == fl->opp_sum_p) ? BIG :
-			ft_sum_opp_points(fl, fl->curr_fig, (t_point){j, i}, 1);
+			ft_sum_opp_points(fl, fl->curr_fig, (t_poi_fl){j, i}, 1);
 	FIG_MY_SUM = (OPP_SUM == fl->opp_sum_p) ? 0 :
-			ft_sum_opp_points(fl, fl->curr_fig, (t_point){j, i}, 0);
+			ft_sum_opp_points(fl, fl->curr_fig, (t_poi_fl){j, i}, 0);
 	MY_SUM = (OPP_SUM == fl->opp_sum_p) ? BIG :
 			ft_map_sum(fl, 0);
 	GATE_SUM = (OPP_SUM == fl->opp_sum_p) ? 0 :
-			ft_sum_gate_points(fl, fl->curr_fig, (t_point){j, i});
+			ft_sum_gate_points(fl, fl->curr_fig, (t_poi_fl){j, i});
 	OPP_SUM = 5 * SQ(OPP_SUM);
 	MY_SUM = 1 * SQ(MY_SUM);
 	GATE_SUM = 3 * SQ(0.3 * GATE_SUM) * SQ(0.3 * GATE_SUM);
@@ -113,24 +113,24 @@ int			ft_set_fig(register t_filler *fl)
 {
 	double			best_score;
 	double			score;
-	t_point			best_pos;
+	t_poi_fl		best_pos;
 	register int	i;
 	register int	j;
 
 	i = -1;
 	best_score = -1. / 0.;
-	best_pos = (t_point){666, 666};
+	best_pos = (t_poi_fl){666, 666};
 	fl->opp_sum_p = ft_map_sum(fl, 1);
 	ft_zero_heat_map(fl, 1);
 	ft_parse_gates(fl);
 	while (++i < fl->h && (j = -1))
 		while (++j < fl->w)
-			if (ft_check_fig(fl, (t_point){j, i}) &&
+			if (ft_check_fig(fl, (t_poi_fl){j, i}) &&
 				((score = ft_find_pos_score(fl, i, j)) || 1))
 				if (score > best_score)
 				{
 					best_score = score;
-					best_pos = (t_point){i, j};
+					best_pos = (t_poi_fl){i, j};
 				}
 	fl->end_game = (fl->end_game == 1) ? 2 : fl->end_game;
 	fl->last_pos = best_pos;

@@ -56,7 +56,7 @@ int			ft_map_parser(register t_filler *fl)
 		while (line[++j])
 			if (ft_strchr("oOxX", line[j]) && (fl->map[i][j - 4] = line[j]))
 				if (!ft_vector_push_back(&fl->points[ft_tolower(line[j]) !=
-				PLAYERS[fl->player]], *(void**)&(t_point){j - 4, i}))
+				PLAYERS[fl->player]], *(void**)&(t_poi_fl){j - 4, i}))
 					return (ft_free_ret(line, 0));
 		free(line);
 	}
