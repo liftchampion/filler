@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 21:13:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/14 22:16:25 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/05/21 08:18:00 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ typedef enum	e_mtx
 
 typedef enum	e_keys
 {
-	ESC = 53,
-	LEFT = 123,
-	UP = 126,
-	RIGHT = 124,
-	DOWN = 125
+	ESC = 65307,
+	LEFT = 65361,
+	UP = 65362,
+	RIGHT = 65363,
+	DOWN = 65364
 }				t_keys;
 
 typedef struct	s_point
