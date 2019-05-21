@@ -13,7 +13,7 @@
 #include "libft.h"
 #include "ft_filler.h"
 
-t_point			ft_sum_points(t_point p1, t_point p2)
+t_poi_fl			ft_sum_points(t_poi_fl p1, t_poi_fl p2)
 {
-	return ((t_point){p1.x + p2.x, p1.y + p2.y});
+	return ((t_poi_fl){p1.x + p2.x, p1.y + p2.y});
 }

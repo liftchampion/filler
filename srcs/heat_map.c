@@ -41,33 +41,33 @@ int						ft_make_heat_map(t_filler *fl)
 	return (1);
 }
 
-static inline int		ft_check_and_add_pt(t_point pt, t_filler *flr,
+static inline int		ft_check_and_add_pt(t_poi_fl pt, t_filler *flr,
 		int ds, int pl)
 {
 	if (pt.x > 0 && !HM[pt.y][pt.x - 1] &&
 			(HM[pt.y][pt.x - 1] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x - 1, pt.y}));
 	if (pt.y > 0 && !HM[pt.y - 1][pt.x] &&
 			(HM[pt.y - 1][pt.x] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x, pt.y - 1}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x, pt.y - 1}));
 	if (pt.x < flr->w - 1 && !HM[pt.y][pt.x + 1] &&
 			(HM[pt.y][pt.x + 1] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x + 1, pt.y}));
 	if (pt.y < flr->h - 1 && !HM[pt.y + 1][pt.x] &&
 			(HM[pt.y + 1][pt.x] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x, pt.y + 1}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x, pt.y + 1}));
 	if (pt.x > 0 && pt.y > 0 && !HM[pt.y - 1][pt.x - 1] &&
 			(HM[pt.y - 1][pt.x - 1] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y - 1}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x - 1, pt.y - 1}));
 	if (pt.x > 0 && pt.y < flr->h - 1 && !HM[pt.y + 1][pt.x - 1] &&
 			(HM[pt.y + 1][pt.x - 1] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x - 1, pt.y + 1}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x - 1, pt.y + 1}));
 	if (pt.x < flr->w - 1 && pt.y > 0 && !HM[pt.y - 1][pt.x + 1] &&
 			(HM[pt.y - 1][pt.x + 1] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y - 1}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x + 1, pt.y - 1}));
 	if (pt.x < flr->w - 1 && pt.y < flr->h - 1 && !HM[pt.y + 1][pt.x + 1] &&
 			(HM[pt.y + 1][pt.x + 1] = ds))
-		VPUSH(flr->points[pl], (*(void**)&(t_point){pt.x + 1, pt.y + 1}));
+		VPUSH(flr->points[pl], (*(void**)&(t_poi_fl){pt.x + 1, pt.y + 1}));
 	return (flr->points[pl] ? 1 : 0);
 }
 

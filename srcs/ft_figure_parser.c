@@ -31,7 +31,7 @@ int			ft_proceede_fig_line(char *line, t_fig *f)
 	{
 		if (*line == '*')
 			if (!ft_vector_push_back(&f->points,
-					*(void**)&(t_point){len, f->h}))
+					*(void**)&(t_poi_fl){len, f->h}))
 			{
 				free(line);
 				return ((int)ft_free_fig(&f, 0));
@@ -56,8 +56,8 @@ int			ft_figure_parser(const char *str, t_filler *fl)
 		!(f->points = ft_make_vector(32)))
 		return (0);
 	str += 6;
-	i = ft_atoi_m(&str) + 1;
-	f->w = ft_atoi_m(&str);
+	i = ft_atoi_m((char**)&str) + 1;
+	f->w = ft_atoi_m((char**)&str);
 	while (--i && (line = (char*)1lu) && ft_get_next_line(0, &line, 1))
 	{
 		if (!line)

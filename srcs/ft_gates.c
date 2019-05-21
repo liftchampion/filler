@@ -13,8 +13,8 @@
 #include "libft.h"
 #include "ft_filler.h"
 
-static inline void		ft_fill_nhbs(t_filler *flr, t_point p, int nbs[8],
-							int plr)
+static inline void		ft_fill_nhbs(t_filler *flr, t_poi_fl p,
+		int nbs[8], int plr)
 {
 	nbs[0] = (p.x > 0) ?
 				flr->heat_map[plr][p.y][p.x - 1] : -1;
@@ -34,7 +34,7 @@ static inline void		ft_fill_nhbs(t_filler *flr, t_point p, int nbs[8],
 				flr->heat_map[plr][p.y + 1][p.x - 1] : -1;
 }
 
-void					ft_sum_gate(register t_filler *fl, t_point pt,
+void					ft_sum_gate(register t_filler *fl, t_poi_fl pt,
 							int *sum, int deep)
 {
 	int nhbs[8];
@@ -54,7 +54,7 @@ void					ft_sum_gate(register t_filler *fl, t_point pt,
 	while (++i < 8)
 	{
 		if (nhbs[i] > val || (!is_start && nhbs[i] == val))
-			ft_sum_gate(fl, (t_point){
+			ft_sum_gate(fl, (t_poi_fl){
 					pt.x + (i >= 3 && i <= 5) - (!i || i == 1 || i == 7),
 					pt.y - (i >= 1 && i <= 3) + (i >= 5 && i <= 7)}, sum, deep);
 	}
@@ -79,7 +79,7 @@ void					ft_restore_map(register t_filler *fl)
 	}
 }
 
-int						ft_is_gate_pt(register t_filler *fl, t_point pt)
+int						ft_is_gate_pt(register t_filler *fl, t_poi_fl pt)
 {
 	const int	val = fl->heat_map[1][pt.y][pt.x];
 	int			nhbs[8];
@@ -117,18 +117,18 @@ int						ft_parse_gates(register t_filler *fl)
 	i = -1;
 	while (++i < fl->h && (j = -1))
 		while (++j < fl->w)
-			if (ft_is_gate_pt(fl, (t_point){j, i}))
+			if (ft_is_gate_pt(fl, (t_poi_fl){j, i}))
 			{
 				gate_val = fl->heat_map[1][i][j];
-				ft_sum_gate(fl, (t_point){j, i}, &(fl->heat_map[2][i][j]), 0);
+				ft_sum_gate(fl, (t_poi_fl){j, i}, &(fl->heat_map[2][i][j]), 0);
 				fl->heat_map[2][i][j] /= gate_val;
 				k = gate_val;
 				val = 0;
 				while (--k > 0)
 				{
 					val += gate_val / k;
-					ft_draw_circle_x(fl, gate_val, k, (t_point){j, i});
-					ft_draw_circle_y(fl, gate_val, k, (t_point){j, i});
+					ft_draw_circle_x(fl, gate_val, k, (t_poi_fl){j, i});
+					ft_draw_circle_y(fl, gate_val, k, (t_poi_fl){j, i});
 				}
 			}
 	ft_restore_map(fl);

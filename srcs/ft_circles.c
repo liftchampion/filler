@@ -14,7 +14,7 @@
 #include "ft_filler.h"
 #include <math.h>
 
-void		ft_draw_circle_y(register t_filler *fl, int val, int r, t_point c)
+void		ft_draw_circle_y(register t_filler *fl, int val, int r, t_poi_fl c)
 {
 	double	y_fr;
 	double	y_to;
@@ -40,7 +40,7 @@ void		ft_draw_circle_y(register t_filler *fl, int val, int r, t_point c)
 		}
 }
 
-void		ft_draw_circle_x(register t_filler *fl, int val, int r, t_point c)
+void		ft_draw_circle_x(register t_filler *fl, int val, int r, t_poi_fl c)
 {
 	double	x_fr;
 	double	x_to;
